@@ -15,11 +15,29 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //Add this
 
   await FaceCamera.initialize(); //Add this
-  runApp(const MyApp());
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.transparent, // navigation bar color
     statusBarColor: Colors.transparent, // status bar color
   ));
+
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => PasswordProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ConfirmPasswordProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => DateProvider(),
+          )
+        ],
+        child: ScreenUtilInit(
+            designSize: const Size(375, 812),
+            builder: (context, child) => const MyApp())),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,36 +45,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      builder: (context, child) => MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (_) => PasswordProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => ConfirmPasswordProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => DateProvider(),
-          ),
-        ],
-        child: MaterialApp(
-          title: 'Zawadicash App',
-          theme: ThemeData(
-            primarySwatch: Palette.primaryPaletteColor,
-            textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: primaryColor,
-              selectionColor: primaryColor,
-              selectionHandleColor: primaryColor,
+    return MaterialApp(
+            title: 'Zawadicash App',
+            theme: ThemeData(
+              primarySwatch: Palette.primaryPaletteColor,
+              textSelectionTheme: const TextSelectionThemeData(
+                cursorColor: primaryColor,
+                selectionColor: primaryColor,
+                selectionHandleColor: primaryColor,
+              ),
             ),
-          ),
-          themeMode: ThemeMode.system,
-          debugShowCheckedModeBanner: false,
-          initialRoute: RouteGenerator.splashPage,
-          onGenerateRoute: RouteGenerator.generateRoute,
-        ),
-      ),
-    );
+            themeMode: ThemeMode.system,
+            debugShowCheckedModeBanner: false,
+            initialRoute: RouteGenerator.splashPage,
+            onGenerateRoute: RouteGenerator.generateRoute);
   }
 }

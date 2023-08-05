@@ -43,46 +43,47 @@ class BalanceCard extends StatelessWidget {
           ),
           Positioned(
               child: RPadding(
-            padding: REdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Current Balance',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF160D07),
-                      ),
+                  padding: REdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Current Balance',
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF160D07),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.more_horiz,
+                              color: primaryColor,
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$46,120.38',
+                              style: heading2,
+                            ),
+                            Text(
+                              '1233 **** **** 1234',
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF160D07),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                    const Icon(
-                      Icons.more_horiz,
-                      color: primaryColor,
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '\$46,120.38',
-                      style: heading2,
-                    ),
-                    Text(
-                      '1233 **** **** 1234',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF160D07),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ))
+                  )))
         ],
       ),
     );
