@@ -14,6 +14,7 @@ class SelectCard extends StatelessWidget {
       height: 220.h,
       width: double.infinity,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           Positioned(
               bottom: 0,
@@ -73,18 +74,18 @@ class SelectCard extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: 18.h,
+                            height: 10.h,
                           ),
                           SvgPicture.asset('assets/svg/chip_icon.svg'),
                           SizedBox(
-                            height: 20.h,
+                            height: 15.h,
                           ),
                           Text(
                             '234 **** **** 1234',
                             style: largeTextStyle.copyWith(color: whiteColor),
                           ),
                           SizedBox(
-                            height: 12.h,
+                            height: 7.h,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

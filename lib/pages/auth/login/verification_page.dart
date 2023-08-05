@@ -79,7 +79,7 @@ class _VerificationPageState extends State<VerificationPage> {
               SizedBox(
                 height: 20.h,
               ),
-              Text('+62 1223 **** 2133', style: mediumTextStyle),
+              Text('+243 99 69 80 422', style: mediumTextStyle),
               SizedBox(
                 height: 52.h,
               ),
