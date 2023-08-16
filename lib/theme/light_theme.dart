@@ -12,6 +12,6 @@ ThemeData light = ThemeData(
     titleLarge: TextStyle(color: Color(0xFF003E47)),
     titleSmall: TextStyle(color: Color(0xFF25282D)),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white,selectedItemColor: ColorResources.themeLightBackgroundColor), colorScheme: const ColorScheme(background: Colors.white, brightness: null),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white,selectedItemColor: ColorResources.themeLightBackgroundColor), colorScheme: const ColorScheme(background: Colors.white),
 
 );

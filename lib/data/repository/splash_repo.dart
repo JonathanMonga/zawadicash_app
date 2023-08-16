@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawadicash_app/data/api/api_client.dart';
@@ -7,12 +6,12 @@ import 'package:zawadicash_app/util/app_constants.dart';
 class SplashRepo {
   ApiClient apiClient;
   final SharedPreferences sharedPreferences;
-  SplashRepo({@required this.sharedPreferences, @required this.apiClient});
+  SplashRepo({required this.sharedPreferences, required this.apiClient});
 
   Future<Response> getConfigData() async {
    // Response _response = await apiClient.postData(AppConstants.CONFIG_URI, {'email': 'ashek@gmail.com', 'password': '0123456'});
-    Response response = await apiClient.getData(AppConstants.CONFIG_URI);
-    return response;
+    Response _response = await apiClient.getData(AppConstants.CONFIG_URI);
+    return _response;
   }
 
   Future<bool> initSharedData() {

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class ContactTile extends StatelessWidget {
   final TransactionMoneyController transactionMoneyController;
   final int index;
-  const ContactTile({Key key, @required this.transactionMoneyController, @required this.index}) : super(key: key);
+  const ContactTile({Key key, required this.transactionMoneyController, required this.index}) : super(key: key);
 
 
   @override

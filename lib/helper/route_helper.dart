@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/view/screens/add_money/web_screen.dart';
@@ -92,7 +91,7 @@ class RouteHelper {
   static getSplashRoute() => splash;
   static String getHomeRoute(String name) => '$home?name=$name';
 
-  static  getLoginRoute({@required String countryCode, @required String phoneNumber}) {
+  static  getLoginRoute({required String countryCode, required String phoneNumber}) {
     return '$login_screen?country-code=$countryCode&phone-number=$phoneNumber';
   }
   static  getRegistrationRoute() => create_account_screen;
@@ -101,40 +100,40 @@ class RouteHelper {
   static  getWelcomeRoute({String countryCode,String phoneNumber, String password}) {
     return '$welcome_screen?country-code=$countryCode&phone-number=$phoneNumber&password=$password';
   }
-  static  getSelfieRoute({@required bool fromEditProfile}) => '$selfie_screen?page=${fromEditProfile?'edit-profile':'verify'}';
+  static  getSelfieRoute({required bool fromEditProfile}) => '$selfie_screen?page=${fromEditProfile?'edit-profile':'verify'}';
   static  getNavBarRoute() => navbar;
   static  getOtherInformationRoute() => other_info_screen;
-  static  getPinSetRoute({@required String occupation, @required String fName,@required String lName, String email}) => '$pin_set_screen?occupation=$occupation&f-name=$fName&l-name=$lName&email=$email';
-  static  getRequestMoneyRoute({String phoneNumber,@required bool fromEdit}) => '$requestMoney?phone-number=$phoneNumber&from-edit=${fromEdit?'edit-number':'home'}';
-  static  getForgetPassRoute({@required String countryCode,@required String phoneNumber}) => '$f_phone_number_screen?country-code=$countryCode&phone-number=$phoneNumber';
+  static  getPinSetRoute({required String occupation, required String fName,required String lName, String email}) => '$pin_set_screen?occupation=$occupation&f-name=$fName&l-name=$lName&email=$email';
+  static  getRequestMoneyRoute({String phoneNumber,required bool fromEdit}) => '$requestMoney?phone-number=$phoneNumber&from-edit=${fromEdit?'edit-number':'home'}';
+  static  getForgetPassRoute({required String countryCode,required String phoneNumber}) => '$f_phone_number_screen?country-code=$countryCode&phone-number=$phoneNumber';
   static  getRequestMoneyBalanceInputRoute() => requestMoney_balance_input;
-  static  getRequestMoneyConfirmationRoute({@required String inputBalanceText}) => '$requestMoney_confirmation?input-balance=$inputBalanceText';
+  static  getRequestMoneyConfirmationRoute({required String inputBalanceText}) => '$requestMoney_confirmation?input-balance=$inputBalanceText';
   static  getNoInternetRoute() => no_internet_screen;
   static  getChoseLoginRegRoute() => chose_login_or_reg_screen;
-  static  getSendMoneyRoute({String phoneNumber,@required bool fromEdit}) => '$send_money?phone-number=$phoneNumber&from-edit=${fromEdit?'edit-number':'home'}';
-  static  getSendMoneyInputRoute({@required String transactionType}) => '$send_money_balance_input?transaction-type=$transactionType';
-  static  getSendMoneyConfirmationRoute({@required String inputBalanceText,@required String transactionType}) => '$send_money_confirmation?input-balance=$inputBalanceText&transaction-type=$transactionType';
+  static  getSendMoneyRoute({String phoneNumber,required bool fromEdit}) => '$send_money?phone-number=$phoneNumber&from-edit=${fromEdit?'edit-number':'home'}';
+  static  getSendMoneyInputRoute({required String transactionType}) => '$send_money_balance_input?transaction-type=$transactionType';
+  static  getSendMoneyConfirmationRoute({required String inputBalanceText,required String transactionType}) => '$send_money_confirmation?input-balance=$inputBalanceText&transaction-type=$transactionType';
   static  getChoseLanguageRoute() => chose_language_screen;
-  static  getCashOutScreenRoute({String phoneNumber,@required bool fromEdit}) => '$cash_out?phone-number=$phoneNumber&from-edit=${fromEdit?'edit-number':'home'}';
+  static  getCashOutScreenRoute({String phoneNumber,required bool fromEdit}) => '$cash_out?phone-number=$phoneNumber&from-edit=${fromEdit?'edit-number':'home'}';
   static  getCashOutBalanceInputRoute() => cash_out_balance_input;
-  static  getFResetPassRoute({@required String phoneNumber}) => '$f_reset_pass_screen?phone-number=$phoneNumber';
+  static  getFResetPassRoute({required String phoneNumber}) => '$f_reset_pass_screen?phone-number=$phoneNumber';
   static  getEditProfileRoute() => edit_profile_screen;
   static  getChangePinRoute() => change_pin_screen;
   static  getAddMoneyInputRoute() => add_money_input;
-  static  getFVeryficationRoute({@required String phoneNumber}) => '$f_verification_screen?phone-number=$phoneNumber';
+  static  getFVeryficationRoute({required String phoneNumber}) => '$f_verification_screen?phone-number=$phoneNumber';
 
   static getSupportRoute() => support;
-  static getCashOutConfirmationRoute({@required String inputBalanceText}) => '$cash_out_confirmation?input-balance=$inputBalanceText';
-  static  getShareStatementRoute({ @required String amount,  @required String transactionType, @required ContactModel contactModel}) {
-    String data =  base64Url.encode(utf8.encode(jsonEncode(contactModel.toJson())));
-    String transactionType0 = base64Url.encode(utf8.encode(transactionType));
-    return '$share_statement?amount=$amount&transaction-type=$transactionType0&contact=$data';
+  static getCashOutConfirmationRoute({required String inputBalanceText}) => '$cash_out_confirmation?input-balance=$inputBalanceText';
+  static  getShareStatementRoute({ required String amount,  required String transactionType, required ContactModel contactModel}) {
+    String _data =  base64Url.encode(utf8.encode(jsonEncode(contactModel.toJson())));
+    String _transactionType = base64Url.encode(utf8.encode(transactionType));
+    return '$share_statement?amount=$amount&transaction-type=$_transactionType&contact=$_data';
   }
-  static getQrCodeDownloadOrShareRoute({@required String qrCode, @required String phoneNumber}) {
-    String qrCode0 = base64Url.encode(utf8.encode(qrCode));
-    String phoneNumber0 = base64Url.encode(utf8.encode(phoneNumber));
+  static getQrCodeDownloadOrShareRoute({required String qrCode, required String phoneNumber}) {
+    String _qrCode = base64Url.encode(utf8.encode(qrCode));
+    String _phoneNumber = base64Url.encode(utf8.encode(phoneNumber));
 
-    return '$qr_code_download_or_share?qr-code=$qrCode0&phone-number=$phoneNumber0';
+    return '$qr_code_download_or_share?qr-code=$_qrCode&phone-number=$_phoneNumber';
   }
 
 

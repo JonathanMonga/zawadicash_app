@@ -10,7 +10,7 @@ import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class RequestedMoneyController extends GetxController implements GetxService {
   final RequestedMoneyRepo requestedMoneyRepo;
-  RequestedMoneyController({@required this.requestedMoneyRepo});
+  RequestedMoneyController({required this.requestedMoneyRepo});
 
 
 
@@ -65,7 +65,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
     }
     Response response = await requestedMoneyRepo.getRequestedMoneyList();
     if(response.body['requested_money'] != null && response.body['requested_money'] != {} && response.statusCode == 200){
-      print('body req : ${response.body['requested_money']}');
+      debugPrint('body req : ${response.body['requested_money']}');
       _requestedMoneyList =[];
       _pendingRequestedMoneyList =[];
       _acceptedRequestedMoneyList =[];
@@ -94,7 +94,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
   }
 
   Future getOwnRequestedMoneyList(int offset, {bool reload = false}) async{
-    print('own request api call');
+    debugPrint('own request api call');
     if(reload) {
       _offsetList = [];
       _ownRequestList = [];
@@ -105,7 +105,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
     Response response = await requestedMoneyRepo.getOwnRequestedMoneyList();
 
     if(response.body['requested_money'] != null && response.body['requested_money'] != {} && response.statusCode == 200){
-      print('own request : ${response.body['requested_money']}');
+      debugPrint('own request : ${response.body['requested_money']}');
       _ownRequestList =[];
       _ownPendingRequestedMoneyList =[];
       _ownAcceptedRequestedMoneyList =[];
@@ -138,7 +138,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response = await requestedMoneyRepo.approveRequestedMoney(requestId, pin);
-    print(response.status);
+    debugPrint(response.status);
 
     if(response.statusCode == 200) {
       getRequestedMoneyList(offset);
@@ -191,17 +191,17 @@ class RequestedMoneyController extends GetxController implements GetxService {
     }
 
     if(_withdrawHistoryModel == null) {
-      Response response = await requestedMoneyRepo.getWithdrawRequest();
-      print('withdraw data : ${response.body}');
-      if(response.body['response_code'] == 'default_200' && response.body['content'] != null){
+      Response _response = await requestedMoneyRepo.getWithdrawRequest();
+      debugPrint('withdraw data : ${_response.body}');
+      if(_response.body['response_code'] == 'default_200' && _response.body['content'] != null){
 
         pendingWithdraw = [];
         acceptedWithdraw = [];
         deniedWithdraw = [];
         allWithdraw = [];
 
-        _withdrawHistoryModel = WithdrawHistoryModel.fromJson(response.body);
-        print('withdraw list : ${_withdrawHistoryModel.withdrawHistoryList.length}');
+        _withdrawHistoryModel = WithdrawHistoryModel.fromJson(_response.body);
+        debugPrint('withdraw list : ${_withdrawHistoryModel.withdrawHistoryList.length}');
         for (var _withdrawHistory in _withdrawHistoryModel.withdrawHistoryList) {
 
           pendingWithdraw.addIf(_withdrawHistory.requestStatus == AppConstants.PENDING, _withdrawHistory);
@@ -209,11 +209,11 @@ class RequestedMoneyController extends GetxController implements GetxService {
           deniedWithdraw.addIf(_withdrawHistory.requestStatus == AppConstants.DENIED, _withdrawHistory);
           allWithdraw.add(_withdrawHistory);
         }
-        print('${pendingWithdraw.length}');
+        debugPrint('${pendingWithdraw.length}');
 
       }
       else{
-        ApiChecker.checkApi(response);
+        ApiChecker.checkApi(_response);
       }
 
     }

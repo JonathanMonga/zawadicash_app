@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 
 class SignUpBody {
   String fName;
@@ -13,15 +12,15 @@ class SignUpBody {
   String dialCountryCode;
 
   SignUpBody({
-    @required this.fName,
-    @required this.lName,
-    @required this.phone,
+    required this.fName,
+    required this.lName,
+    required this.phone,
     this.email,
-    @required this.password,
+    required this.password,
     this.otp,
-    @required this.gender,
-    @required this.occupation,
-    @required this.dialCountryCode,
+    required this.gender,
+    required this.occupation,
+    required this.dialCountryCode,
   });
 
   SignUpBody.fromJson(Map<String, dynamic> json) {

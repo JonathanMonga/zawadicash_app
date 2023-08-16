@@ -9,7 +9,7 @@ import 'package:zawadicash_app/view/base/custom_image.dart';
 
 class NotificationDialog extends StatelessWidget {
   final Notifications notificationModel;
-  const NotificationDialog({super.key, @required this.notificationModel});
+  const NotificationDialog({super.key, required this.notificationModel});
 
   @override
   Widget build(BuildContext context) {

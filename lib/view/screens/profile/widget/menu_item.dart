@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class MenuItem extends StatelessWidget {
   const MenuItem({
     Key key,
-    @required this.image,
-    @required this.title,
+    required this.image,
+    required this.title,
     this.iconData,
   }) : super(key: key);
   final String image;

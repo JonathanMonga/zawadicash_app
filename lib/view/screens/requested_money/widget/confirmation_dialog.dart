@@ -14,7 +14,7 @@ class ConfirmationDialog extends StatefulWidget {
   final Function onYesPressed;
   final bool isAccept;
   final TextEditingController passController;
-  const ConfirmationDialog({super.key, @required this.icon, this.title, @required this.description, @required this.onYesPressed, this.isAccept = false,@required this.passController});
+  const ConfirmationDialog({super.key, required this.icon, this.title, required this.description, required this.onYesPressed, this.isAccept = false,required this.passController});
 
   @override
   State<ConfirmationDialog> createState() => _ConfirmationDialogState();

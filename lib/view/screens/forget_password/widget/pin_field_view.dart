@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class PinFieldView extends StatefulWidget {
   final TextEditingController newPassController, confirmPassController;
 
-  const PinFieldView({Key key,@required this.newPassController,@required this.confirmPassController}) : super(key: key);
+  const PinFieldView({Key key,required this.newPassController,required this.confirmPassController}) : super(key: key);
 
   @override
   State<PinFieldView> createState() => _PinFieldViewState();

@@ -2,13 +2,12 @@
 //
 //     final withdrawModel = withdrawModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class WithdrawModel {
   WithdrawModel({
      this.message,
-    @required this.withdrawalMethods,
+    required this.withdrawalMethods,
   });
 
   String message;
@@ -31,8 +30,8 @@ class WithdrawModel {
 class WithdrawalMethod {
   WithdrawalMethod({
     this.id,
-    @required this.methodName,
-    @required this.methodFields,
+    required this.methodName,
+    required this.methodFields,
   });
 
   int id;
@@ -60,9 +59,9 @@ class WithdrawalMethod {
 
 class MethodField {
   MethodField({
-    @required this.inputName,
-    @required this.inputType,
-    @required this.placeHolder,
+    required this.inputName,
+    required this.inputType,
+    required this.placeHolder,
     this.inputValue,
   });
 

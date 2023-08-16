@@ -47,21 +47,21 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
   @override
   Widget build(BuildContext context) {
 
-    String name;
-    String phoneNumber;
+    String _name;
+    String _phoneNumber;
     if(widget.requestType != RequestType.WITHDRAW) {
 
       try{
         if(widget.requestType == RequestType.SEND_REQUEST) {
-          name = widget.requestedMoney.receiver.name;
-          phoneNumber = widget.requestedMoney.receiver.phone;
+          _name = widget.requestedMoney.receiver.name;
+          _phoneNumber = widget.requestedMoney.receiver.phone;
         }else{
-          name = widget.requestedMoney.sender.name;
-          phoneNumber = widget.requestedMoney.sender.phone;
+          _name = widget.requestedMoney.sender.name;
+          _phoneNumber = widget.requestedMoney.sender.phone;
         }
       }catch(e){
-        name = 'user_unavailable'.tr;
-        phoneNumber = 'user_unavailable'.tr;
+        _name = 'user_unavailable'.tr;
+        _phoneNumber = 'user_unavailable'.tr;
       }
     }
     return widget.requestType == RequestType.WITHDRAW ? Card(
@@ -86,15 +86,15 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
 
         Padding(
           padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-          child: Column(children: _itemList.map((item) => Padding(
+          child: Column(children: _itemList.map((_item) => Padding(
             padding: const EdgeInsets.all(3.0),
-            child: _methodFieldView(type: item.key.replaceAll('_', ' ').capitalizeFirst, value: item.value),
+            child: _methodFieldView(type: _item.key.replaceAll('_', ' ').capitalizeFirst, value: _item.value),
           )).toList()),
         ),
       ],
       ),
     ) :
-    !(name == 'user_unavailable'.tr && phoneNumber == 'user_unavailable'.tr) ? Padding(
+    !(_name == 'user_unavailable'.tr && _phoneNumber == 'user_unavailable'.tr) ? Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
         children: [
@@ -102,13 +102,13 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name,style: rubikMedium.copyWith(color: ColorResources.getTextColor(),fontSize: Dimensions.FONT_SIZE_LARGE) ),
+                    Text(_name,style: rubikMedium.copyWith(color: ColorResources.getTextColor(),fontSize: Dimensions.FONT_SIZE_LARGE) ),
                     const SizedBox(height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
-                    Text(phoneNumber,style: rubikMedium.copyWith(color: ColorResources.getTextColor(),fontSize: Dimensions.FONT_SIZE_SMALL) ),
+                    Text(_phoneNumber,style: rubikMedium.copyWith(color: ColorResources.getTextColor(),fontSize: Dimensions.FONT_SIZE_SMALL) ),
                     const SizedBox(height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
-                    Text('${'amount'.tr} - ${PriceConverter.balanceWithSymbol(balance: widget.requestedMoney.amount.toString())}',style: rubikMedium.copyWith(color: Theme.of(context).textTheme.titleLarge.color,fontSize: Dimensions.FONT_SIZE_DEFAULT) ),
+                    Text('${'amount'.tr} - ' + PriceConverter.balanceWithSymbol(balance: widget.requestedMoney.amount.toString()),style: rubikMedium.copyWith(color: Theme.of(context).textTheme.titleLarge.color,fontSize: Dimensions.FONT_SIZE_DEFAULT) ),
                     const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                     Text(DateConverter.localDateToIsoStringAMPM(DateTime.parse(widget.requestedMoney.createdAt)), style: rubikLight.copyWith(color: ColorResources.getTextColor(),fontSize: Dimensions.FONT_SIZE_SMALL) ),
@@ -186,7 +186,7 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
     ) : const SizedBox();
   }
 
-  Widget _methodFieldView({@required String type,@required String value}) {
+  Widget _methodFieldView({required String type,required String value}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

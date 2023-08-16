@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class EditProfileController extends GetxController implements GetxService{
   final AuthRepo authRepo;
-  EditProfileController({@required this.authRepo});
+  EditProfileController({required this.authRepo});
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -29,7 +29,7 @@ class EditProfileController extends GetxController implements GetxService{
   setGender(String select){
     _gender = select;
     update();
-    print(_gender);
+    debugPrint(_gender);
   }
 
   ///occupation
@@ -71,7 +71,7 @@ class EditProfileController extends GetxController implements GetxService{
         Get.find<CameraScreenController>().removeImage();
         Get.find<ProfileController>().profileData(reload: true, isUpdate: true);
         Get.back();
-        print(responseModel.message);
+        debugPrint(responseModel.message);
         showCustomSnackBar(responseModel.message, isError: false);
       }
       else {

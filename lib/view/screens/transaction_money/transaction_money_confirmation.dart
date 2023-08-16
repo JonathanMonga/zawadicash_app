@@ -36,13 +36,13 @@ class TransactionMoneyConfirmation extends StatelessWidget {
   final WithdrawalMethod withdrawMethod;
 
 
-  TransactionMoneyConfirmation({super.key, 
-    @required this.inputBalance,
-    @required this.transactionType,
+  TransactionMoneyConfirmation({Key? key, 
+    required this.inputBalance,
+    required this.transactionType,
     this.purpose, this.contactModel,
     this.callBack,
     this.withdrawMethod,
-  });
+  }) : super(key: key);
   final _pinCodeFieldController = TextEditingController();
 
 
@@ -95,12 +95,12 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                     const SizedBox(height: 10,),
 
                     Column(
-                      children: withdrawMethod.methodFields.map((method) =>
+                      children: withdrawMethod.methodFields.map((_method) =>
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: _methodFieldView(
-                              type: method.inputName.replaceAll('_', ' ').capitalizeFirst,
-                              value: method.inputValue,
+                              type: _method.inputName.replaceAll('_', ' ').capitalizeFirst,
+                              value: _method.inputValue,
                             ),
                           ),
                       ).toList(),),
@@ -160,7 +160,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
 
                       GestureDetector(
                           onTap: (){
-                            final configModel = Get.find<SplashController>().configModel;
+                            final _configModel = Get.find<SplashController>().configModel;
                             if(!Get.find<BottomSliderController>().isPinCompleted) {
                               showCustomSnackBar('please_input_4_digit_pin'.tr);
                             }else {
@@ -172,7 +172,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                   if(transactionType == TransactionType.WITHDRAW_REQUEST) {
                                     _placeWithdrawRequest();
                                   }
-                                  else if(configModel.twoFactor
+                                  else if(_configModel.twoFactor
                                       && Get.find<ProfileController>().userInfo.twoFactor
                                   ){
                                     Get.find<AuthController>().checkOtp().then((value) =>
@@ -286,28 +286,28 @@ class TransactionMoneyConfirmation extends StatelessWidget {
   }
 
   void _placeWithdrawRequest() {
-    Map<String, String> withdrawalMethodField = {};
+    Map<String, String> _withdrawalMethodField = {};
 
     for (var _method in withdrawMethod.methodFields) {
-      withdrawalMethodField.addAll({_method.inputName : _method.inputValue});
+      _withdrawalMethodField.addAll({_method.inputName : _method.inputValue});
     }
 
-    List<Map<String, String>> withdrawalMethodFieldList = [];
-    withdrawalMethodFieldList.add(withdrawalMethodField);
+    List<Map<String, String>> _withdrawalMethodFieldList = [];
+    _withdrawalMethodFieldList.add(_withdrawalMethodField);
 
-    Map<String, String> withdrawRequestBody = {};
-    withdrawRequestBody = {
+    Map<String, String> _withdrawRequestBody = {};
+    _withdrawRequestBody = {
       'pin' : Get.find<BottomSliderController>().pin,
       'amount' : '$inputBalance',
       'withdrawal_method_id' : '${withdrawMethod.id}',
-      'withdrawal_method_fields' : base64Url.encode(utf8.encode(jsonEncode(withdrawalMethodFieldList))),
+      'withdrawal_method_fields' : base64Url.encode(utf8.encode(jsonEncode(_withdrawalMethodFieldList))),
     };
 
-    Get.find<TransactionMoneyController>().withDrawRequest(placeBody: withdrawRequestBody);
+    Get.find<TransactionMoneyController>().withDrawRequest(placeBody: _withdrawRequestBody);
   }
 
 
-  Widget _methodFieldView({@required String type,@required String value}) {
+  Widget _methodFieldView({required String type,required String value}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

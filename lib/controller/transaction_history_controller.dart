@@ -7,7 +7,7 @@ import 'package:zawadicash_app/util/app_constants.dart';
 
 class TransactionHistoryController extends GetxController implements GetxService{
   final TransactionHistoryRepo transactionHistoryRepo;
-  TransactionHistoryController({@required this.transactionHistoryRepo});
+  TransactionHistoryController({required this.transactionHistoryRepo});
 
 
   final bool _isSearching = false;

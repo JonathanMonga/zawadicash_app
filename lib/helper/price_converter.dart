@@ -50,15 +50,15 @@ class PriceConverter {
     return Get.find<SplashController>().configModel.currencyPosition == 'left' ?  '$currencySymbol$currentBalance' : '$currentBalance$currencySymbol';
 
   }
-  static String newBalanceWithDebit({@required double inputBalance, @required double charge}){
-    print('user balance = ${Get.find<ProfileController>().userInfo.phone}');
+  static String newBalanceWithDebit({required double inputBalance, required double charge}){
+    debugPrint('user balance = ${Get.find<ProfileController>().userInfo.phone}');
     String currencySymbol = Get.find<SplashController>().configModel.currencySymbol;
     String currentBalance = (Get.find<ProfileController>().userInfo.balance  - (inputBalance+charge)).toStringAsFixed(2);
     return Get.find<SplashController>().configModel.currencyPosition == 'left' ?  '$currencySymbol$currentBalance' : '$currentBalance$currencySymbol';
 
   }
 
-  static String newBalanceWithCredit({@required double inputBalance}){
+  static String newBalanceWithCredit({required double inputBalance}){
     String currencySymbol = Get.find<SplashController>().configModel.currencySymbol;
     String currentBalance = (Get.find<ProfileController>().userInfo.balance + inputBalance).toStringAsFixed(2);
     return Get.find<SplashController>().configModel.currencyPosition == 'left' ?  '$currencySymbol$currentBalance' : '$currentBalance$currencySymbol';

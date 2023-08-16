@@ -20,7 +20,7 @@ class GenderView extends StatelessWidget {
     return GetBuilder<ProfileController>(builder: (profileController){
       return GetBuilder<EditProfileController>(
         builder: (editProfileController) {
-          String gender = fromEditProfile ? editProfileController.gender : profileController.gender;
+          String _gender = fromEditProfile ? editProfileController.gender : profileController.gender;
           return Container(
           width: double.infinity,
           padding: const EdgeInsets.only(
@@ -59,7 +59,7 @@ class GenderView extends StatelessWidget {
                     CustomGenderCard(
                       icon: Images.male,
                       text: 'male'.tr,
-                      color: gender == 'Male' ? Theme.of(context).secondaryHeaderColor:ColorResources.genderDefaultColor.withOpacity(0.5),
+                      color: _gender == 'Male' ? Theme.of(context).secondaryHeaderColor:ColorResources.genderDefaultColor.withOpacity(0.5),
                       onTap: ()=> fromEditProfile ? editProfileController.setGender('Male') : profileController.setGender('Male'),
                     ),
                     const SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
@@ -67,14 +67,14 @@ class GenderView extends StatelessWidget {
                      CustomGenderCard(
                       icon: Images.female,
                       text: 'female'.tr,
-                      color: gender == 'Female' ? Theme.of(context).secondaryHeaderColor:ColorResources.genderDefaultColor.withOpacity(0.5),
+                      color: _gender == 'Female' ? Theme.of(context).secondaryHeaderColor:ColorResources.genderDefaultColor.withOpacity(0.5),
                       onTap: () => fromEditProfile ? editProfileController.setGender('Female') : profileController.setGender('Female'),
                     ),
                     const SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
                      CustomGenderCard(
                       icon: Images.other,
                       text: 'other'.tr,
-                      color: gender == 'Other' ? Theme.of(context).secondaryHeaderColor:ColorResources.genderDefaultColor.withOpacity(0.5),
+                      color: _gender == 'Other' ? Theme.of(context).secondaryHeaderColor:ColorResources.genderDefaultColor.withOpacity(0.5),
                        onTap: () => fromEditProfile ? editProfileController.setGender('Other') : profileController.setGender('Other'),
 
                      ),

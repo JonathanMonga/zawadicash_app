@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/body/transaction_body.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
@@ -15,10 +14,10 @@ class BottomSliderController extends GetxController implements GetxService {
   bool _isOtpSheet = false;
   int _statusCode = 200;
   bool isPinVerified= false;
-  String _pin;
-  TransactionBody _transactionBody;
-  String _newBalance; //todo: profile data balance
-  Response response;
+  late String _pin;
+  late TransactionBody _transactionBody;
+  late String _newBalance;
+  late Response response;
 
   bool get isFloatingActionButton => _isFloatingActionButton;
   bool get isNextBottomSheet => _isNextBottomSheet;
@@ -61,7 +60,7 @@ class BottomSliderController extends GetxController implements GetxService {
     update();
   }
 
-  void setIsPinCompleted({@required bool isCompleted, bool isNotify}){
+  void setIsPinCompleted({required bool isCompleted, required bool isNotify}){
     _isPinCompleted =  isCompleted;
     if(isNotify) {
       update();

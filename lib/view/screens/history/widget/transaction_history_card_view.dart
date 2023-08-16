@@ -18,30 +18,30 @@ class TransactionHistoryCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String userPhone;
-    String userName;
-    bool isCredit = transactions.transactionType == AppConstants.SEND_MONEY
+    String _userPhone;
+    String _userName;
+    bool _isCredit = transactions.transactionType == AppConstants.SEND_MONEY
         || transactions.transactionType == AppConstants.WITHDRAW
         || transactions.transactionType == TransactionType.CASH_OUT;
 
     try{
 
-      userPhone = transactions.transactionType == AppConstants.SEND_MONEY
+      _userPhone = transactions.transactionType == AppConstants.SEND_MONEY
           ? transactions.receiver.phone : transactions.transactionType == AppConstants.RECEIVED_MONEY
           ? transactions.sender.phone : transactions.transactionType == AppConstants.ADD_MONEY
           ? transactions.sender.phone : transactions.transactionType == AppConstants.CASH_IN
           ? transactions.sender.phone : transactions.transactionType == AppConstants.WITHDRAW
           ? transactions.receiver.phone : transactions.userInfo.phone;
 
-      userName = transactions.transactionType == AppConstants.SEND_MONEY
+      _userName = transactions.transactionType == AppConstants.SEND_MONEY
           ? transactions.receiver.name : transactions.transactionType == AppConstants.RECEIVED_MONEY
           ? transactions.sender.name : transactions.transactionType == AppConstants.ADD_MONEY
           ? transactions.sender.name : transactions.transactionType == AppConstants.CASH_IN
           ? transactions.sender.name : transactions.transactionType == AppConstants.WITHDRAW
           ? transactions.receiver.name : transactions.userInfo.name;
     }catch(e){
-     userPhone = 'no_user'.tr;
-     userName = 'no_user'.tr;
+     _userPhone = 'no_user'.tr;
+     _userName = 'no_user'.tr;
     }
 
     return Padding(
@@ -72,7 +72,7 @@ class TransactionHistoryCardView extends StatelessWidget {
                       const SizedBox(height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
                       Text(
-                        userName ?? '',
+                        _userName ?? '',
                         maxLines: 1,overflow: TextOverflow.ellipsis,
                         style: rubikRegular.copyWith(
                           fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
@@ -80,7 +80,7 @@ class TransactionHistoryCardView extends StatelessWidget {
                       ),
                       const SizedBox(height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
-                      Text(userPhone ?? '', style: rubikMedium.copyWith(
+                      Text(_userPhone ?? '', style: rubikMedium.copyWith(
                         fontSize: Dimensions.FONT_SIZE_SMALL,
                       ),),
                       const SizedBox(height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
@@ -94,10 +94,10 @@ class TransactionHistoryCardView extends StatelessWidget {
                 const Spacer(),
 
                 Text(
-                  '${isCredit ? '-' : '+'} ${PriceConverter.convertPrice(double.parse(transactions.amount.toString()))}',
+                  '${_isCredit ? '-' : '+'} ${PriceConverter.convertPrice(double.parse(transactions.amount.toString()))}',
                   style: rubikMedium.copyWith(
                     fontSize: Dimensions.FONT_SIZE_DEFAULT,
-                    color: isCredit ? Colors.redAccent : Colors.green,
+                    color: _isCredit ? Colors.redAccent : Colors.green,
                   ),
                 ),
 

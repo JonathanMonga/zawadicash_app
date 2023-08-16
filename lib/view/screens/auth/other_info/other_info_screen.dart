@@ -90,7 +90,7 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
                         }
                       }
                       else{
-                        print('without email');
+                        debugPrint('without email');
                         Get.toNamed(RouteHelper.getPinSetRoute(
                           fName: fNameTextController.text,
                           lName: lNameTextController.text,

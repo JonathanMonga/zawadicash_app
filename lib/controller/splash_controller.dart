@@ -8,7 +8,7 @@ import 'package:zawadicash_app/data/repository/splash_repo.dart';
 
 class SplashController extends GetxController implements GetxService{
    final SplashRepo splashRepo;
-  SplashController({@required this.splashRepo});
+  SplashController({required this.splashRepo});
 
   ConfigModel _configModel;
   bool _isVpn = false;
@@ -23,16 +23,16 @@ class SplashController extends GetxController implements GetxService{
   bool get isVpn => _isVpn;
 
   Future<Response> getConfigData() async {
-    Response response = await splashRepo.getConfigData();
-    if(response.statusCode == 200){
-      _configModel =  ConfigModel.fromJson(response.body);
+    Response _response = await splashRepo.getConfigData();
+    if(_response.statusCode == 200){
+      _configModel =  ConfigModel.fromJson(_response.body);
     }
    else {
-     print(response);
-     ApiChecker.checkApi(response);
+     debugPrint(_response);
+     ApiChecker.checkApi(_response);
    }
     update();
-    return response;
+    return _response;
 
   }
 
@@ -45,14 +45,14 @@ class SplashController extends GetxController implements GetxService{
   }
 
   bool isRestaurantClosed() {
-    DateTime open = DateFormat('hh:mm').parse('');
-    DateTime close = DateFormat('hh:mm').parse('');
-    DateTime openTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, open.hour, open.minute);
-    DateTime closeTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, close.hour, close.minute);
-    if(closeTime.isBefore(openTime)) {
-      closeTime = closeTime.add(const Duration(days: 1));
+    DateTime _open = DateFormat('hh:mm').parse('');
+    DateTime _close = DateFormat('hh:mm').parse('');
+    DateTime _openTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, _open.hour, _open.minute);
+    DateTime _closeTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, _close.hour, _close.minute);
+    if(_closeTime.isBefore(_openTime)) {
+      _closeTime = _closeTime.add(const Duration(days: 1));
     }
-    if(_currentTime.isAfter(openTime) && _currentTime.isBefore(closeTime)) {
+    if(_currentTime.isAfter(_openTime) && _currentTime.isBefore(_closeTime)) {
       return false;
     }else {
       return true;
@@ -66,8 +66,8 @@ class SplashController extends GetxController implements GetxService{
 
   String getCountryCode (){
     CountryCode countryCode =  CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country);
-    String countryCode0 = countryCode.toString();
-    return countryCode0;
+    String _countryCode = countryCode.toString();
+    return _countryCode;
   }
 
  Future<bool> checkVpn() async {

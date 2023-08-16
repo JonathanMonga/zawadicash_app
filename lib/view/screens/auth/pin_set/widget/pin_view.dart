@@ -8,8 +8,8 @@ class PinView extends StatelessWidget {
   final TextEditingController passController, confirmPassController;
    PinView({
      Key key,
-     @required this.passController,
-     @required this.confirmPassController
+     required this.passController,
+     required this.confirmPassController
    }) : super(key: key);
 
    final FocusNode confirmFocus = FocusNode();

@@ -20,7 +20,7 @@ class CameraScreen extends StatefulWidget {
   final String transactionType;
   const CameraScreen({
     Key key,
-    @required this.fromEditProfile,
+    required this.fromEditProfile,
     this.isBarCodeScan = false,
     this.isHome = false,
     this.transactionType = '',
@@ -36,7 +36,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() {
     Get.find<CameraScreenController>().stopLiveFeed();
-    print('dispose method call');
+    debugPrint('dispose method call');
     super.dispose();
   }
   @override

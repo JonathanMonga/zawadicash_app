@@ -3,7 +3,7 @@ import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 class AppbarHomeElement extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const AppbarHomeElement({super.key, @required this.title});
+  const AppbarHomeElement({super.key, required this.title});
   @override
   Widget build(BuildContext context) {
     return Container(

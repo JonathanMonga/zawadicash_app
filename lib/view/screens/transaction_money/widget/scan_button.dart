@@ -9,7 +9,7 @@ import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
 class ScanButton extends StatelessWidget {
   final VoidCallback onTap;
-  const ScanButton({Key key,@required this.onTap}) : super(key: key);
+  const ScanButton({Key key,required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

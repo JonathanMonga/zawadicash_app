@@ -57,7 +57,7 @@ Future<Map<String, Map<String, String>>> init() async {
   try {
     uniqueId = await  UniqueIdentifier.serial;
   } catch(error) {
-    print('error is : $error');
+    debugPrint('error is : $error');
   }
 
   Get.lazyPut(() => uniqueId);

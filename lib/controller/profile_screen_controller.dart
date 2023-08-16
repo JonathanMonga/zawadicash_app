@@ -15,7 +15,7 @@ import 'bootom_slider_controller.dart';
 
 class ProfileController extends GetxController implements GetxService {
   final ProfileRepo profileRepo;
-  ProfileController({@required this.profileRepo});
+  ProfileController({required this.profileRepo});
   final BottomSliderController bottomSliderController =
       Get.find<BottomSliderController>();
   UserInfo _userInfo;
@@ -59,7 +59,7 @@ class ProfileController extends GetxController implements GetxService {
 
   }
 
-  Future<void> changePin({@required String oldPassword, @required String newPassword, @required String confirmPassword}) async {
+  Future<void> changePin({required String oldPassword, required String newPassword, required String confirmPassword}) async {
     if ((oldPassword.length < 4) ||
         (newPassword.length < 4) ||
         (confirmPassword.length < 4)) {
@@ -85,7 +85,7 @@ class ProfileController extends GetxController implements GetxService {
     }
   }
 
-  Future<Response> pinVerify({@required String getPin, bool isUpdateTwoFactor = true}) async {
+  Future<Response> pinVerify({required String getPin, bool isUpdateTwoFactor = true}) async {
     bottomSliderController.setIsLoading = true;
     final Response response = await profileRepo.pinVerifyApi(pin: getPin);
 
@@ -148,14 +148,14 @@ class ProfileController extends GetxController implements GetxService {
     if (_isSwitched == false) {
       _isSwitched = true;
       textValue = 'Switch Button is ON';
-      print('Switch Button is ON');
+      debugPrint('Switch Button is ON');
       Get.find<ThemeController>().toggleTheme();
       update();
 
     } else {
       _isSwitched = false;
       textValue = 'Switch Button is OFF';
-      print('Switch Button is OFF');
+      debugPrint('Switch Button is OFF');
       Get.find<ThemeController>().toggleTheme();
       update();
     }

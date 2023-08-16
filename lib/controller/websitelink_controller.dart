@@ -2,12 +2,11 @@
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/websitelink_models.dart';
 import 'package:zawadicash_app/data/repository/websitelink_repo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class WebsiteLinkController extends GetxController implements GetxService{
   final WebsiteLinkRepo websiteLinkRepo;
-  WebsiteLinkController({@required this.websiteLinkRepo});
+  WebsiteLinkController({required this.websiteLinkRepo});
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   List<WebsiteLinkModel> _websiteList;

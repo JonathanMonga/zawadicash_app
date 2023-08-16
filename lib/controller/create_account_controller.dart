@@ -2,7 +2,6 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreateAccountController extends GetxController implements GetxService{
@@ -23,7 +22,7 @@ class CreateAccountController extends GetxController implements GetxService{
   setInitCountryCode(String code) {
     _countryCode = code;
   }
-  sendOtpResponse({@required String number}){
+  sendOtpResponse({required String number}){
     String number0 = number;
     if (number0.isEmpty) {
       showCustomSnackBar('please_give_your_phone_number'.tr, isError: true);

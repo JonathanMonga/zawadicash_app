@@ -46,10 +46,10 @@ class ForgetPassController extends GetxController implements GetxService{
     else if(newPassController.text == confirmPassController.text){
       // write code
       String number = phoneNumber;
-      print("phone : $number");
-      print("otp : $_otp");
-      print("pass : ${newPassController.text}");
-      print("Confirm pass : ${confirmPassController.text}");
+      debugPrint("phone : $number");
+      debugPrint("otp : $_otp");
+      debugPrint("pass : ${newPassController.text}");
+      debugPrint("Confirm pass : ${confirmPassController.text}");
       Get.find<AuthController>().resetPassword(number, _otp, newPassController.text, confirmPassController.text);
     }
     else{
@@ -58,7 +58,7 @@ class ForgetPassController extends GetxController implements GetxService{
   }
 
 
-  sendForOtpResponse({BuildContext context,@required String phoneNumber}) async {
+  sendForOtpResponse({BuildContext context,required String phoneNumber}) async {
     String number = phoneNumber;
     if (number.isEmpty) {
       showCustomSnackBar('please_give_your_phone_number'.tr,
@@ -84,8 +84,7 @@ class ForgetPassController extends GetxController implements GetxService{
       String phoneNumber = _countryCode + number;
       Get.find<AuthController>().otpForForgetPass(phoneNumber, context);
 
-      print('=====Phone=====>$phoneNumber');
-
+      debugPrint('=====Phone=====>$phoneNumber');
     }
   }
 

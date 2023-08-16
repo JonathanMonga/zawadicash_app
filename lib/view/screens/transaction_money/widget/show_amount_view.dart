@@ -7,7 +7,7 @@ import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class ShowAmountView extends StatelessWidget {
-  const ShowAmountView({ Key key, @required this.amountText, @required this.onTap }) : super(key: key);
+  const ShowAmountView({ Key key, required this.amountText, required this.onTap }) : super(key: key);
   final String amountText;
   final Function onTap;
   @override

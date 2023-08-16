@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   final Function onTap;
   final String buttonText;
   final Color color;
-  const CustomButton({super.key, this.onTap, @required this.buttonText, this.color});
+  const CustomButton({super.key, this.onTap, required this.buttonText, this.color});
 
   @override
   Widget build(BuildContext context) {

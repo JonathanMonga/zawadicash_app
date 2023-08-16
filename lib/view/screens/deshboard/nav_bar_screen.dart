@@ -42,7 +42,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
     flutterLocalNotificationsPlugin.initialize(initializationsSettings);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('FirebaseMessaging.onMessage');
+      debugPrint('FirebaseMessaging.onMessage');
       NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
       Get.find<ProfileController>().profileData(reload: true);
       Get.find<RequestedMoneyController>().getRequestedMoneyList(1 ,reload: true );
@@ -52,7 +52,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('FirebaseMessaging.onMessageOpenedApp');
+      debugPrint('FirebaseMessaging.onMessageOpenedApp');
       Get.find<ProfileController>().profileData(reload: true);
        Get.find<RequestedMoneyController>().getRequestedMoneyList(1 ,reload: true );
        Get.find<RequestedMoneyController>().getOwnRequestedMoneyList(1 ,reload: true );

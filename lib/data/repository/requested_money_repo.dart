@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
@@ -6,7 +5,7 @@ import 'package:zawadicash_app/util/app_constants.dart';
 class RequestedMoneyRepo{
   final ApiClient apiClient;
 
-  RequestedMoneyRepo({@required this.apiClient});
+  RequestedMoneyRepo({required this.apiClient});
 
   Future<Response> getRequestedMoneyList() async {
     return await apiClient.getData(AppConstants.REQUESTED_MONEY_URI);

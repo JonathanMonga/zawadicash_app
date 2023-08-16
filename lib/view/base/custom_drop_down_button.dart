@@ -8,9 +8,9 @@ class CustomDropDownButton extends StatefulWidget {
   final Function onChanged;
   const CustomDropDownButton({
     Key key,
-    @required this.value,
-    @required this.itemList,
-    @required this.onChanged,
+    required this.value,
+    required this.itemList,
+    required this.onChanged,
   }) : super(key: key);
 
   @override

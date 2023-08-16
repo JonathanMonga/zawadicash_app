@@ -7,7 +7,7 @@ class CustomCountryCodePiker extends StatelessWidget {
   final Function onChanged;
   final Function onInit;
   final String initSelect;
-  const CustomCountryCodePiker({super.key, @required this.onChanged, this.initSelect, this.onInit});
+  const CustomCountryCodePiker({Key? key, required this.onChanged, this.initSelect, this.onInit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class CustomCountryCodePiker extends StatelessWidget {
 }
 
 String getCountryCode(String number) {
-  String countryCode = '';
+  String _countryCode = '';
   try{
-    countryCode = codes.firstWhere((item) =>
+    _countryCode = codes.firstWhere((item) =>
         number.contains('${item['dial_code']}'))['dial_code'];
   }catch(error){
-    print('country error: $error');
+    debugPrint('country error: $error');
   }
-  return countryCode;
+  return _countryCode;
 }

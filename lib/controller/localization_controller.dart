@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalizationController extends GetxController {
   final SharedPreferences sharedPreferences;
 
-  LocalizationController({@required this.sharedPreferences}) {
+  LocalizationController({required this.sharedPreferences}) {
     loadCurrentLanguage();
   }
 

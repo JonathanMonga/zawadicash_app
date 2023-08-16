@@ -23,7 +23,7 @@ class InputBoxView extends StatelessWidget {
 
   const InputBoxView({
     Key key,
-    @required this.inputAmountController, this.focusNode, this.transactionType,
+    required this.inputAmountController, this.focusNode, this.transactionType,
   }) : super(key: key);
 
   @override

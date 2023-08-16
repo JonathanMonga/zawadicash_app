@@ -19,7 +19,7 @@ class ShareStatementWidget extends StatefulWidget {
   final ContactModel contactModel;
   final String charge;
   final String trxId;
-  const ShareStatementWidget({Key key,@required this.amount, @required this.transactionType, @required this.contactModel,@required this.charge,@required this.trxId}) : super(key: key);
+  const ShareStatementWidget({Key key,required this.amount, required this.transactionType, required this.contactModel,required this.charge,required this.trxId}) : super(key: key);
 
   @override
   State<ShareStatementWidget> createState() => ShareStatementWidgetState();

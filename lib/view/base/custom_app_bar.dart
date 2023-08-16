@@ -10,7 +10,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Function onTap;
   final bool isSkip;
   final Function function;
-  const CustomAppbar({super.key, @required this.title, this.onTap,this.isSkip = false, this.function});
+  const CustomAppbar({super.key, required this.title, this.onTap,this.isSkip = false, this.function});
   @override
   Widget build(BuildContext context) {
     return Container(

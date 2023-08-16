@@ -1,4 +1,3 @@
-
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +20,7 @@ import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class AuthController extends GetxController implements GetxService {
   final AuthRepo authRepo;
+  
   AuthController({required this.authRepo}) {
     _biometric = authRepo.isBiometricEnabled();
     checkBiometricSupport();
@@ -37,9 +37,7 @@ class AuthController extends GetxController implements GetxService {
     bool get isVerifying => _isVerifying;
     bool get biometric => _biometric;
     bool get isBiometricSupported => _isBiometricSupported;
-
-
-
+    
     Future<void> _callSetting() async {
       final LocalAuthentication bioAuth = LocalAuthentication();
       _bioList = await bioAuth.getAvailableBiometrics();
@@ -47,6 +45,7 @@ class AuthController extends GetxController implements GetxService {
         try{
           AppSettings.openLockAndPasswordSettings();
         }catch(e){
+          debugPrint(e.toString());
         }
       }
     }
@@ -67,7 +66,8 @@ class AuthController extends GetxController implements GetxService {
           authRepo.setBiometric(isActive && _bioList.isNotEmpty);
           try{
             await authRepo.writeSecureData(AppConstants.BIOMETRIC_PIN, pin);
-          }catch(error) {
+          } catch(e) {
+            debugPrint(e.toString());
           }
           Get.back(closeOverlays: true);
           update();
@@ -76,7 +76,6 @@ class AuthController extends GetxController implements GetxService {
 
     return _biometric;
   }
-
 
   Future<String> biometricPin() async {
       return await  authRepo.readSecureData(AppConstants.BIOMETRIC_PIN) ?? '';
@@ -112,9 +111,10 @@ class AuthController extends GetxController implements GetxService {
             authRepo.setBiometric(false);
           }
         } catch(e) {
+          debugPrint(e.toString());
         }
       }else{
-       // _checkBiometricWithPin();
+       checkBiometricWithPin();
       }
     }
   }
@@ -138,15 +138,15 @@ class AuthController extends GetxController implements GetxService {
         update();
       }
       else if(response.statusCode == 403){
-        String countryCode;
-        String nationalNumber;
+        late String countryCode;
+        late String nationalNumber;
         try{
           PhoneNumber number = await PhoneNumberUtil().parse(phoneNumber);
            countryCode = '+${number.countryCode}';
            nationalNumber = number.nationalNumber;
         }
         catch(e){
-
+          debugPrint(e.toString());
         }
         authRepo.setBiometric(false);
         Get.offNamed(RouteHelper.getLoginRoute(countryCode: countryCode,phoneNumber: nationalNumber));
@@ -159,7 +159,7 @@ class AuthController extends GetxController implements GetxService {
       update();
       return response;
     }
-  Future<Response> resendOtp({@required String phoneNumber}) async{
+  Future<Response> resendOtp({required String phoneNumber}) async{
     _isLoading = true;
     update();
     Response response = await authRepo.resendOtp(phoneNumber: phoneNumber);
@@ -174,7 +174,7 @@ class AuthController extends GetxController implements GetxService {
     return response;
   }
 
-  Future<void> requestCameraPermission({@required bool fromEditProfile}) async {
+  Future<void> requestCameraPermission({required bool fromEditProfile}) async {
     var serviceStatus = await Permission.camera.status;
 
     if(serviceStatus.isGranted && GetPlatform.isAndroid){
@@ -192,7 +192,6 @@ class AuthController extends GetxController implements GetxService {
           Get.find<CameraScreenController>().showPermanentlyDeniedDialog(fromEditProfile: fromEditProfile);
         }
       }
-
     }
   }
 
@@ -205,14 +204,14 @@ class AuthController extends GetxController implements GetxService {
 
     ResponseModel responseModel;
     if(response.statusCode == 200){
-      print(response.body['message']);
+      debugPrint(response.body['message']);
       responseModel = ResponseModel(true, response.body["message"]);
       Get.find<VerificationController>().cancelTimer();
       showCustomSnackBar(responseModel.message, isError: false);
       requestCameraPermission(fromEditProfile: false);
     }
     else{
-      print(response.body['errors'][0]['message']);
+      debugPrint(response.body['errors'][0]['message']);
       responseModel = ResponseModel(false, response.body['errors'][0]['message']);
       showCustomSnackBar(
           responseModel.message,
@@ -237,21 +236,24 @@ class AuthController extends GetxController implements GetxService {
         'gender': signUpBody.gender,
         'occupation': signUpBody.occupation,
       };
+
       allCustomerInfo.addAll({'otp': signUpBody.otp});
       if(signUpBody.email != '') {
         allCustomerInfo.addAll({'email': signUpBody.email});
       }
 
       Response response = await authRepo.registration(allCustomerInfo,multipartBody);
-      print('error is');
+      debugPrint('error is');
       if (response.statusCode == 200) {
         Get.find<CameraScreenController>().removeImage();
-        String countryCode, nationalNumber;
+        late String countryCode, nationalNumber;
         try{
           PhoneNumber phoneNumber = await PhoneNumberUtil().parse(signUpBody.phone);
            countryCode = '+${phoneNumber.countryCode}';
            nationalNumber = phoneNumber.nationalNumber;
-        }catch(e){}
+        }catch(e){
+          debugPrint(e.toString());
+        }
         setCustomerCountryCode(countryCode);
         setCustomerNumber(nationalNumber);
         Get.offAllNamed(RouteHelper.getWelcomeRoute(
@@ -271,11 +273,10 @@ class AuthController extends GetxController implements GetxService {
       return response;
   }
 
-  Future<Response> login({String code, String phone, String password}) async {
+  Future<Response> login({required String code, required String phone, required String password}) async {
     _isLoading = true;
     update();
     Response response = await authRepo.login(phone: code+phone, password: password);
-
 
     if (response.body['response_code'] == 'auth_login_200' && response.body['content'] != null) {
        authRepo.saveUserToken(response.body['content']).then((value) async {
@@ -300,7 +301,7 @@ class AuthController extends GetxController implements GetxService {
     update();
     Get.back();
     Response response = await authRepo.deleteUser();
-    print('user del : ${response.body}');
+    debugPrint('user del : ${response.body}');
 
     if (response.statusCode == 200) {
       Get.find<SplashController>().removeSharedData().then((value) {
@@ -314,7 +315,6 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = false;
     update();
   }
-
 
   Future<Response> checkOtp()async{
       _isLoading = true;
@@ -352,7 +352,7 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response = await authRepo.logout();
-    print('logout body : ${response.statusCode} || ${response.body}');
+    debugPrint('logout body : ${response.statusCode} || ${response.body}');
     if (response.statusCode == 200) {
 
       Get.offAllNamed(RouteHelper.getSplashRoute());
@@ -366,23 +366,24 @@ class AuthController extends GetxController implements GetxService {
     return response;
   }
 
-  Future<ResponseModel> otpForForgetPass(String phoneNumber, BuildContext context) async{
+  Future<Response> otpForForgetPass(String phoneNumber, BuildContext context) async{
     _isLoading = true;
     update();
     Response response = await authRepo.forgetPassOtp(phoneNumber: phoneNumber);
-    ResponseModel responseModel;
-    print(response.statusCode);
+
+    debugPrint(response.statusCode.toString());
+
     if(response.statusCode == 200){
       _isLoading = false;
       Get.toNamed(RouteHelper.getFVeryficationRoute(phoneNumber: phoneNumber));
-    }
-    else{
+    }else{
       _isLoading = false;
       ApiChecker.checkApi(response);
-
     }
+
     update();
-    return responseModel;
+
+    return response;
   }
 
   Future<Response> verificationForForgetPass(String phoneNumber, String otp) async{
@@ -417,11 +418,11 @@ class AuthController extends GetxController implements GetxService {
       }catch(e){
         showCustomSnackBar('something_error_in_your_phone_number'.tr, isError: false);
       }
-    }
-    else{
+    }else{
       _isLoading = false;
      ApiChecker.checkApi(response);
     }
+
     update();
     return response;
   }
@@ -429,7 +430,6 @@ class AuthController extends GetxController implements GetxService {
   String getAuthToken() {
     return authRepo.getUserToken();
   }
-
 
   bool isLoggedIn() {
     return authRepo.isLoggedIn();

@@ -94,7 +94,7 @@ class TransactionTypeButton extends StatelessWidget {
   final int index;
   final List<Transactions> transactionHistoryList;
 
-  const TransactionTypeButton({super.key, @required this.text, @required this.index, @required this.transactionHistoryList});
+  const TransactionTypeButton({Key? key, required this.text, required this.index, required this.transactionHistoryList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class TransactionTypeButton extends StatelessWidget {
 
 class SliverDelegate extends SliverPersistentHeaderDelegate {
   Widget child;
-  SliverDelegate({@required this.child});
+  SliverDelegate({required this.child});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {

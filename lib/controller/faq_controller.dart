@@ -1,11 +1,10 @@
 import 'package:zawadicash_app/data/model/response/faq_model.dart';
 import 'package:zawadicash_app/data/repository/faq_repo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class FaqController extends GetxController implements GetxService {
   final FaqRepo faqrepo;
-  FaqController({@required this.faqrepo});
+  FaqController({required this.faqrepo});
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

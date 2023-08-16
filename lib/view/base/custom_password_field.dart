@@ -103,7 +103,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   }
 
   void _toggle() {
-    print('off');
+    debugPrint('off');
     setState(() {
       _obscureText = !_obscureText;
     });

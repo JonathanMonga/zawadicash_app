@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class PreviewContactTile extends StatelessWidget {
   final ContactModel contactModel;
-  const PreviewContactTile({Key key, @required this.contactModel,}) : super(key: key);
+  const PreviewContactTile({Key key, required this.contactModel,}) : super(key: key);
 
 
   @override

@@ -1,12 +1,11 @@
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/notification_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/repository/notification_repo.dart';
 
 class NotificationController extends GetxController implements GetxService {
   final NotificationRepo notificationRepo;
-  NotificationController({@required this.notificationRepo});
+  NotificationController({required this.notificationRepo});
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

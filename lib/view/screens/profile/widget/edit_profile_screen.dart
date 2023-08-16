@@ -173,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future _onWillPop(BuildContext context) async {
     if(Get.find<CameraScreenController>().getImage != null){
       Get.find<CameraScreenController>().removeImage();
-      print('====> Remove image from controller');
+      debugPrint('====> Remove image from controller');
       return Get.back();
     }
     else{

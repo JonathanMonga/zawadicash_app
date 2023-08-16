@@ -10,7 +10,7 @@ import 'package:zawadicash_app/view/base/custom_image.dart';
 
 class AvatarSection extends StatefulWidget {
   final String image;
-  const AvatarSection({ Key key, @required this.image}) : super(key: key);
+  const AvatarSection({ Key key, required this.image}) : super(key: key);
 
   @override
   State<AvatarSection> createState() => _AvatarSectionState();

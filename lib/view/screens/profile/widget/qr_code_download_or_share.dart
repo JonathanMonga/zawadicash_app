@@ -12,7 +12,7 @@ import 'package:zawadicash_app/view/base/custom_logo.dart';
 class QrCodeDownloadOrShareScreen extends StatelessWidget {
   final String qrCode;
   final String phoneNumber;
-  const QrCodeDownloadOrShareScreen({super.key, @required this.qrCode, @required this.phoneNumber});
+  const QrCodeDownloadOrShareScreen({super.key, required this.qrCode, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {

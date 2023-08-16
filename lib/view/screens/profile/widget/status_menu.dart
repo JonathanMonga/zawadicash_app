@@ -24,7 +24,7 @@ class StatusMenu extends StatelessWidget {
     final profileController = Get.find<ProfileController>();
     final authController = Get.find<AuthController>();
 
-    print('biomatic in view : ${authController.biometric}');
+    debugPrint('biomatic in view : ${authController.biometric}');
     return CustomInkWell(
       onTap: () => Get.defaultDialog(barrierDismissible: false, title: '4digit_pin'.tr, content: ConfirmPinBottomSheet(
         callBack: isAuth ? authController.setBiometric : profileController.twoFactorOnTap, isAuth: isAuth,

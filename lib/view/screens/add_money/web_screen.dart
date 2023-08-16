@@ -60,7 +60,7 @@ class _WebScreenState extends State<WebScreen> {
                       if(url.contains(AppConstants.BASE_URL)) {
                         bool isSuccess = url.contains('success');
                         bool isFailed = url.contains('fail');
-                        print('Page started loading: $url');
+                        debugPrint('Page started loading: $url');
                         setState(() {
                           _isLoading = true;
                         });
@@ -92,7 +92,7 @@ class _WebScreenState extends State<WebScreen> {
                       }
                     },
                     onPageFinished: (String url) {
-                      print('Page finished loading: $url');
+                      debugPrint('Page finished loading: $url');
                       setState(() {
                         _isLoading = false;
                       });

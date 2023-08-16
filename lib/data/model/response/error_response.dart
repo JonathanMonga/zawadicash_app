@@ -1,12 +1,11 @@
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class ResponseModel {
   ResponseModel({
-    @required this.responseCode,
-    @required this.message,
-    @required this.content,
-    @required this.errorResponse,
+    required this.responseCode,
+    required this.message,
+    required this.content,
+    required this.errorResponse,
   });
 
   String responseCode;

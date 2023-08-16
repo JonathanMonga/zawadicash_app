@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                                         onInit: (code){},
                                         initSelect: widget.countryCode,
                                         onChanged: (code){
-                                          print(code);
+                                          debugPrint(code);
                                           setCountryCode(code);
                                         },
                                       )
@@ -255,15 +255,15 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
 
       try{
         PhoneNumber num = await PhoneNumberUtil().parse(phoneNumber);
-        print('+${num.countryCode}');
-        print(num.nationalNumber);
+        debugPrint('+${num.countryCode}');
+        debugPrint(num.nationalNumber);
         Get.find<AuthController>().login(code: code,phone: phone,password: password).then((value) async{
           if(value.isOk){
             await Get.find<ProfileController>().profileData(reload: true);
           }
         });
       }catch(e){
-        print(e);
+        debugPrint(e);
         showCustomSnackBar('please_input_your_valid_number'.tr,isError: true);
       }
     }

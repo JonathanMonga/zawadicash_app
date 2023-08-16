@@ -16,7 +16,7 @@ enum RequestType {
 class RequestedMoneyListScreen extends StatefulWidget {
   final RequestType requestType;
 
-  const RequestedMoneyListScreen({Key key, @required this.requestType}) : super(key: key);
+  const RequestedMoneyListScreen({Key key, required this.requestType}) : super(key: key);
 
   @override
   State<RequestedMoneyListScreen> createState() => _RequestedMoneyListScreenState();
@@ -142,7 +142,7 @@ class RequestTypeButton extends StatelessWidget {
   final int index;
   final int  length;
 
-  const RequestTypeButton({super.key, @required this.text, @required this.index, @required this.length});
+  const RequestTypeButton({Key? key, required this.text, required this.index, required this.length}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,7 @@ class RequestTypeButton extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          child: Text('$text($length)',
+          child: Text(text + '($length)',
               style: rubikSemiBold.copyWith(color: Get.find<RequestedMoneyController>().requestTypeIndex == index
                   ? ColorResources.blackColor : Theme.of(context).textTheme.titleLarge.color)),
         ),
@@ -171,7 +171,7 @@ class RequestTypeButton extends StatelessWidget {
 
 class SliverDelegate extends SliverPersistentHeaderDelegate {
   Widget child;
-  SliverDelegate({@required this.child});
+  SliverDelegate({required this.child});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {

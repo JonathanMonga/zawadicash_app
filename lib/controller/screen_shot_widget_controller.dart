@@ -17,7 +17,7 @@ import 'package:zawadicash_app/view/screens/transaction_money/widget/share_state
 class ScreenShootWidgetController extends GetxController implements GetxService{
   ScreenshotController statementController = ScreenshotController();
 
-  Future statementScreenShootFunction({@required String amount,  @required String transactionType, @required ContactModel contactModel, @required String charge,@required String trxId}) async{
+  Future statementScreenShootFunction({required String amount,  required String transactionType, required ContactModel contactModel, required String charge,required String trxId}) async{
     Uint8List image;
     Get.to(ShareStatementWidget(amount: amount, transactionType: transactionType, contactModel: contactModel,charge: charge,trxId: trxId));
     Future.delayed(const Duration(milliseconds: 1000)).then((value) async {
@@ -31,7 +31,7 @@ class ScreenShootWidgetController extends GetxController implements GetxService{
     });
 
   }
-  Future<void> qrCodeDownloadAndShare ({@required String qrCode, @required String phoneNumber, @required bool isShare}) async{
+  Future<void> qrCodeDownloadAndShare ({required String qrCode, required String phoneNumber, required bool isShare}) async{
     Uint8List image;
     Get.toNamed(RouteHelper.getQrCodeDownloadOrShareRoute(qrCode: qrCode,phoneNumber: phoneNumber));
     Future.delayed(const Duration(milliseconds: 100)).then((value) async {

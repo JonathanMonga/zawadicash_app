@@ -24,7 +24,7 @@ class BottomSheetWithSlider extends StatefulWidget {
   final String transactionType;
   final String purpose;
   final ContactModel contactModel;
-  const BottomSheetWithSlider({Key key, @required this.amount, this.pinCode, this.transactionType, this.purpose, this.contactModel}) : super(key: key);
+  const BottomSheetWithSlider({Key key, required this.amount, this.pinCode, this.transactionType, this.purpose, this.contactModel}) : super(key: key);
 
   @override
   State<BottomSheetWithSlider> createState() => _BottomSheetWithSliderState();
@@ -35,7 +35,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
 
   @override
   void initState() {
-    print('amount is : ${widget.amount}');
+    debugPrint('amount is : ${widget.amount}');
     Get.find<TransactionMoneyController>().changeTrueFalse();
     super.initState();
   }
@@ -70,7 +70,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                         color: ColorResources.getLightGray().withOpacity(0.8),
                         borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.RADIUS_SIZE_LARGE) ),
                       ),
-                      child: Text('${'confirm_to'.tr} $type', style: rubikSemiBold.copyWith(),),
+                      child: Text('confirm_to'.tr +' '+ type, style: rubikSemiBold.copyWith(),),
                     ),
                     !transactionMoneyController.isLoading?
                     Visibility(
@@ -126,13 +126,13 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                       GetBuilder<ProfileController>(
                         builder: (profileController) {
                           return profileController.isLoading ? const SizedBox() : Text(
-                            '${'new_balance'.tr} ${widget.transactionType == 'request_money'
+                            'new_balance'.tr+' '+(widget.transactionType == 'request_money'
                                 ? PriceConverter.newBalanceWithCredit(inputBalance: double.parse(widget.amount))
                                 : PriceConverter.newBalanceWithDebit(inputBalance: double.parse(widget.amount),
 
                                 charge: widget.transactionType=='send_money'
                                     ? double.parse(Get.find<SplashController>().configModel.sendMoneyChargeFlat.toString())
-                                    : cashOutCharge)}',
+                                    : cashOutCharge)),
 
                             style: rubikRegular.copyWith(fontSize: Dimensions.FONT_SIZE_DEFAULT),
                           );

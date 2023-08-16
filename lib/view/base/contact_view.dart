@@ -17,7 +17,7 @@ import 'custom_ink_well.dart';
 class ContactView extends StatelessWidget{
   final String transactionType;
   final TransactionMoneyController contactController;
-   const ContactView({ Key key, this.transactionType, @required this.contactController }) : super(key: key);
+   const ContactView({ Key key, this.transactionType, required this.contactController }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

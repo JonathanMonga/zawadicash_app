@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 class NoInternetOrDataScreen extends StatelessWidget {
   final bool isNoInternet;
   final Widget child;
-  const NoInternetOrDataScreen({super.key, @required this.isNoInternet, this.child});
+  const NoInternetOrDataScreen({super.key, required this.isNoInternet, this.child});
 
   @override
   Widget build(BuildContext context) {

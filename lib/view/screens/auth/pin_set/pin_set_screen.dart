@@ -75,30 +75,30 @@ class PinSetScreen extends StatelessWidget {
                   else{
                     if(passController.text == confirmPassController.text){
 
-                      String password =  passController.text;
-                      String gender =  Get.find<ProfileController>().gender;
-                      String occupation =  occupation;
-                      String fName =  fName;
-                      String lName =  lName;
-                      String email = email;
-                      String countryCode = getCountryCode(Get.find<CreateAccountController>().phoneNumber);
-                      String phoneNumber = Get.find<CreateAccountController>().phoneNumber.replaceAll(countryCode, '');
-                      File image =  Get.find<CameraScreenController>().getImage;
-                      String otp =  Get.find<VerificationController>().otp;
+                      String _password =  passController.text;
+                      String _gender =  Get.find<ProfileController>().gender;
+                      String _occupation =  occupation;
+                      String _fName =  fName;
+                      String _lName =  lName;
+                      String _email = email;
+                      String _countryCode = getCountryCode(Get.find<CreateAccountController>().phoneNumber);
+                      String _phoneNumber = Get.find<CreateAccountController>().phoneNumber.replaceAll(_countryCode, '');
+                      File _image =  Get.find<CameraScreenController>().getImage;
+                      String _otp =  Get.find<VerificationController>().otp;
 
                       SignUpBody signUpBody = SignUpBody(
-                        fName: fName,
-                        lName: lName,
-                        gender: gender,
-                        occupation: occupation,
-                        email: email,
-                        phone: phoneNumber,
-                        otp: otp,
-                        password: password,
-                        dialCountryCode: countryCode
+                        fName: _fName,
+                        lName: _lName,
+                        gender: _gender,
+                        occupation: _occupation,
+                        email: _email,
+                        phone: _phoneNumber,
+                        otp: _otp,
+                        password: _password,
+                        dialCountryCode: _countryCode
                       );
 
-                      MultipartBody multipartBody = MultipartBody('image',image );
+                      MultipartBody multipartBody = MultipartBody('image',_image );
                       Get.find<AuthController>().registration(signUpBody,[multipartBody]);
 
                     }

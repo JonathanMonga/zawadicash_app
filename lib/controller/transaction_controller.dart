@@ -25,7 +25,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
   final TransactionRepo transactionRepo;
   final AuthRepo authRepo;
 
-  TransactionMoneyController({@required this.transactionRepo, @required this.authRepo});
+  TransactionMoneyController({required this.transactionRepo, required this.authRepo});
   BottomSliderController bottomSliderController = Get.find<BottomSliderController>();
   SplashController splashController = Get.find<SplashController>();
   ProfileController profileController = Get.find<ProfileController>();
@@ -87,7 +87,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
   }
 
-  void setIsPinCompleted({@required bool isCompleted, bool isNotify}){
+  void setIsPinCompleted({required bool isCompleted, bool isNotify}){
     _isPinCompleted =  isCompleted;
     if(isNotify) {
       update();
@@ -127,8 +127,8 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   Future<void> fetchContact() async {
     _contactIsLoading = true;
-    String permissionStatus =  authRepo.sharedPreferences.getString(AppConstants.CONTACT_PERMISSION);
-    if(permissionStatus != PermissionStatus.granted.name){
+    String _permissionStatus =  authRepo.sharedPreferences.getString(AppConstants.CONTACT_PERMISSION);
+    if(_permissionStatus != PermissionStatus.granted.name){
 
       return Get.dialog(
 
@@ -185,7 +185,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
   }
 
-  void searchContact({@required String searchTerm}) {
+  void searchContact({required String searchTerm}) {
     if (searchTerm.isNotEmpty) {
       filterdContacts = azItemList.where((element) {
         if (element.contact.phones.isNotEmpty) {
@@ -208,7 +208,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
 
 
-  Future<Response> sendMoney({@required ContactModel contactModel, @required double amount, String purpose, String pinCode})async{
+  Future<Response> sendMoney({required ContactModel contactModel, required double amount, String purpose, String pinCode})async{
     _isLoading = true;
     _isNextBottomSheet = false;
     update();
@@ -229,7 +229,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
    return response;
   }
 
-  Future<Response> requestMoney({@required ContactModel contactModel, @required double amount})async{
+  Future<Response> requestMoney({required ContactModel contactModel, required double amount})async{
     _isLoading = true;
     _isNextBottomSheet = false;
     update();
@@ -249,7 +249,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
     return response;
   }
-  Future<Response> cashOutMoney({@required ContactModel contactModel, @required double amount, String pinCode})async{
+  Future<Response> cashOutMoney({required ContactModel contactModel, required double amount, String pinCode})async{
     _isLoading = true;
     _isNextBottomSheet = false;
     update();
@@ -272,8 +272,8 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
     return response;
   }
-  Future<Response> checkCustomerNumber({@required String phoneNumber})async{
-    Response response0;
+  Future<Response> checkCustomerNumber({required String phoneNumber})async{
+    Response _response;
     if(phoneNumber == Get.find<ProfileController>().userInfo.phone) {
       //todo set message
       showCustomSnackBar('Please_enter_a_different_customer_number'.tr);
@@ -288,13 +288,13 @@ class TransactionMoneyController extends GetxController implements GetxService {
         ApiChecker.checkApi(response);
       }
       update();
-      response0 =  response;
+      _response =  response;
     }
-    return response0;
+    return _response;
 
   }
 
-  Future<Response> checkAgentNumber({@required String phoneNumber})async{
+  Future<Response> checkAgentNumber({required String phoneNumber})async{
     _isButtonClick = true;
     update();
     Response response = await transactionRepo.checkAgentNumber(phoneNumber: phoneNumber);
@@ -332,7 +332,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   void  contactOnTap(int index, String transactionType){
     String phoneNumber = filterdContacts[index].contact.phones.first.number.trim();
-    print(filterdContacts[index].contact.name.first);
+    debugPrint(filterdContacts[index].contact.name.first);
     if(phoneNumber.contains('-')){
       phoneNumber = phoneNumber.replaceAll('-', '');
     }
@@ -345,20 +345,20 @@ class TransactionMoneyController extends GetxController implements GetxService {
     if(transactionType == "cash_out"){
       Get.find<TransactionMoneyController>().checkAgentNumber(phoneNumber: phoneNumber).then((value) {
         if(value.isOk){
-          String agentName = value.body['data']['name'];
-          String agentImage = value.body['data']['image'];
+          String _agentName = value.body['data']['name'];
+          String _agentImage = value.body['data']['image'];
 
-          print('phone number contact ---- $phoneNumber');
-          Get.to(()=> TransactionMoneyBalanceInput(transactionType: transactionType,contactModel: ContactModel(phoneNumber: phoneNumber,name: agentName,avatarImage: agentImage)));
+          debugPrint('phone number contact ---- $phoneNumber');
+          Get.to(()=> TransactionMoneyBalanceInput(transactionType: transactionType,contactModel: ContactModel(phoneNumber: phoneNumber,name: _agentName,avatarImage: _agentImage)));
         }
       });
     }else{
       Get.find<TransactionMoneyController>().checkCustomerNumber(phoneNumber: phoneNumber).then((value) {
-        print('phone number contact ---- $phoneNumber');
+        debugPrint('phone number contact ---- $phoneNumber');
         if(value.isOk){
-          String customerName = value.body['data']['name'];
-          String customerImage = value.body['data']['image'];
-          Get.to(()=> TransactionMoneyBalanceInput(transactionType: transactionType,contactModel: ContactModel(phoneNumber: phoneNumber,name: customerName,avatarImage: customerImage)));
+          String _customerName = value.body['data']['name'];
+          String _customerImage = value.body['data']['image'];
+          Get.to(()=> TransactionMoneyBalanceInput(transactionType: transactionType,contactModel: ContactModel(phoneNumber: phoneNumber,name: _customerName,avatarImage: _customerImage)));
         }
       });
     }
@@ -398,7 +398,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
 
 
-  void getSuggestList({@required String type})async{
+  void getSuggestList({required String type})async{
     _cashOutSuggestList = [];
     _sendMoneySuggestList = [];
     _requestMoneySuggestList = [];
@@ -423,21 +423,21 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isNextBottomSheet = false;
   }
 
-  Future<bool> pinVerify({@required String pin})async{
-    bool isVerify = false;
+  Future<bool> pinVerify({required String pin})async{
+    bool _isVerify = false;
     _isLoading = true;
      update();
     final Response response =  await authRepo.pinVerifyApi(pin: pin);
     if(response.statusCode == 200){
-      isVerify = true;
+      _isVerify = true;
       _isLoading = false;
     }else{
-      print('call else blcok');
+      debugPrint('call else blcok');
       ApiChecker.checkApi(response);
     }
     _isLoading = false;
     update();
-    return isVerify;
+    return _isVerify;
   }
 
 

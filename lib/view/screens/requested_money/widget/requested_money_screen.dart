@@ -30,7 +30,7 @@ class RequestedMoneyScreen extends StatelessWidget {
 
         if(offset < pageSize) {
           offset++;
-          print('end of the page');
+          debugPrint('end of the page');
           Get.find<RequestedMoneyController>().showBottomLoader();
           if(requestType == RequestType.SEND_REQUEST) {
             Get.find<RequestedMoneyController>().getOwnRequestedMoneyList(offset);

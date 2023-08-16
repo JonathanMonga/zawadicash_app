@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
     Key key,
-    @required this.title,
+    required this.title,
   }) : super(key: key);
   final String title;
 

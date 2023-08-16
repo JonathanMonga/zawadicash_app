@@ -327,7 +327,7 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
 
 class SliverDelegate extends SliverPersistentHeaderDelegate {
   Widget child;
-  SliverDelegate({@required this.child});
+  SliverDelegate({required this.child});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {

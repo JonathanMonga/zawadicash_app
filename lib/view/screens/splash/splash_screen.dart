@@ -25,15 +25,15 @@ class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver
     super.initState();
 
     bool firstTime = true;
-    print('splash screen call');
+    debugPrint('splash screen call');
 
     _onConnectivityChanged = _connectivity.onConnectivityChanged.listen((ConnectivityResult result) async {
-      print('splash screen call 3');
+      debugPrint('splash screen call 3');
       if(await ApiChecker.isVpnActive()) {
         showCustomSnackBar('you are using vpn', isVpn: true, duration: const Duration(minutes: 10));
       }
       if(!firstTime) {
-        print('connection state : $result');
+        debugPrint('connection state : $result');
         bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
 
         showCustomSnackBar(
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver
           _route();
         }
       }else{
-        print('splash screen call 2');
+        debugPrint('splash screen call 2');
 
         _route();
       }
@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver
 
   void _route() {
     Get.find<SplashController>().getConfigData().then((value) {
-      print('config call ');
+      debugPrint('config call ');
       if(value.isOk) {
         Timer(const Duration(seconds: 1), () async {
         Get.find<SplashController>().initSharedData().then((value) {

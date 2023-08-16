@@ -103,7 +103,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               onInit: (code){},
                               initSelect: Get.find<ForgetPassController>().countryCode,
                               onChanged: (code) {
-                                print(code);
+                                debugPrint(code);
                                 Get.find<ForgetPassController>().setCountryCode(code);
                               },
                             ),
@@ -124,7 +124,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   onTap: () async{
                     String phoneNumber = Get.find<ForgetPassController>().countryCode + phoneNumberController.text;
                     PhoneNumber number = await PhoneChecker.isNumberValid(phoneNumber);
-                    print('f number-------->: $number');
+                    debugPrint('f number-------->: $number');
                     if(number != null ){
                       Get.find<ForgetPassController>().sendForOtpResponse(context: context,phoneNumber: phoneNumberController.text);
                     }

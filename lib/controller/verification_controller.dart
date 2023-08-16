@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 class VerificationController extends GetxController implements GetxService{
    final AuthRepo authRepo;
-  VerificationController({@required this.authRepo});
+  VerificationController({required this.authRepo});
   int maxSecond = 30;
   Timer _timer;
   bool _visibility = false;
@@ -25,9 +25,9 @@ class VerificationController extends GetxController implements GetxService{
    String _otp;
    String get otp => _otp;
    setOtp(String pin){
-     print('set is working..... $pin');
+     debugPrint('set is working..... $pin');
      _otp = pin;
-     print( 'is set otp$_otp');
+     debugPrint( 'is set otp$_otp');
      //update();
    }
   startTimer(){
@@ -36,7 +36,7 @@ class VerificationController extends GetxController implements GetxService{
      _timer = Timer.periodic(const Duration(seconds: 1), (_){
        if(maxSecond>0){
          maxSecond = maxSecond - 1;
-         print(maxSecond);
+         debugPrint(maxSecond);
          _visibility = false;
        }
        else{

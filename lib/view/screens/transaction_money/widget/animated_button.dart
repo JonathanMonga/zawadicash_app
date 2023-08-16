@@ -6,7 +6,7 @@ import 'package:zawadicash_app/util/styles.dart';
 
 class AnimatedButtonView extends StatefulWidget {
   final Function onTap;
-  const AnimatedButtonView({Key key,@required this.onTap}) : super(key: key);
+  const AnimatedButtonView({Key key,required this.onTap}) : super(key: key);
 
   @override
   State<AnimatedButtonView> createState() => _AnimatedButtonViewState();

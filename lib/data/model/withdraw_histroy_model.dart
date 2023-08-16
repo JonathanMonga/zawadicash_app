@@ -1,14 +1,13 @@
 
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class WithdrawHistoryModel {
   WithdrawHistoryModel({
-    @required this.responseCode,
-    @required this.message,
-    @required this.withdrawHistoryList,
-    @required this.errors,
+    required this.responseCode,
+    required this.message,
+    required this.withdrawHistoryList,
+    required this.errors,
   });
 
   String responseCode;
@@ -37,18 +36,18 @@ class WithdrawHistoryModel {
 
 class WithdrawHistory {
   WithdrawHistory({
-    @required this.id,
-    @required this.userId,
-    @required this.amount,
-    @required this.requestStatus,
-    @required this.isPaid,
-    @required this.senderNote,
-    @required this.adminNote,
-    @required this.withdrawalMethodId,
-    @required this.withdrawalMethodFields,
-    @required this.createdAt,
-    @required this.updatedAt,
-    @required this.methodName,
+    required this.id,
+    required this.userId,
+    required this.amount,
+    required this.requestStatus,
+    required this.isPaid,
+    required this.senderNote,
+    required this.adminNote,
+    required this.withdrawalMethodId,
+    required this.withdrawalMethodFields,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.methodName,
   });
 
   int id;
@@ -101,7 +100,7 @@ class WithdrawHistory {
 
 class WithdrawalMethodFields {
   WithdrawalMethodFields({
-    @required this.phoneNumber,
+    required this.phoneNumber,
   });
 
   String phoneNumber;

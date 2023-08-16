@@ -28,7 +28,7 @@ class QrCodeScannerController extends GetxController implements GetxService{
 
 
   Future<void> processImage(InputImage inputImage,  bool isHome, String transactionType) async {
-    print('transaction type : $_transactionType');
+    debugPrint('transaction type : $_transactionType');
     final BarcodeScanner barcodeScanner = BarcodeScanner();
     if (!_canProcess) return;
     if (_isBusy) return;
@@ -38,7 +38,7 @@ class QrCodeScannerController extends GetxController implements GetxService{
     if (inputImage.inputImageData?.size != null &&
         inputImage.inputImageData?.imageRotation != null) {
       for (final barcode in barcodes) {
-        print('barcode row value : ${barcode.rawValue}');
+        debugPrint('barcode row value : ${barcode.rawValue}');
         _name = jsonDecode(barcode.rawValue)['name'];
         _phone = jsonDecode(barcode.rawValue)['phone'];
         _type = jsonDecode(barcode.rawValue)['type'];

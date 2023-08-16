@@ -8,7 +8,7 @@ import 'package:zawadicash_app/view/screens/profile/widget/shimmer/faq_shimmer.d
 
 class FaqScreen extends StatefulWidget {
   final String title;
-  const FaqScreen({super.key, @required this.title});
+  const FaqScreen({super.key, required this.title});
 
   @override
   _FaqScreenState createState() => _FaqScreenState();

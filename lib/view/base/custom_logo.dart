@@ -4,9 +4,9 @@ import 'package:zawadicash_app/util/images.dart';
 
 class CustomLogo extends StatelessWidget {
   final double height,width;
-  const CustomLogo({super.key, 
+  const CustomLogo({Key? key, 
     this.height,this.width
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

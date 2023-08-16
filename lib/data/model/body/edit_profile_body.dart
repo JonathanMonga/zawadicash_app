@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 class EditProfileBody {
   String fName;
@@ -7,7 +6,7 @@ class EditProfileBody {
   String gender;
   String occupation;
 
-  EditProfileBody({@required this.fName,@required this.lName, this.email='',@required this.gender,@required this.occupation});
+  EditProfileBody({required this.fName,required this.lName, this.email='',required this.gender,required this.occupation});
 
   EditProfileBody.fromJson(Map<String, dynamic> json) {
     fName = json['f_name'];

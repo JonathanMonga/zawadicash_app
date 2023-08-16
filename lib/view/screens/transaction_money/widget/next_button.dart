@@ -6,7 +6,7 @@ import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 class NextButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool isSubmittable;
-  const NextButton({Key key, @required this.isSubmittable, this.onTap}) : super(key: key);
+  const NextButton({Key key, required this.isSubmittable, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,9 +11,9 @@ class CustomSmallButton extends StatelessWidget {
   final double textSize;
   const CustomSmallButton({super.key, 
     this.backgroundColor,
-    @required this.onTap,
+    required this.onTap,
     this.text,
-    @required this.textColor,
+    required this.textColor,
     this.textSize = Dimensions.FONT_SIZE_LARGE,
   });
 

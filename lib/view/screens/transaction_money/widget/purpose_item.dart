@@ -10,7 +10,7 @@ import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
 class PurposeItem extends StatelessWidget {
-  const PurposeItem({Key key, @required this.image, @required this.title, @required this.color,@required this.onTap}) : super(key: key);
+  const PurposeItem({Key key, required this.image, required this.title, required this.color,required this.onTap}) : super(key: key);
   final String image;
   final String title;
   final Color color;

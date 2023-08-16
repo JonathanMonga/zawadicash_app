@@ -7,7 +7,7 @@ class SelfieAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool showIcon;
   final Function onTap;
   final bool fromEditProfile;
-   const SelfieAppbar({super.key,  this.onTap,@required this.showIcon, @required this.fromEditProfile});
+   const SelfieAppbar({super.key,  this.onTap,required this.showIcon, required this.fromEditProfile});
   @override
   Widget build(BuildContext context) {
     return Container(

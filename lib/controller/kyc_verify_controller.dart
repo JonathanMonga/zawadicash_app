@@ -10,7 +10,7 @@ import '../data/api/api_client.dart';
 
 class KycVerifyController extends GetxController implements GetxService{
   final KycVerifyRepo kycVerifyRepo;
-  KycVerifyController({@required this.kycVerifyRepo});
+  KycVerifyController({required this.kycVerifyRepo});
   List <XFile> _imageFile;
   List <XFile>_identityImage = [];
   List<XFile> get identityImage => _identityImage;
@@ -41,11 +41,11 @@ class KycVerifyController extends GetxController implements GetxService{
   }
 
   void pickImage(bool isRemove) async {
-    final ImagePicker picker = ImagePicker();
+    final ImagePicker _picker = ImagePicker();
     if(isRemove) {
       _imageFile = [];
     }else {
-      _imageFile = await picker.pickMultiImage(imageQuality: 30);
+      _imageFile = await _picker.pickMultiImage(imageQuality: 30);
       _identityImage.addAll(_imageFile);
     }
     update();
@@ -57,7 +57,7 @@ class KycVerifyController extends GetxController implements GetxService{
   List<MultipartBody> _multipartBody;
 
   Future<void> kycVerify(String idNumber) async{
-    Map<String, String> field = {
+    Map<String, String> _field = {
       'identification_number': idNumber,
       'identification_type': _dropDownSelectedValue == 'passport'.tr ? 'passport'
           : _dropDownSelectedValue == 'driving_licence'.tr ? 'driving_licence'
@@ -68,14 +68,14 @@ class KycVerifyController extends GetxController implements GetxService{
     _multipartBody = _identityImage.map((image) => MultipartBody('identification_image[]', File(image.path))).toList();
     _isLoading = true;
     update();
-    Response response = await kycVerifyRepo.kycVerifyApi(field, _multipartBody);
+    Response response = await kycVerifyRepo.kycVerifyApi(_field, _multipartBody);
     if(response.body['response_code'] == 'default_update_200') {
       Get.back();
       showCustomSnackBar(response.body['message'], isError: false);
     }else{
       ApiChecker.checkApi(response);
     }
-    print('body is : ${response.body}');
+    debugPrint('body is : ${response.body}');
     _isLoading = false;
     update();
   }

@@ -10,7 +10,7 @@ import '../../../../base/roundedButton.dart';
 
 class AppbarView extends StatelessWidget {
   final bool isLogin;
-  const AppbarView({Key key,@required this.isLogin}) : super(key: key);
+  const AppbarView({Key key,required this.isLogin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
