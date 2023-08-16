@@ -30,30 +30,57 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  badges:
   cupertino_icons:
+  get:
+  shared_preferences:
+  connectivity_plus:
+  firebase_core:
+  firebase_messaging:
+  flutter_local_notifications:
+  path_provider:
+  url_strategy:
   dotted_border:
-  dotted_line:
-  face_camera:
-  fl_chart:
-  flutter_screenutil:
-  flutter_slidable:
-  flutter_svg:
-  google_fonts:
+  flutter_contacts:
+  azlistview:
+  pin_code_fields:
+  modal_bottom_sheet:
+  slide_to_confirm:
+  lottie:
+  expandable_bottom_sheet:
+  smooth_page_indicator:
   image_picker:
-  images_picker:
-  intl:
-  loading_indicator:
+  country_code_picker:
+  camera:
+  http:
+  carousel_slider:
+  webview_flutter:
+  flutter_svg:
+  device_preview:
+  flutter_html:
+  shimmer:
+  permission_handler:
+  share_plus:
+  screenshot:
+  gallery_saver:
+  modal_progress_hud_nsn:
+  phone_number:
+  path_drawing:
+  flutter_custom_tabs:
   local_auth:
+  google_mlkit_barcode_scanning:
+  google_mlkit_face_detection:
+  cached_network_image:
+  flutter_secure_storage:
+  app_settings:
   percent_indicator:
-  pinput:
-  provider:
-  qr_code_scanner:
-  scan:
+  flutter_smart_dialog:
+  device_info_plus:
+  unique_identifier:
   url_launcher:
 
 dev_dependencies:
@@ -80,8 +107,21 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/svg/
-    - assets/images/
+    - assets/image/
+    - assets/language/
+    - assets/animationFile/
+
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/font/Rubik-Light.ttf
+          weight: 300
+        - asset: assets/font/Rubik-Regular.ttf
+          weight: 400
+        - asset: assets/font/Rubik-Medium.ttf
+          weight: 500
+        - asset: assets/font/Rubik-SemiBold.ttf
+          weight: 600
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
