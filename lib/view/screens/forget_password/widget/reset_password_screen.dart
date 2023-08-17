@@ -6,9 +6,10 @@ import 'package:zawadicash_app/view/screens/auth/pin_set/widget/appbar_view.dart
 import 'package:zawadicash_app/view/screens/forget_password/widget/pin_field_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class ResetPasswordScreen extends StatefulWidget {
-  final String phoneNumber;
-  const ResetPasswordScreen({Key key, this.phoneNumber}) : super(key: key);
+  final String? phoneNumber;
+  const ResetPasswordScreen({Key? key, this.phoneNumber}) : super(key: key);
 
   @override
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
@@ -46,32 +47,51 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 top: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
                 left: 0,
                 right: 0,
-                child: AppbarView(isLogin: false,),
+                child: AppbarView(
+                  isLogin: false,
+                ),
               ),
               Positioned(
                 top: 135,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                child: PinFieldView(newPassController: newPassController,confirmPassController: confirmPassController,),
-
+                child: PinFieldView(
+                  newPassController: newPassController,
+                  confirmPassController: confirmPassController,
+                ),
               ),
             ],
           ),
           floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 20,right: 10),
-            child:   FloatingActionButton(
-               onPressed: () {
-                 Get.find<ForgetPassController>().resetPassword(newPassController,confirmPassController,widget.phoneNumber);
-
+            padding: const EdgeInsets.only(bottom: 20, right: 10),
+            child: FloatingActionButton(
+              onPressed: () {
+                Get.find<ForgetPassController>().resetPassword(
+                    newPassController,
+                    confirmPassController,
+                    widget.phoneNumber!);
               },
               elevation: 0,
               backgroundColor: Theme.of(context).secondaryHeaderColor,
-              child: GetBuilder<AuthController>(builder: (controller)=> !controller.isLoading ? Center(child: Icon(Icons.arrow_forward,color: ColorResources.blackColor,size: 28,)) : SizedBox(height: 20.33,
-                  width: 20.33,child: CircularProgressIndicator(color: Theme.of(context).textTheme.titleLarge.color)),),),
-            ) ,
-
+              child: GetBuilder<AuthController>(
+                builder: (controller) => !controller.isLoading
+                    ? Center(
+                        child: Icon(
+                        Icons.arrow_forward,
+                        color: ColorResources.blackColor,
+                        size: 28,
+                      ))
+                    : SizedBox(
+                        height: 20.33,
+                        width: 20.33,
+                        child: CircularProgressIndicator(
+                            color:
+                                Theme.of(context).textTheme.titleLarge!.color)),
+              ),
+            ),
           ),
+        ),
       ),
     );
   }

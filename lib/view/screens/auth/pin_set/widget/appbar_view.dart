@@ -6,11 +6,11 @@ import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
 
-import '../../../../base/roundedButton.dart';
+import 'package:zawadicash_app/view/base/rounded_button.dart';
 
 class AppbarView extends StatelessWidget {
   final bool isLogin;
-  const AppbarView({Key key,required this.isLogin}) : super(key: key);
+  const AppbarView({Key? key, required this.isLogin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +27,18 @@ class AppbarView extends StatelessWidget {
             width: Dimensions.SMALL_LOGO,
           ),
           isLogin
-              ? RoundedButton(onTap: (){
-            Get.toNamed(RouteHelper.getChoseLanguageRoute());
-          }, buttonText: AppConstants.languages[Get.find<LocalizationController>().selectedIndex].languageName,)
-          : Container(),
+              ? RoundedButton(
+                  onTap: () {
+                    Get.toNamed(RouteHelper.getChoseLanguageRoute());
+                  },
+                  buttonText: AppConstants
+                      .languages[
+                          Get.find<LocalizationController>().selectedIndex]
+                      .languageName!,
+                )
+              : Container(),
         ],
       ),
     );
   }
 }
-
-
-

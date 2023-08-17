@@ -4,8 +4,8 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomOccupationCard extends StatelessWidget {
-  final String icon, text;
-  final bool check;
+  final String? icon, text;
+  final bool? check;
   const CustomOccupationCard({super.key, this.icon, this.text, this.check});
 
   @override
@@ -38,16 +38,16 @@ class CustomOccupationCard extends StatelessWidget {
               SizedBox(
                 height: 26.81,
                 width: 26.81,
-                child: Image.asset(icon),
+                child: Image.asset(icon!),
               ),
               const SizedBox(
                 height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
               ),
               Text(
-                text,
+                text!,
                 textAlign: TextAlign.center,
                 style: rubikRegular.copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                   fontSize: Dimensions.FONT_SIZE_DEFAULT,
                 ),
               ),
@@ -58,14 +58,19 @@ class CustomOccupationCard extends StatelessWidget {
           top: 20,
           right: 20,
           child: Visibility(
-            visible: check,
+            visible: check!,
             child: Container(
-              height: 16,width: 16,
+              height: 16,
+              width: 16,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.check,color: Colors.white,size: 12,),
+              child: const Icon(
+                Icons.check,
+                color: Colors.white,
+                size: 12,
+              ),
             ),
           ),
         ),

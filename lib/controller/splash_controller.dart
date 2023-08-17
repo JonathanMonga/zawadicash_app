@@ -6,11 +6,12 @@ import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/config_model.dart';
 import 'package:zawadicash_app/data/repository/splash_repo.dart';
 
-class SplashController extends GetxController implements GetxService{
-   final SplashRepo splashRepo;
+class SplashController extends GetxController implements GetxService {
+  late final SplashRepo splashRepo;
+
   SplashController({required this.splashRepo});
 
-  ConfigModel _configModel;
+  late ConfigModel _configModel;
   bool _isVpn = false;
 
   final DateTime _currentTime = DateTime.now();
@@ -23,54 +24,54 @@ class SplashController extends GetxController implements GetxService{
   bool get isVpn => _isVpn;
 
   Future<Response> getConfigData() async {
-    Response _response = await splashRepo.getConfigData();
-    if(_response.statusCode == 200){
-      _configModel =  ConfigModel.fromJson(_response.body);
+    Response _response = await splashRepo!.getConfigData();
+    if (_response.statusCode == 200) {
+      _configModel = ConfigModel.fromJson(_response.body);
+    } else {
+      debugPrint(_response.toString());
+      ApiChecker.checkApi(_response);
     }
-   else {
-     debugPrint(_response);
-     ApiChecker.checkApi(_response);
-   }
     update();
     return _response;
-
   }
 
   Future<bool> initSharedData() {
-    return splashRepo.initSharedData();
+    return splashRepo!.initSharedData();
   }
 
   Future<bool> removeSharedData() {
-    return splashRepo.removeSharedData();
+    return splashRepo!.removeSharedData();
   }
 
   bool isRestaurantClosed() {
     DateTime _open = DateFormat('hh:mm').parse('');
     DateTime _close = DateFormat('hh:mm').parse('');
-    DateTime _openTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, _open.hour, _open.minute);
-    DateTime _closeTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, _close.hour, _close.minute);
-    if(_closeTime.isBefore(_openTime)) {
+    DateTime _openTime = DateTime(_currentTime.year, _currentTime.month,
+        _currentTime.day, _open.hour, _open.minute);
+    DateTime _closeTime = DateTime(_currentTime.year, _currentTime.month,
+        _currentTime.day, _close.hour, _close.minute);
+    if (_closeTime.isBefore(_openTime)) {
       _closeTime = _closeTime.add(const Duration(days: 1));
     }
-    if(_currentTime.isAfter(_openTime) && _currentTime.isBefore(_closeTime)) {
+    if (_currentTime.isAfter(_openTime) && _currentTime.isBefore(_closeTime)) {
       return false;
-    }else {
+    } else {
       return true;
     }
   }
-
 
   void setFirstTimeConnectionCheck(bool isChecked) {
     _firstTimeConnectionCheck = isChecked;
   }
 
-  String getCountryCode (){
-    CountryCode countryCode =  CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country);
+  String getCountryCode() {
+    CountryCode countryCode = CountryCode.fromCountryCode(
+        Get.find<SplashController>().configModel.country!);
     String _countryCode = countryCode.toString();
     return _countryCode;
   }
 
- Future<bool> checkVpn() async {
+  Future<bool> checkVpn() async {
     _isVpn = await ApiChecker.isVpnActive();
     // if(_isVpn) {
     //   showCustomSnackBar('you are using vpn', isVpn: true, duration: Duration(minutes: 10));

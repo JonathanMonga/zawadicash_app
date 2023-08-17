@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class CameraMessageView extends StatelessWidget {
   const CameraMessageView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -18,8 +18,8 @@ class CameraMessageView extends StatelessWidget {
       ),
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(
-              Dimensions.RADIUS_SIZE_VERY_SMALL)),
+          borderRadius:
+              BorderRadius.circular(Dimensions.RADIUS_SIZE_VERY_SMALL)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

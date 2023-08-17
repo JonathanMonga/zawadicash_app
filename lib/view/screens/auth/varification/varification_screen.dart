@@ -12,56 +12,61 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({Key key}) : super(key: key);
+  const VerificationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.getWhiteAndBlack(),
-      appBar: CustomAppbar(title: 'phone_verification'.tr, onTap:() {
-        Get.find<VerificationController>().cancelTimer();
-        Get.back();
-      }),
+      appBar: CustomAppbar(
+          title: 'phone_verification'.tr,
+          onTap: () {
+            Get.find<VerificationController>().cancelTimer();
+            Get.back();
+          }),
       body: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
                   const InformationSection(),
                   const SizedBox(height: Dimensions.PADDING_SIZE_OVER_LARGE),
-
-                  GetBuilder<VerificationController>(builder: (getController){
-                    return  CustomPinCodeField(
+                  GetBuilder<VerificationController>(builder: (getController) {
+                    return CustomPinCodeField(
                       padding: Dimensions.PADDING_SIZE_OVER_LARGE,
-                      onCompleted: (pin){
+                      onCompleted: (pin) {
                         getController.setOtp(pin);
-                        String phoneNumber =  Get.find<CreateAccountController>().phoneNumber;
-                        Get.find<AuthController>().phoneVerify(phoneNumber, pin);
+                        String phoneNumber =
+                            Get.find<CreateAccountController>().phoneNumber;
+                        Get.find<AuthController>()
+                            .phoneVerify(phoneNumber, pin);
                       },
                     );
                   }),
-
                   const DemoOtpHint(),
-
-                  const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                  const SizedBox(
+                    height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                  ),
                   const TimerSection(),
                 ],
               ),
             ),
           ),
-          GetBuilder<AuthController>(builder: (controller)=>SizedBox(
-            height: 100,
-            child: controller.isLoading ?
-            Center(
-              child: CircularProgressIndicator(color: Theme.of(context).primaryColor),
-            ): Container(),
-          ))
-
+          GetBuilder<AuthController>(
+              builder: (controller) => SizedBox(
+                    height: 100,
+                    child: controller.isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                                color: Theme.of(context).primaryColor),
+                          )
+                        : Container(),
+                  ))
         ],
       ),
-
     );
   }
 }

@@ -1,8 +1,8 @@
 class TransactionModel {
-  int totalSize;
-  int limit;
-  int offset;
-  List<Transactions> transactions;
+  int? totalSize;
+  int? limit;
+  int? offset;
+  List<Transactions>? transactions;
 
   TransactionModel(
       {this.totalSize, this.limit, this.offset, this.transactions});
@@ -14,7 +14,7 @@ class TransactionModel {
     if (json['transactions'] != null) {
       transactions = <Transactions>[];
       json['transactions'].forEach((v) {
-        transactions.add(Transactions.fromJson(v));
+        transactions!.add(Transactions.fromJson(v));
       });
     }
   }
@@ -24,47 +24,43 @@ class TransactionModel {
     data['total_size'] = totalSize;
     data['limit'] = limit;
     data['offset'] = offset;
-    data['transactions'] = transactions.map((v) => v.toJson()).toList();
+    data['transactions'] = transactions!.map((v) => v.toJson()).toList();
     return data;
   }
 }
 
 class Transactions {
-  String transactionType;
-  String transactionId;
-  double debit;
-  double credit;
-  UserInfo userInfo;
-  String createdAt;
-  double amount;
-  Receiver receiver;
-  Sender sender;
+  String? transactionType;
+  String? transactionId;
+  double? debit;
+  double? credit;
+  UserInfo? userInfo;
+  String? createdAt;
+  double? amount;
+  Receiver? receiver;
+  Sender? sender;
 
   Transactions(
       {this.transactionType,
-        this.transactionId,
-        this.debit,
-        this.credit,
-        this.userInfo,
-        this.createdAt,
-        this.receiver,
-        this.sender,
-        this.amount});
+      this.transactionId,
+      this.debit,
+      this.credit,
+      this.userInfo,
+      this.createdAt,
+      this.receiver,
+      this.sender,
+      this.amount});
 
   Transactions.fromJson(Map<String, dynamic> json) {
     transactionType = json['transaction_type'];
     transactionId = json['transaction_id'];
     debit = json['debit'].toDouble();
     credit = json['credit'].toDouble();
-    userInfo = json['user_info'] != null
-        ? UserInfo.fromJson(json['user_info'])
-        : null;
-    receiver = json['receiver'] != null
-        ? Receiver.fromJson(json['receiver'])
-        : null;
-    sender = json['sender'] != null
-        ? Sender.fromJson(json['sender'])
-        : null;
+    userInfo =
+        json['user_info'] != null ? UserInfo.fromJson(json['user_info']) : null;
+    receiver =
+        json['receiver'] != null ? Receiver.fromJson(json['receiver']) : null;
+    sender = json['sender'] != null ? Sender.fromJson(json['sender']) : null;
     createdAt = json['created_at'];
     amount = json['amount'].toDouble();
   }
@@ -75,7 +71,7 @@ class Transactions {
     data['transaction_id'] = transactionId;
     data['debit'] = debit;
     data['credit'] = credit;
-    data['user_info'] = userInfo.toJson();
+    data['user_info'] = userInfo!.toJson();
     data['created_at'] = createdAt;
     data['amount'] = amount;
     return data;
@@ -83,8 +79,8 @@ class Transactions {
 }
 
 class UserInfo {
-  String phone;
-  String name;
+  String? phone;
+  String? name;
 
   UserInfo({this.phone, this.name});
 
@@ -102,8 +98,8 @@ class UserInfo {
 }
 
 class Sender {
-  String phone;
-  String name;
+  String? phone;
+  String? name;
 
   Sender({this.phone, this.name});
 
@@ -114,8 +110,8 @@ class Sender {
 }
 
 class Receiver {
-  String phone;
-  String name;
+  String? phone;
+  String? name;
   Receiver({this.phone, this.name});
 
   Receiver.fromJson(Map<String, dynamic> json) {

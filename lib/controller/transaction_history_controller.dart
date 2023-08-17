@@ -5,23 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 
-class TransactionHistoryController extends GetxController implements GetxService{
-  final TransactionHistoryRepo transactionHistoryRepo;
+class TransactionHistoryController extends GetxController
+    implements GetxService {
+  late final TransactionHistoryRepo transactionHistoryRepo;
   TransactionHistoryController({required this.transactionHistoryRepo});
 
-
   final bool _isSearching = false;
-  int _pageSize;
+  late int _pageSize;
   bool _isLoading = false;
   bool _firstLoading = true;
   bool get firstLoading => _firstLoading;
   int _offset = 1;
-  int get offset =>_offset;
+  int get offset => _offset;
 
   List<int> _offsetList = [];
   List<int> get offsetList => _offsetList;
 
-  List<Transactions> _transactionList  = [];
+  List<Transactions> _transactionList = [];
   List<Transactions> get transactionList => _transactionList;
 
   List<Transactions> _sendMoneyList = [];
@@ -45,8 +45,6 @@ class TransactionHistoryController extends GetxController implements GetxService
   List<Transactions> _paymentList = [];
   List<Transactions> get paymentList => _paymentList;
 
-
-
   bool get isSearching => _isSearching;
   int get pageSize => _pageSize;
   bool get isLoading => _isLoading;
@@ -58,53 +56,56 @@ class TransactionHistoryController extends GetxController implements GetxService
     update();
   }
 
-
-  Future getTransactionData(int offset, {bool reload = false}) async{
-    if(reload) {
+  Future getTransactionData(int offset, {bool reload = false}) async {
+    if (reload) {
       _offsetList = [];
       _transactionList = [];
       _sendMoneyList = [];
       _cashInMoneyList = [];
       _addMoneyList = [];
-      _receivedMoneyList =[];
+      _receivedMoneyList = [];
       _cashOutList = [];
       _withdrawList = [];
       _paymentList = [];
     }
     _offset = offset;
-    if(!_offsetList.contains(offset)) {
+    if (!_offsetList.contains(offset)) {
       _offsetList.add(offset);
 
-      Response response = await transactionHistoryRepo.getTransactionHistory(offset);
-      if(response.body['transactions'] != null && response.body['transactions'] != {} && response.statusCode==200){
+      Response response =
+          await transactionHistoryRepo.getTransactionHistory(offset);
+      if (response.body['transactions'] != null &&
+          response.body['transactions'] != {} &&
+          response.statusCode == 200) {
         _transactionList = [];
         _sendMoneyList = [];
         _cashInMoneyList = [];
         _addMoneyList = [];
-        _receivedMoneyList =[];
+        _receivedMoneyList = [];
         _cashOutList = [];
         _withdrawList = [];
         _paymentList = [];
         response.body['transactions'].forEach((transactionHistory) {
           Transactions history = Transactions.fromJson(transactionHistory);
-          if(history.transactionType == AppConstants.SEND_MONEY){
+          if (history.transactionType == AppConstants.SEND_MONEY) {
             _sendMoneyList.add(history);
-          }else if(history.transactionType == AppConstants.CASH_IN){
+          } else if (history.transactionType == AppConstants.CASH_IN) {
             _cashInMoneyList.add(history);
-          }else if(history.transactionType == AppConstants.ADD_MONEY){
+          } else if (history.transactionType == AppConstants.ADD_MONEY) {
             _addMoneyList.add(history);
-          }else if(history.transactionType == AppConstants.RECEIVED_MONEY){
+          } else if (history.transactionType == AppConstants.RECEIVED_MONEY) {
             _receivedMoneyList.add(history);
-          }else if(history.transactionType == AppConstants.WITHDRAW){
+          } else if (history.transactionType == AppConstants.WITHDRAW) {
             _withdrawList.add(history);
-          }else if(history.transactionType == AppConstants.PAYMENT){
+          } else if (history.transactionType == AppConstants.PAYMENT) {
             _paymentList.add(history);
-          }else if(history.transactionType == AppConstants.CASH_OUT){
+          } else if (history.transactionType == AppConstants.CASH_OUT) {
             _cashOutList.add(history);
-          }_transactionList.add(history);
+          }
+          _transactionList.add(history);
         });
-        _pageSize = TransactionModel.fromJson(response.body).totalSize;
-      }else{
+        _pageSize = TransactionModel.fromJson(response.body).totalSize!;
+      } else {
         ApiChecker.checkApi(response);
       }
     }
@@ -112,6 +113,7 @@ class TransactionHistoryController extends GetxController implements GetxService
     _firstLoading = false;
     update();
   }
+
   int _transactionTypeIndex = 0;
   int get transactionTypeIndex => _transactionTypeIndex;
 
@@ -119,5 +121,4 @@ class TransactionHistoryController extends GetxController implements GetxService
     _transactionTypeIndex = index;
     update();
   }
-
 }

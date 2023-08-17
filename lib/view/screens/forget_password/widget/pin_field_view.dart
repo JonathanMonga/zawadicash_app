@@ -4,10 +4,15 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class PinFieldView extends StatefulWidget {
   final TextEditingController newPassController, confirmPassController;
 
-  const PinFieldView({Key key,required this.newPassController,required this.confirmPassController}) : super(key: key);
+  const PinFieldView(
+      {Key? key,
+      required this.newPassController,
+      required this.confirmPassController})
+      : super(key: key);
 
   @override
   State<PinFieldView> createState() => _PinFieldViewState();
@@ -16,12 +21,11 @@ class PinFieldView extends StatefulWidget {
 class _PinFieldViewState extends State<PinFieldView> {
   final FocusNode confirmFocus = FocusNode();
 
-   @override
+  @override
   Widget build(BuildContext context) {
-    return GetBuilder<ForgetPassController>(builder: (controller){
+    return GetBuilder<ForgetPassController>(builder: (controller) {
       return Container(
-        margin: const EdgeInsets.only(
-        ),
+        margin: const EdgeInsets.only(),
         padding: const EdgeInsets.symmetric(
           horizontal: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
           vertical: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
@@ -44,7 +48,7 @@ class _PinFieldViewState extends State<PinFieldView> {
                   'Set_new_4_digit_pin'.tr,
                   textAlign: TextAlign.center,
                   style: rubikMedium.copyWith(
-                    color: Theme.of(context).textTheme.titleLarge.color,
+                    color: Theme.of(context).textTheme.titleLarge!.color,
                     fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
                   ),
                 ),
@@ -59,7 +63,6 @@ class _PinFieldViewState extends State<PinFieldView> {
                 isShowSuffixIcon: true,
                 isIcon: false,
                 hint: '＊＊＊＊',
-
                 letterSpacing: 10.0,
                 fontSize: 24.0,
               ),
@@ -76,7 +79,6 @@ class _PinFieldViewState extends State<PinFieldView> {
                 textAlign: TextAlign.start,
               ),
               const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE),
-
             ],
           ),
         ),

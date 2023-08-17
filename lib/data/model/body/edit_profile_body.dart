@@ -1,12 +1,16 @@
-
 class EditProfileBody {
-  String fName;
-  String lName;
-  String email;
-  String gender;
-  String occupation;
+  late String fName;
+  late String lName;
+  late String email;
+  late String gender;
+  late String occupation;
 
-  EditProfileBody({required this.fName,required this.lName, this.email='',required this.gender,required this.occupation});
+  EditProfileBody(
+      {required this.fName,
+      required this.lName,
+      this.email = '',
+      required this.gender,
+      required this.occupation});
 
   EditProfileBody.fromJson(Map<String, dynamic> json) {
     fName = json['f_name'];

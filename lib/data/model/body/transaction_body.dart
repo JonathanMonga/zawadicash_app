@@ -1,15 +1,17 @@
 import 'dart:convert';
 
-TransactionBody transactionBodyFromJson(String str) => TransactionBody.fromJson(json.decode(str));
+TransactionBody transactionBodyFromJson(String str) =>
+    TransactionBody.fromJson(json.decode(str));
 
 class TransactionBody {
   TransactionBody({
     this.message,
   });
 
-  String message;
+  String? message;
 
-  factory TransactionBody.fromJson(Map<String, dynamic> json) => TransactionBody(
-    message: json["message"].toString().toUpperCase(),
-  );
+  factory TransactionBody.fromJson(Map<String, dynamic> json) =>
+      TransactionBody(
+        message: json["message"].toString().toUpperCase(),
+      );
 }

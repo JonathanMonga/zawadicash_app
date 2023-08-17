@@ -9,34 +9,35 @@ import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class EditProfileController extends GetxController implements GetxService{
+class EditProfileController extends GetxController implements GetxService {
   final AuthRepo authRepo;
   EditProfileController({required this.authRepo});
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  String _image ;
+  late String _image;
   String get image => _image;
-  setImage(String image){
+  setImage(String image) {
     _image = image;
   }
 
   ///gender
-  String _gender;
+  late String _gender;
   String get gender => _gender;
 
-  setGender(String select){
+  setGender(String select) {
     _gender = select;
     update();
     debugPrint(_gender);
   }
 
   ///occupation
-  String _occupation ;
+  late String _occupation;
   String get occupation => _occupation;
 
-  Future<bool> updateProfileData(EditProfileBody editProfileBody,List<MultipartBody> multipartBody) async{
+  Future<bool> updateProfileData(EditProfileBody editProfileBody,
+      List<MultipartBody> multipartBody) async {
     _isLoading = true;
     bool emailValidation = true;
     bool isSuccess = false;
@@ -48,22 +49,25 @@ class EditProfileController extends GetxController implements GetxService{
       'occupation': editProfileBody.occupation,
       '_method': 'put',
     };
-    if(editProfileBody.email != '') {
-      bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(editProfileBody.email);
+    if (editProfileBody.email != '') {
+      bool emailValid = RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          .hasMatch(editProfileBody.email);
 
-      if(emailValid){
+      if (emailValid) {
         allProfileInfo.addAll({'email': editProfileBody.email});
-      }else{
+      } else {
         emailValidation = emailValid;
       }
     }
 
-    if(!emailValidation) {
+    if (!emailValidation) {
       showCustomSnackBar('please_provide_valid_email'.tr);
       _isLoading = false;
       update();
-    }else {
-      Response response = await authRepo.updateProfile(allProfileInfo, multipartBody);
+    } else {
+      Response response =
+          await authRepo.updateProfile(allProfileInfo, multipartBody);
       ResponseModel responseModel;
       if (response.statusCode == 200) {
         responseModel = ResponseModel(true, response.body['message']);
@@ -73,8 +77,7 @@ class EditProfileController extends GetxController implements GetxService{
         Get.back();
         debugPrint(responseModel.message);
         showCustomSnackBar(responseModel.message, isError: false);
-      }
-      else {
+      } else {
         ApiChecker.checkApi(response);
       }
       _isLoading = false;

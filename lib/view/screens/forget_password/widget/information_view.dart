@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class InformationView extends StatelessWidget {
-  final String phoneNumber;
-  const InformationView({Key key, this.phoneNumber}) : super(key: key);
+  final String? phoneNumber;
+  const InformationView({Key? key, this.phoneNumber}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class InformationView extends StatelessWidget {
           child: Text(
             'phone_number_verification'.tr,
             style: rubikMedium.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge.color,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
               fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
             ),
             textAlign: TextAlign.center,
@@ -34,7 +34,7 @@ class InformationView extends StatelessWidget {
           child: Text(
             'verification_long_text'.tr,
             style: rubikLight.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge.color,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
               fontSize: Dimensions.FONT_SIZE_LARGE,
             ),
             textAlign: TextAlign.center,
@@ -46,15 +46,17 @@ class InformationView extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            phoneNumber != null ? Text(
-              phoneNumber,
-              style: rubikRegular.copyWith(
-                color: Theme.of(context).textTheme.bodyLarge.color,
-                fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-              ),
-              textAlign: TextAlign.center,
-            ) : 'No number',
-           /*GetBuilder<ForgetPassController>(builder: (controller) =>  Text(
+            phoneNumber != null
+                ? Text(
+                    phoneNumber!,
+                    style: rubikRegular.copyWith(
+                      color: Theme.of(context).textTheme.bodyLarge!.color,
+                      fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                : const Text('No number'),
+            /*GetBuilder<ForgetPassController>(builder: (controller) =>  Text(
              controller.countryCode + controller.phoneNumberController.text,
              // '09886755',
              style: rubikRegular.copyWith(
@@ -67,13 +69,13 @@ class InformationView extends StatelessWidget {
               width: Dimensions.PADDING_SIZE_EXTRA_SMALL,
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.back();
               },
               child: Text(
                 '(Change Number)',
                 style: rubikRegular.copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                   fontSize: Dimensions.FONT_SIZE_DEFAULT,
                 ),
                 textAlign: TextAlign.center,

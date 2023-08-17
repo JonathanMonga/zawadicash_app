@@ -1,4 +1,3 @@
-
 import 'package:phone_number/phone_number.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/forget_password_controller.dart';
@@ -13,9 +12,11 @@ import 'package:zawadicash_app/view/base/custom_large_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
+
 class ForgetPassword extends StatefulWidget {
-  final String phoneNumber,countryCode;
-  const ForgetPassword({Key key, this.phoneNumber, this.countryCode}) : super(key: key);
+  final String? phoneNumber, countryCode;
+  const ForgetPassword({Key? key, this.phoneNumber, this.countryCode})
+      : super(key: key);
 
   @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
@@ -26,16 +27,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   void initState() {
-     super.initState();
-     Get.find<ForgetPassController>().setInitialCode(widget.countryCode);
-     phoneNumberController.text = widget.phoneNumber;
-
+    super.initState();
+    Get.find<ForgetPassController>().setInitialCode(widget.countryCode!);
+    phoneNumberController.text = widget.phoneNumber!;
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Scaffold(
         appBar: CustomAppbar(
           title: 'forget_password_appbar'.tr,
@@ -63,7 +62,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       child: Text(
                         'forget_pass_long_text'.tr,
                         style: rubikRegular.copyWith(
-                          color: Theme.of(context).textTheme.bodyLarge.color,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
                           fontSize: Dimensions.FONT_SIZE_LARGE,
                         ),
                         textAlign: TextAlign.center,
@@ -100,11 +99,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               ),
                             ),
                             prefixIcon: CustomCountryCodePiker(
-                              onInit: (code){},
-                              initSelect: Get.find<ForgetPassController>().countryCode,
+                              onInit: (code) {},
+                              initSelect:
+                                  Get.find<ForgetPassController>().countryCode,
                               onChanged: (code) {
-                                debugPrint(code);
-                                Get.find<ForgetPassController>().setCountryCode(code);
+                                debugPrint(code.toString());
+                                Get.find<ForgetPassController>()
+                                    .setCountryCode(code);
                               },
                             ),
                           ),
@@ -115,31 +116,40 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
               ),
             ),
-            GetBuilder<AuthController>(builder: (controller){
+            GetBuilder<AuthController>(builder: (controller) {
               return SizedBox(
                 height: 110,
-                child: !controller.isLoading ? CustomLargeButton(
-                  backgroundColor: Theme.of(context).secondaryHeaderColor,
-                  text: 'Send_for_otp'.tr,
-                  onTap: () async{
-                    String phoneNumber = Get.find<ForgetPassController>().countryCode + phoneNumberController.text;
-                    PhoneNumber number = await PhoneChecker.isNumberValid(phoneNumber);
-                    debugPrint('f number-------->: $number');
-                    if(number != null ){
-                      Get.find<ForgetPassController>().sendForOtpResponse(context: context,phoneNumber: phoneNumberController.text);
-                    }
-                    else{
-                      showCustomSnackBar('please_input_your_valid_number'.tr,isError: true);
-                    }
-                  },
-                ) : Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor),),
+                child: !controller.isLoading
+                    ? CustomLargeButton(
+                        backgroundColor: Theme.of(context).secondaryHeaderColor,
+                        text: 'Send_for_otp'.tr,
+                        onTap: () async {
+                          String phoneNumber =
+                              Get.find<ForgetPassController>().countryCode +
+                                  phoneNumberController.text;
+                          PhoneNumber number =
+                              await PhoneChecker.isNumberValid(phoneNumber);
+                          debugPrint('f number-------->: $number');
+                          if (number != null) {
+                            Get.find<ForgetPassController>().sendForOtpResponse(
+                                context: context,
+                                phoneNumber: phoneNumberController.text);
+                          } else {
+                            showCustomSnackBar(
+                                'please_input_your_valid_number'.tr,
+                                isError: true);
+                          }
+                        },
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor),
+                      ),
               );
             }),
           ],
         ),
       ),
     );
-
   }
-
 }

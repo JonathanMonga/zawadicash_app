@@ -1,7 +1,7 @@
 class BannerModel {
-  String title;
-  String image;
-  String url;
+  String? title;
+  String? image;
+  String? url;
 
   BannerModel({this.title, this.image, this.url});
 

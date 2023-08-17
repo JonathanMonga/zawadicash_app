@@ -4,45 +4,43 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeController extends GetxController implements GetxService{
-
+class HomeController extends GetxController implements GetxService {
   ///Hero tag
-   final String _heroShowQr = 'show-qr-hero';
-   String get heroShowQr => _heroShowQr;
+  final String _heroShowQr = 'show-qr-hero';
+  String get heroShowQr => _heroShowQr;
 
-   ///Greetings
+  ///Greetings
 
-   String greetingMessage(){
+  String greetingMessage() {
+    var timeNow = DateTime.now().hour;
 
-     var timeNow = DateTime.now().hour;
-
-     if (timeNow <= 12) {
-       return 'good_morning'.tr;
-     } else if ((timeNow > 12) && (timeNow <= 16)) {
-       return 'good_afternoon'.tr;
-     } else if ((timeNow > 16) && (timeNow < 20)) {
-       return 'good_evening'.tr;
-     } else {
-       return 'good_night'.tr;
-     }
-   }
-
+    if (timeNow <= 12) {
+      return 'good_morning'.tr;
+    } else if ((timeNow > 12) && (timeNow <= 16)) {
+      return 'good_afternoon'.tr;
+    } else if ((timeNow > 16) && (timeNow < 20)) {
+      return 'good_evening'.tr;
+    } else {
+      return 'good_night'.tr;
+    }
+  }
 
   /// For web site
   String _webSiteLink = '';
   String get webSiteLink => _webSiteLink;
-  setWebLink(String link){
+  setWebLink(String link) {
     _webSiteLink = '';
     _webSiteLink = link;
     update();
   }
-   void launchURL(String url) async {
-     if (await canLaunchUrl(Uri.parse(url))) {
-       await launchUrl(Uri.parse(url), webOnlyWindowName: 'web');
-     } else {
-       showCustomSnackBar('Could not launch $url', isError: true);
-     }
-   }
+
+  void launchURL(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url), webOnlyWindowName: 'web');
+    } else {
+      showCustomSnackBar('Could not launch $url', isError: true);
+    }
+  }
 
   /// Sliding Banner
   int _activeIndicator = 0;
@@ -57,19 +55,16 @@ class HomeController extends GetxController implements GetxService{
   GlobalKey<ExpandableBottomSheetState> expadedKey = GlobalKey();
   bool _isExpanded = false;
   bool get isExpanded => _isExpanded;
-  expanded(bool state){
+  expanded(bool state) {
     _isExpanded = state;
   }
-
 
   int _selectItem = 0;
 
   int get selectedItem => _selectItem;
 
-  itemSelect({int index}){
+  itemSelect({required int index}) {
     _selectItem = index;
     update();
   }
-
-
 }

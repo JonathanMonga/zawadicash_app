@@ -1,14 +1,15 @@
-
 import 'package:flutter/material.dart';
+import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class CustomLargeButton extends StatelessWidget {
-  final String text;
-  final Function onTap;
-  final Color backgroundColor;
-  final double bottomPadding;
-  const CustomLargeButton({super.key, 
+  final String? text;
+  final OnTapFunction? onTap;
+  final Color? backgroundColor;
+  final double? bottomPadding;
+  const CustomLargeButton({
+    super.key,
     this.backgroundColor,
     this.onTap,
     this.text,
@@ -18,10 +19,10 @@ class CustomLargeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(
-          left: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
-          right: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
-          bottom: bottomPadding,
+      padding: EdgeInsets.only(
+        left: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
+        right: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
+        bottom: bottomPadding!,
       ),
       child: TextButton(
         onPressed: onTap,
@@ -34,10 +35,10 @@ class CustomLargeButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
           ),
         ),
-        child:  Text(
-          text,
+        child: Text(
+          text!,
           style: rubikRegular.copyWith(
-            color: Theme.of(context).textTheme.bodyLarge.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
             fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
           ),
         ),

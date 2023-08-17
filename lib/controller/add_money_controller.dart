@@ -27,7 +27,7 @@ class AddMoneyController extends GetxController implements GetxService {
     Response response = await addMoneyRepo.addMoneyApi(amount: amount);
     if (response.statusCode == 200) {
       _addMoneyWebLink = response.body['link'];
-      Get.toNamed(RouteHelper.add_money_web);
+      Get.toNamed(RouteHelper.addMoneyWeb);
       _isLoading = false;
     } else {
       _isLoading = false;

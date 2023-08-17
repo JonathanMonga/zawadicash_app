@@ -15,7 +15,7 @@ import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/screens/auth/other_info/other_info_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/selfie_capture/widget/loader_dialog.dart';
 
-class CameraScreenController extends GetxController implements GetxService{
+class CameraScreenController extends GetxController implements GetxService {
   bool _isBusy = false;
   int _eyeBlink = 0;
   int _isSuccess = 0;
@@ -40,7 +40,10 @@ class CameraScreenController extends GetxController implements GetxService{
     debugPrint('from edit profile value : $_fromEditProfile');
   }
 
-  Future startLiveFeed({bool isQrCodeScan = false,bool isHome = false, String transactionType = ''}) async {
+  Future startLiveFeed(
+      {bool isQrCodeScan = false,
+      bool isHome = false,
+      String transactionType = ''}) async {
     final camera = cameras[isQrCodeScan ? 0 : 1];
     controller = CameraController(
       camera,
@@ -55,28 +58,30 @@ class CameraScreenController extends GetxController implements GetxService{
       controller.getMaxZoomLevel().then((value) {
         maxZoomLevel = value;
       });
-      controller.startImageStream((CameraImage cameraImage) => _processCameraImage(cameraImage, isQrCodeScan, isHome, transactionType));
+      controller.startImageStream((CameraImage cameraImage) =>
+          _processCameraImage(
+              cameraImage, isQrCodeScan, isHome, transactionType));
       update();
     });
   }
 
   Future stopLiveFeed() async {
-
-    try{
-      try{
+    try {
+      try {
         await controller.stopImageStream();
-      }catch(e) {
+      } catch (e) {
         debugPrint(e.toString());
       }
 
       await controller.dispose();
       valueInitialize(_fromEditProfile);
-    }catch(e){
+    } catch (e) {
       debugPrint('error is : $e');
     }
   }
 
-  Future _processCameraImage(CameraImage image, isQrCodeScan, bool isHome, String transactionType) async {
+  Future _processCameraImage(CameraImage image, isQrCodeScan, bool isHome,
+      String transactionType) async {
     final WriteBuffer allBytes = WriteBuffer();
     for (final Plane plane in image.planes) {
       allBytes.putUint8List(plane.bytes);
@@ -84,18 +89,19 @@ class CameraScreenController extends GetxController implements GetxService{
     final bytes = allBytes.done().buffer.asUint8List();
 
     final Size imageSize =
-    Size(image.width.toDouble(), image.height.toDouble());
+        Size(image.width.toDouble(), image.height.toDouble());
 
     final camera = cameras[1];
     final imageRotation =
-    InputImageRotationValue.fromRawValue(camera.sensorOrientation);
+        InputImageRotationValue.fromRawValue(camera.sensorOrientation);
     if (imageRotation == null) return;
 
     final inputImageFormat =
-    InputImageFormatValue.fromRawValue(image.format.raw);
+        InputImageFormatValue.fromRawValue(image.format.raw);
     if (inputImageFormat == null) return;
 
-    final planeData = image.planes.map((Plane plane) {
+    final planeData = image.planes.map(
+      (Plane plane) {
         return InputImagePlaneMetadata(
           bytesPerRow: plane.bytesPerRow,
           height: plane.height,
@@ -111,11 +117,13 @@ class CameraScreenController extends GetxController implements GetxService{
       planeData: planeData,
     );
 
-    final inputImage = InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
+    final inputImage =
+        InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
-    if(isQrCodeScan) {
-      Get.find<QrCodeScannerController>().processImage(inputImage, isHome, transactionType);
-    }else{
+    if (isQrCodeScan) {
+      Get.find<QrCodeScannerController>()
+          .processImage(inputImage, isHome, transactionType);
+    } else {
       processImage(inputImage);
     }
   }
@@ -134,29 +142,28 @@ class CameraScreenController extends GetxController implements GetxService{
     _isBusy = true;
     final faces = await _faceDetector.processImage(inputImage);
     debugPrint('eye Blink count is : $_eyeBlink');
-    try{
-      if(faces.length < 2) {
-        debugPrint('face detect eye : ${faces[0].rightEyeOpenProbability} || ${faces[0].leftEyeOpenProbability}');
-        if(faces[0].rightEyeOpenProbability! < 0.1 && faces[0].leftEyeOpenProbability! < 0.1 && _eyeBlink < 3) {
+    try {
+      if (faces.length < 2) {
+        debugPrint(
+            'face detect eye : ${faces[0].rightEyeOpenProbability} || ${faces[0].leftEyeOpenProbability}');
+        if (faces[0].rightEyeOpenProbability! < 0.1 &&
+            faces[0].leftEyeOpenProbability! < 0.1 &&
+            _eyeBlink < 3) {
           _eyeBlink++;
         }
       }
-    }catch(e) {
+    } catch (e) {}
 
-    }
-
-    if(_eyeBlink == 3) {
-      try{
-        await controller.stopImageStream().then((value)async {
-          showAnimatedDialog(Get.context!,
-            const LoaderDialog(),
-              dismissible: false,
-              isFlip: true);
+    if (_eyeBlink == 3) {
+      try {
+        await controller.stopImageStream().then((value) async {
+          showAnimatedDialog(Get.context!, LoaderDialog(),
+              dismissible: false, isFlip: true);
           _faceDetector.close();
-          final XFile file =  await controller.takePicture();
-          _imageFile =  File(file.path);
+          final XFile file = await controller.takePicture();
+          _imageFile = File(file.path);
         });
-      }catch(e){
+      } catch (e) {
         debugPrint('error is $e');
       }
       final inputImage = InputImage.fromFilePath(_imageFile.path);
@@ -167,57 +174,55 @@ class CameraScreenController extends GetxController implements GetxService{
   }
 
   Future<void> processPicture(InputImage inputImage) async {
-
     bool hasHeadEulerAngleY = false;
     bool hasHeadEulerAngleZ = false;
     bool hasEyeOpen = false;
     final faces = await _faceDetector.processImage(inputImage);
-    try{
-      if(faces.length == 1) {
-        debugPrint('face is ${faces[0].headEulerAngleX} ${faces[0].headEulerAngleY} ${faces[0].headEulerAngleZ}');
-        if(faces[0].headEulerAngleY > -15 && faces[0].headEulerAngleY < 15){
+    try {
+      if (faces.length == 1) {
+        debugPrint(
+            'face is ${faces[0].headEulerAngleX} ${faces[0].headEulerAngleY} ${faces[0].headEulerAngleZ}');
+        if (faces[0].headEulerAngleY! > -15 && faces[0].headEulerAngleY! < 15) {
           hasHeadEulerAngleY = true;
         }
-        if(faces[0].headEulerAngleZ > -1 && faces[0].headEulerAngleZ < 6){
+        if (faces[0].headEulerAngleZ! > -1 && faces[0].headEulerAngleZ! < 6) {
           hasHeadEulerAngleZ = true;
         }
-        if(faces[0].rightEyeOpenProbability != null && faces[0].leftEyeOpenProbability != null) {
-          if(faces[0].rightEyeOpenProbability > 0.2 && faces[0].leftEyeOpenProbability > 0.2){
+        if (faces[0].rightEyeOpenProbability != null &&
+            faces[0].leftEyeOpenProbability != null) {
+          if (faces[0].rightEyeOpenProbability! > 0.2 &&
+              faces[0].leftEyeOpenProbability! > 0.2) {
             hasEyeOpen = true;
           }
         }
       }
-    }catch(e){
-
+    } catch (e) {
+      debugPrint(e.toString());
     }
 
-    if(hasEyeOpen || GetPlatform.isIOS) {
+    if (hasEyeOpen || GetPlatform.isIOS) {
       _isSuccess = 1;
       update();
       Future.delayed(const Duration(seconds: 1)).then((value) async {
         await _faceDetector.close();
         // stopLiveFeed();
         Get.back();
-        if(_fromEditProfile) {
+        if (_fromEditProfile) {
           Get.off(() => const EditProfileScreen());
-        }else{
+        } else {
           Get.off(() => const OtherInfoScreen());
         }
       });
-
-
-    }else{
+    } else {
       _isSuccess = 2;
       update();
     }
-
   }
+
   // camera
-  File _imageFile;
+  late File _imageFile;
 
-
-  void removeImage(){
-    _imageFile = null;
+  void removeImage() {
     update();
   }
 
@@ -226,25 +231,22 @@ class CameraScreenController extends GetxController implements GetxService{
       barrierDismissible: false,
       title: 'camera_permission'.tr,
       middleText: 'you_must_allow_permission_for_further_use'.tr,
-      confirm: TextButton(onPressed: () async{
-        Permission.camera.request().then((value) async{
-          var status = await Permission.camera.status;
-          if (status.isDenied) {
-            Get.back();
-            Permission.camera.request();
-
-          }
-          else if(status.isGranted){
-          }
-          else if(status.isPermanentlyDenied){
-            return showPermanentlyDeniedDialog(fromEditProfile: fromEditProfile);
-          }
-        });
-
-
-      }, child: Text('allow'.tr)),
+      confirm: TextButton(
+          onPressed: () async {
+            Permission.camera.request().then((value) async {
+              var status = await Permission.camera.status;
+              if (status.isDenied) {
+                Get.back();
+                Permission.camera.request();
+              } else if (status.isGranted) {
+              } else if (status.isPermanentlyDenied) {
+                return showPermanentlyDeniedDialog(
+                    fromEditProfile: fromEditProfile);
+              }
+            });
+          },
+          child: Text('allow'.tr)),
     );
-
   }
 
   void showPermanentlyDeniedDialog({required bool fromEditProfile}) {
@@ -252,40 +254,39 @@ class CameraScreenController extends GetxController implements GetxService{
         barrierDismissible: false,
         title: 'camera_permission'.tr,
         middleText: 'you_must_allow_permission_for_further_use'.tr,
-        confirm: TextButton(onPressed: () async {
-          final serviceStatus = await Permission.camera.status ;
-          if(serviceStatus.isGranted){
-            if(fromEditProfile == true){
-              Get.back();
-              Get.toNamed(RouteHelper.getSelfieRoute(fromEditProfile: fromEditProfile));
-            }
-            else{
-              Get.offNamed(RouteHelper.getSelfieRoute(fromEditProfile: fromEditProfile));
-            }
-          }
-          else{
-            await openAppSettings().then((value)async{
-              // final serviceStatus = await Permission.camera.status ;
-              if(serviceStatus.isGranted){
-                if(fromEditProfile == true){
+        confirm: TextButton(
+            onPressed: () async {
+              final serviceStatus = await Permission.camera.status;
+              if (serviceStatus.isGranted) {
+                if (fromEditProfile == true) {
                   Get.back();
-                  return Get.toNamed(RouteHelper.getSelfieRoute(fromEditProfile: fromEditProfile));
+                  Get.toNamed(RouteHelper.getSelfieRoute(
+                      fromEditProfile: fromEditProfile));
+                } else {
+                  Get.offNamed(RouteHelper.getSelfieRoute(
+                      fromEditProfile: fromEditProfile));
                 }
-                else{
-                  Get.back();
-                  return Get.offNamed(RouteHelper.getSelfieRoute(fromEditProfile: fromEditProfile));
-                }
+              } else {
+                await openAppSettings().then((value) async {
+                  // final serviceStatus = await Permission.camera.status ;
+                  if (serviceStatus.isGranted) {
+                    if (fromEditProfile == true) {
+                      Get.back();
+                      return Get.toNamed(RouteHelper.getSelfieRoute(
+                          fromEditProfile: fromEditProfile));
+                    } else {
+                      Get.back();
+                      return Get.offNamed(RouteHelper.getSelfieRoute(
+                          fromEditProfile: fromEditProfile));
+                    }
+                  } else {
+                    Get.back();
+                    showPermanentlyDeniedDialog(
+                        fromEditProfile: fromEditProfile);
+                  }
+                });
               }
-              else{
-                Get.back();
-                showPermanentlyDeniedDialog(fromEditProfile: fromEditProfile);
-              }
-            });
-          }
-
-        }, child: Text('go_to_settings'.tr))
-    );
+            },
+            child: Text('go_to_settings'.tr)));
   }
 }
-
-

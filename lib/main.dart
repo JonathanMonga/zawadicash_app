@@ -17,7 +17,7 @@ import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/messages.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-import 'helper/get_di.dart' as di;
+import 'package:zawadicash_app/helper/get_di.dart' as di;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
               theme: themeController.darkTheme ? dark : light,
               locale: localizeController.locale,
               translations: Messages(languages: languages),
-              fallbackLocale: Locale(AppConstants.languages[0].languageCode,
+              fallbackLocale: Locale(AppConstants.languages[0].languageCode!,
                   AppConstants.languages[0].countryCode),
               initialRoute: RouteHelper.getSplashRoute(),
               getPages: RouteHelper.routes,

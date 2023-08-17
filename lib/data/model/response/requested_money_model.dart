@@ -1,8 +1,8 @@
 class RequestedMoneyModel {
-  int totalSize;
-  int limit;
-  int offset;
-  List<RequestedMoney> requestedMoney;
+  int? totalSize;
+  int? limit;
+  int? offset;
+  List<RequestedMoney>? requestedMoney;
 
   RequestedMoneyModel(
       {this.totalSize, this.limit, this.offset, this.requestedMoney});
@@ -14,7 +14,7 @@ class RequestedMoneyModel {
     if (json['requested_money'] != null) {
       requestedMoney = <RequestedMoney>[];
       json['requested_money'].forEach((v) {
-        requestedMoney.add(RequestedMoney.fromJson(v));
+        requestedMoney!.add(RequestedMoney.fromJson(v));
       });
     }
   }
@@ -24,36 +24,34 @@ class RequestedMoneyModel {
     data['total_size'] = totalSize;
     data['limit'] = limit;
     data['offset'] = offset;
-    data['requested_money'] =
-        requestedMoney.map((v) => v.toJson()).toList();
+    data['requested_money'] = requestedMoney!.map((v) => v.toJson()).toList();
     return data;
   }
 }
 
 class RequestedMoney {
-  int id;
-  Sender sender;
-  Receiver receiver;
-  String type;
-  double amount;
-  String note;
-  String createdAt;
+  int? id;
+  Sender? sender;
+  Receiver? receiver;
+  String? type;
+  double? amount;
+  String? note;
+  String? createdAt;
 
   RequestedMoney(
       {this.id,
-        this.sender,
-        this.receiver,
-        this.type,
-        this.amount,
-        this.note,
-        this.createdAt});
+      this.sender,
+      this.receiver,
+      this.type,
+      this.amount,
+      this.note,
+      this.createdAt});
 
   RequestedMoney.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    sender =
-    json['sender'] != null ? Sender.fromJson(json['sender']) : null;
+    sender = json['sender'] != null ? Sender.fromJson(json['sender']) : null;
     receiver =
-    json['receiver'] != null ? Receiver.fromJson(json['receiver']) : null;
+        json['receiver'] != null ? Receiver.fromJson(json['receiver']) : null;
     // json['sender'] != null ? new Sender.fromJson(json['sender']) : 'User Unavailable';
     // receiver =
     // json['receiver'] != null ? new Receiver.fromJson(json['receiver']) : 'User Unavailable';
@@ -66,8 +64,8 @@ class RequestedMoney {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['sender'] = sender.toJson();
-    data['receiver'] = sender.toJson();
+    data['sender'] = sender!.toJson();
+    data['receiver'] = sender!.toJson();
     data['type'] = type;
     data['amount'] = amount;
     data['note'] = note;
@@ -77,8 +75,8 @@ class RequestedMoney {
 }
 
 class Sender {
-  String phone;
-  String name;
+  String? phone;
+  String? name;
 
   Sender({this.phone, this.name});
 
@@ -96,9 +94,10 @@ class Sender {
     return data;
   }
 }
+
 class Receiver {
-  String phone;
-  String name;
+  String? phone;
+  String? name;
 
   Receiver({this.phone, this.name});
 

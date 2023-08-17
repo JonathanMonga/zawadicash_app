@@ -1,15 +1,13 @@
-
-
 class SignUpBody {
-  String fName;
-  String lName;
-  String email;
-  String phone;
-  String password;
-  String otp;
-  String gender;
-  String occupation;
-  String dialCountryCode;
+  String? fName;
+  String? lName;
+  String? email;
+  String? phone;
+  String? password;
+  String? otp;
+  String? gender;
+  String? occupation;
+  String? dialCountryCode;
 
   SignUpBody({
     required this.fName,

@@ -1,6 +1,4 @@
-
 import 'dart:math';
-
 
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -14,12 +12,12 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     this.customPattern,
     this.turnOffGrouping = false,
   });
-  final String locale;
-  final String name;
-  final String symbol;
-  final int decimalDigits;
-  final String customPattern;
-  final bool turnOffGrouping;
+  final String? locale;
+  final String? name;
+  final String? symbol;
+  final int? decimalDigits;
+  final String? customPattern;
+  final bool? turnOffGrouping;
 
   num _newNum = 0;
   String _newString = '';
@@ -33,13 +31,13 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
       decimalDigits: decimalDigits,
       customPattern: customPattern,
     );
-    if (turnOffGrouping) {
+    if (turnOffGrouping!) {
       format.turnOffGrouping();
     }
 
     _newNum = num.tryParse(newText) ?? 0;
-    if (format.decimalDigits > 0) {
-      _newNum /= pow(10, format.decimalDigits);
+    if (format.decimalDigits! > 0) {
+      _newNum /= pow(10, format.decimalDigits!);
     }
     _newString = (_isNegative ? '-' : '') + format.format(_newNum).trim();
   }
@@ -80,12 +78,15 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     final String lastChar = text.substring(text.length - 1);
     return RegExp('[0-9]').hasMatch(lastChar);
   }
+
   String getFormattedValue() {
     return _newString;
   }
+
   num getUnformattedValue() {
     return _isNegative ? (_newNum * -1) : _newNum;
   }
+
   String format(String value) {
     _isNegative = value.startsWith('-');
     final String newText = value.replaceAll(RegExp('[^0-9]'), '');

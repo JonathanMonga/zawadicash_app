@@ -14,7 +14,7 @@ import 'package:zawadicash_app/view/screens/auth/other_info/widget/gender_view.d
 import 'package:zawadicash_app/view/screens/auth/other_info/widget/input_section.dart';
 
 class OtherInfoScreen extends StatefulWidget {
-  const OtherInfoScreen({Key key}) : super(key: key);
+  const OtherInfoScreen({Key? key}) : super(key: key);
 
   @override
   State<OtherInfoScreen> createState() => _OtherInfoScreenState();
@@ -34,7 +34,7 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
       child: Scaffold(
         appBar: CustomAppbar(
           title: 'information'.tr,
-          onTap: (){
+          onTap: () {
             _onWillPop(context);
           },
         ),
@@ -71,16 +71,19 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
                   backgroundColor: Theme.of(context).secondaryHeaderColor,
                   text: 'proceed'.tr,
                   onTap: () {
-                    if (fNameTextController.text == '' || lNameTextController.text == '') {
-                      showCustomSnackBar('first_name_or_last_name'.tr, isError: true);
-                    }
-                    else {
-                      if(emailTextController.text != ''){
-                        bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailTextController.text);
-                        if(!emailValid){
-                          showCustomSnackBar('please_provide_valid_email'.tr, isError: true);
-                        }
-                        else{
+                    if (fNameTextController.text == '' ||
+                        lNameTextController.text == '') {
+                      showCustomSnackBar('first_name_or_last_name'.tr,
+                          isError: true);
+                    } else {
+                      if (emailTextController.text != '') {
+                        bool emailValid = RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(emailTextController.text);
+                        if (!emailValid) {
+                          showCustomSnackBar('please_provide_valid_email'.tr,
+                              isError: true);
+                        } else {
                           Get.toNamed(RouteHelper.getPinSetRoute(
                             fName: fNameTextController.text,
                             lName: lNameTextController.text,
@@ -88,8 +91,7 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
                             occupation: occupationTextController.text,
                           ));
                         }
-                      }
-                      else{
+                      } else {
                         debugPrint('without email');
                         Get.toNamed(RouteHelper.getPinSetRoute(
                           fName: fNameTextController.text,
@@ -109,20 +111,24 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
     );
   }
 
-  Future _onWillPop(BuildContext context) async {
-    showAnimatedDialog(context, MyDialog(
-      icon: Icons.clear,
-      title: 'alert'.tr,
-      description: 'your_information_will_remove'.tr,
-      isFailed: true,
-      showTwoBtn: true,
-      onTap: (){
-        Get.find<CameraScreenController>().removeImage();
-        Get.find<AuthController>().change(0);
-        return Get.offAllNamed(RouteHelper.getChoseLoginRegRoute());
-        }),
+  Future<bool> _onWillPop(BuildContext context) async {
+    showAnimatedDialog(
+      context,
+      MyDialog(
+          icon: Icons.clear,
+          title: 'alert'.tr,
+          description: 'your_information_will_remove'.tr,
+          isFailed: true,
+          showTwoBtn: true,
+          onTap: () {
+            Get.find<CameraScreenController>().removeImage();
+            Get.find<AuthController>().change(0);
+            Get.offAllNamed(RouteHelper.getChoseLoginRegRoute());
+          }),
       dismissible: false,
       isFlip: true,
     );
+
+    return true;
   }
 }

@@ -17,33 +17,31 @@ import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_
 import 'package:zawadicash_app/view/screens/transaction_money/widget/animated_button.dart';
 
 class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarBase({Key key}) : super(key: key);
+  const AppBarBase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(
-      builder: (profileController) {
-        return Container(
-          color: Theme.of(context).primaryColor,
-
-
-          child: Container(
-            padding: const EdgeInsets.only(
-              top: 54, left: Dimensions.PADDING_SIZE_LARGE,
-              right: Dimensions.PADDING_SIZE_LARGE,
-              bottom: Dimensions.PADDING_SIZE_SMALL,
+    return GetBuilder<ProfileController>(builder: (profileController) {
+      return Container(
+        color: Theme.of(context).primaryColor,
+        child: Container(
+          padding: const EdgeInsets.only(
+            top: 54,
+            left: Dimensions.PADDING_SIZE_LARGE,
+            right: Dimensions.PADDING_SIZE_LARGE,
+            bottom: Dimensions.PADDING_SIZE_SMALL,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE),
             ),
-
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(children: [
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
                   GestureDetector(
                     onTap: () => Get.find<MenuController>().selectProfilePage(),
                     child: Container(
@@ -54,76 +52,82 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                       width: Dimensions.RADIUS_SIZE_OVER_LARGE,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: profileController.userInfo == null ? Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(Images.avatar,fit: BoxFit.cover),
-                          ),
-                        ) : CustomImage(
-                          image: '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${profileController.userInfo.image ?? ''}',
-                          fit: BoxFit.cover,
-                          placeholder: Images.avatar,
-                        ),
-
+                        child: profileController.userInfo == null
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset(Images.avatar,
+                                      fit: BoxFit.cover),
+                                ),
+                              )
+                            : CustomImage(
+                                image:
+                                    '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${profileController.userInfo.image ?? ''}',
+                                fit: BoxFit.cover,
+                                placeholder: Images.avatar,
+                              ),
                       ),
                     ),
                   ),
                   const SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-
                   Get.find<SplashController>().configModel.themeIndex == '1'
                       ? const ShowName()
-                      : ShowBalance(profileController:profileController),
-                ],),
+                      : ShowBalance(profileController: profileController),
+                ],
+              ),
 
-                // const Spacer(),
+              // const Spacer(),
 
-                Row(children: [
+              Row(
+                children: [
                   AnimatedButtonView(
-                    onTap: ()=> Get.to(()=> const TransactionMoneyBalanceInput(
-                    transactionType: TransactionType.WITHDRAW_REQUEST,
-                    )),
+                    onTap: () =>
+                        Get.to(() => const TransactionMoneyBalanceInput(
+                              transactionType: TransactionType.WITHDRAW_REQUEST,
+                            )),
                   ),
-
-                  const SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
-
-
+                  const SizedBox(
+                    width: Dimensions.PADDING_SIZE_SMALL,
+                  ),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(HeroDialogRoute(builder:(_) =>const QrPopupCard())),
-
+                    onTap: () => Navigator.of(context).push(
+                        HeroDialogRoute(builder: (_) => const QrPopupCard())),
                     child: Hero(
                       tag: Get.find<HomeController>().heroShowQr,
-                      createRectTween: (begin, end) => CustomRectTween(begin: begin, end: end),
-
+                      createRectTween: (begin, end) =>
+                          CustomRectTween(begin: begin!, end: end!),
                       child: Container(
                         width: Get.width * 0.11,
                         height: Get.width * 0.11,
                         padding: EdgeInsets.all(Get.width * 0.025),
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Theme.of(context).cardColor,
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).cardColor,
                         ),
-                        child: profileController.userInfo != null ? SvgPicture.string(
-                          profileController.userInfo.qrCode,
-                          height: Dimensions.PADDING_SIZE_LARGE,
-                          width: Dimensions.PADDING_SIZE_LARGE,
-                        ) :
-                        SizedBox(
-                          height: Dimensions.PADDING_SIZE_LARGE,
-                          width: Dimensions.PADDING_SIZE_LARGE,
-                          child: Image.asset(Images.qrCode),
-                        ),
+                        child: profileController.userInfo == null
+                            ? SvgPicture.string(
+                                profileController.userInfo.qrCode,
+                                height: Dimensions.PADDING_SIZE_LARGE,
+                                width: Dimensions.PADDING_SIZE_LARGE,
+                              )
+                            : SizedBox(
+                                height: Dimensions.PADDING_SIZE_LARGE,
+                                width: Dimensions.PADDING_SIZE_LARGE,
+                                child: Image.asset(Images.qrCode),
+                              ),
                       ),
                     ),
                   ),
-                ],)
-              ],
-            ),
+                ],
+              )
+            ],
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 
   @override

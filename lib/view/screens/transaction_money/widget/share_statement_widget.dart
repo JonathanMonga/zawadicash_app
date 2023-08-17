@@ -14,12 +14,12 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
 
 class ShareStatementWidget extends StatefulWidget {
-  final String amount;
-  final String transactionType;
-  final ContactModel contactModel;
-  final String charge;
-  final String trxId;
-  const ShareStatementWidget({Key key,required this.amount, required this.transactionType, required this.contactModel,required this.charge,required this.trxId}) : super(key: key);
+  final String? amount;
+  final String? transactionType;
+  final ContactModel? contactModel;
+  final String? charge;
+  final String? trxId;
+  const ShareStatementWidget({Key? key,required this.amount, required this.transactionType, required this.contactModel,required this.charge,required this.trxId}) : super(key: key);
 
   @override
   State<ShareStatementWidget> createState() => ShareStatementWidgetState();

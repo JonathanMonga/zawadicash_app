@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class CustomGenderCard extends StatelessWidget {
-  final String icon, text;
-  final Color color;
-  final Function onTap;
-  const CustomGenderCard({super.key, this.icon, this.text, this.color,this.onTap});
+  final String? icon, text;
+  final Color? color;
+  final OnTapFunction? onTap;
+  const CustomGenderCard(
+      {super.key, this.icon, this.text, this.color, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +28,15 @@ class CustomGenderCard extends StatelessWidget {
             SizedBox(
               height: 30,
               width: 30,
-              child: Image.asset(icon),
+              child: Image.asset(icon!),
             ),
             const SizedBox(
               height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
             ),
             Text(
-              text,
+              text!,
               style: rubikRegular.copyWith(
-                color: Theme.of(context).textTheme.bodyLarge.color,
+                color: Theme.of(context).textTheme.bodyLarge!.color,
                 fontSize: Dimensions.FONT_SIZE_DEFAULT,
               ),
             ),

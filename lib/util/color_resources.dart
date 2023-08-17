@@ -60,7 +60,7 @@ class ColorResources {
 
   static Color getLightAndDark() {
     return Get.isDarkMode
-        ? Theme.of(Get.context).cardColor
+        ? Theme.of(Get.context!).cardColor
         : const Color(0xFF000000);
   }
 

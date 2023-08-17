@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final errorBody = errorBodyFromJson(jsonString);
-
 import 'dart:convert';
 
 ErrorBody errorBodyFromJson(String str) => ErrorBody.fromJson(json.decode(str));
@@ -13,15 +9,15 @@ class ErrorBody {
     this.errors,
   });
 
-  List<Error> errors;
+  List<Error>? errors;
 
   factory ErrorBody.fromJson(Map<String, dynamic> json) => ErrorBody(
-    errors: List<Error>.from(json["errors"].map((x) => Error.fromJson(x))),
-  );
+        errors: List<Error>.from(json["errors"].map((x) => Error.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "errors": List<dynamic>.from(errors.map((x) => x.toJson())),
-  };
+        "errors": List<dynamic>.from(errors!.map((x) => x.toJson())),
+      };
 }
 
 class Error {
@@ -30,16 +26,16 @@ class Error {
     this.message,
   });
 
-  String code;
-  String message;
+  String? code;
+  String? message;
 
   factory Error.fromJson(Map<String, dynamic> json) => Error(
-    code: json["code"],
-    message: json["message"],
-  );
+        code: json["code"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-  };
+        "code": code,
+        "message": message,
+      };
 }

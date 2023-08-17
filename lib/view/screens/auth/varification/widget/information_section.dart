@@ -1,4 +1,3 @@
-
 import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
@@ -9,7 +8,7 @@ import 'package:get/get.dart';
 
 class InformationSection extends StatelessWidget {
   const InformationSection({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -26,7 +25,7 @@ class InformationSection extends StatelessWidget {
           child: Text(
             'phone_number_verification'.tr,
             style: rubikMedium.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge.color,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
               fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
             ),
             textAlign: TextAlign.center,
@@ -38,7 +37,7 @@ class InformationSection extends StatelessWidget {
           child: Text(
             'we_have_send_the_code'.tr,
             style: rubikLight.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge.color,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
               fontSize: Dimensions.FONT_SIZE_LARGE,
             ),
             textAlign: TextAlign.center,
@@ -53,7 +52,7 @@ class InformationSection extends StatelessWidget {
             Text(
               controller.phoneNumber,
               style: rubikRegular.copyWith(
-                color: Theme.of(context).textTheme.bodyLarge.color,
+                color: Theme.of(context).textTheme.bodyLarge!.color,
                 fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
               ),
               textAlign: TextAlign.center,
@@ -76,7 +75,7 @@ class InformationSection extends StatelessWidget {
                 '(${'change_number'.tr})',
                 style: rubikRegular.copyWith(
                   decoration: TextDecoration.underline,
-                  color: Theme.of(context).textTheme.bodyLarge.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                   fontSize: Dimensions.FONT_SIZE_DEFAULT,
                 ),
                 textAlign: TextAlign.center,

@@ -1,15 +1,16 @@
-
 import 'package:flutter/material.dart';
+import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class CustomSmallButton extends StatelessWidget {
-  final String text;
-  final Function onTap;
-  final Color backgroundColor;
+  final String? text;
+  final OnTapFunction onTap;
+  final Color? backgroundColor;
   final Color textColor;
   final double textSize;
-  const CustomSmallButton({super.key, 
+  const CustomSmallButton({
+    super.key,
     this.backgroundColor,
     required this.onTap,
     this.text,
@@ -29,8 +30,8 @@ class CustomSmallButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
         ),
       ),
-      child:  Text(
-        text,
+      child: Text(
+        text!,
         style: rubikRegular.copyWith(
           color: textColor,
           fontSize: textSize,

@@ -6,13 +6,13 @@ import 'package:zawadicash_app/view/base/custom_password_field.dart';
 
 class PinView extends StatelessWidget {
   final TextEditingController passController, confirmPassController;
-   PinView({
-     Key key,
-     required this.passController,
-     required this.confirmPassController
-   }) : super(key: key);
+  PinView(
+      {Key? key,
+      required this.passController,
+      required this.confirmPassController})
+      : super(key: key);
 
-   final FocusNode confirmFocus = FocusNode();
+  final FocusNode confirmFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class PinView extends StatelessWidget {
                 'set_your_4_digit'.tr,
                 textAlign: TextAlign.center,
                 style: rubikMedium.copyWith(
-                  color: Theme.of(context).textTheme.titleLarge.color,
+                  color: Theme.of(context).textTheme.titleLarge!.color,
                   fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
                 ),
               ),
@@ -55,7 +55,6 @@ class PinView extends StatelessWidget {
               isIcon: false,
               hint: 'set_your_pin'.tr,
               letterSpacing: 10.0,
-
             ),
             const SizedBox(
               height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
@@ -68,9 +67,7 @@ class PinView extends StatelessWidget {
               isPassword: true,
               isIcon: false,
               letterSpacing: 10.0,
-
             ),
-
           ],
         ),
       ),

@@ -1,14 +1,13 @@
 class WebsiteLinkModel {
+  String? name;
+  String? image;
+  String? url;
 
-  String name;
-  String image;
-  String url;
-
-  WebsiteLinkModel(
-      {
-        this.name,
-        this.image,
-        this.url,});
+  WebsiteLinkModel({
+    this.name,
+    this.image,
+    this.url,
+  });
 
   WebsiteLinkModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];

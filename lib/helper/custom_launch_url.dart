@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:get/get.dart';
+
 class CustomLaunchUrl {
-  static void launchURL({String url}) async {
+  static void launchURL({String? url}) async {
     try {
       await launch(
-        url,
+        url!,
         customTabsOption: CustomTabsOption(
-          toolbarColor: Theme.of(Get.context).primaryColor,
+          toolbarColor: Theme.of(Get.context!).primaryColor,
           enableDefaultShare: true,
           enableUrlBarHiding: true,
           showPageTitle: true,
@@ -19,7 +20,7 @@ class CustomLaunchUrl {
           ],
         ),
         safariVCOption: SafariViewControllerOption(
-          preferredBarTintColor: Theme.of(Get.context).primaryColor,
+          preferredBarTintColor: Theme.of(Get.context!).primaryColor,
           preferredControlTintColor: Colors.white,
           barCollapsingEnabled: true,
           entersReaderIfAvailable: false,

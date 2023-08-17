@@ -7,27 +7,25 @@ import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
 
-class QrCodeScannerController extends GetxController implements GetxService{
-
+class QrCodeScannerController extends GetxController implements GetxService {
   final bool _canProcess = true;
   bool _isBusy = false;
   bool _isDetect = false;
 
-  String _name;
-  String _phone;
-  String _type;
-  String _image;
+  String? _name;
+  String? _phone;
+  String? _type;
+  String? _image;
 
-  String get name => _name;
-  String get phone => _phone;
-  String get type => _type;
-  String get image => _image;
-  String _transactionType;
-  String get transactionType => _transactionType;
+  String get name => _name!;
+  String get phone => _phone!;
+  String get type => _type!;
+  String get image => _image!;
+  String? _transactionType;
+  String get transactionType => _transactionType!;
 
-
-
-  Future<void> processImage(InputImage inputImage,  bool isHome, String transactionType) async {
+  Future<void> processImage(
+      InputImage inputImage, bool isHome, String transactionType) async {
     debugPrint('transaction type : $_transactionType');
     final BarcodeScanner barcodeScanner = BarcodeScanner();
     if (!_canProcess) return;
@@ -39,20 +37,22 @@ class QrCodeScannerController extends GetxController implements GetxService{
         inputImage.inputImageData?.imageRotation != null) {
       for (final barcode in barcodes) {
         debugPrint('barcode row value : ${barcode.rawValue}');
-        _name = jsonDecode(barcode.rawValue)['name'];
-        _phone = jsonDecode(barcode.rawValue)['phone'];
-        _type = jsonDecode(barcode.rawValue)['type'];
-        _image = jsonDecode(barcode.rawValue)['image'];
-        if(_type == "customer"){
+        _name = jsonDecode(barcode.rawValue!)['name'];
+        _phone = jsonDecode(barcode.rawValue!)['phone'];
+        _type = jsonDecode(barcode.rawValue!)['type'];
+        _image = jsonDecode(barcode.rawValue!)['image'];
+        if (_type == "customer") {
           _transactionType = transactionType;
-        }else if(_type == "agent"){
+        } else if (_type == "agent") {
           _transactionType = "cash_out";
         }
-        if(isHome && _type != "agent"){
-          if(!_isDetect) {
+        if (isHome && _type != "agent") {
+          if (!_isDetect) {
             Get.defaultDialog(
               title: 'select_a_transaction'.tr,
-              content: TransactionSelect(contactModel: ContactModel(phoneNumber: _phone, name: _name,avatarImage: _image)),
+              content: TransactionSelect(
+                  contactModel: ContactModel(
+                      phoneNumber: _phone, name: _name, avatarImage: _image)),
               barrierDismissible: false,
               radius: Dimensions.RADIUS_SIZE_DEFAULT,
             ).then((value) {
@@ -60,22 +60,21 @@ class QrCodeScannerController extends GetxController implements GetxService{
             });
           }
           _isDetect = true;
-
-        }else {
-          Get.to(()=>  TransactionMoneyBalanceInput(transactionType: _transactionType,contactModel: ContactModel(phoneNumber: _phone, name: _name,avatarImage: _image)));
+        } else {
+          Get.to(() => TransactionMoneyBalanceInput(
+              transactionType: _transactionType,
+              contactModel: ContactModel(
+                  phoneNumber: _phone, name: _name, avatarImage: _image)));
         }
       }
-
-    } else {
-    }
+    } else {}
     _isBusy = false;
   }
-
 }
 
 class TransactionSelect extends StatelessWidget {
-  final ContactModel contactModel;
-  const TransactionSelect({Key key, this.contactModel}) : super(key: key);
+  final ContactModel? contactModel;
+  const TransactionSelect({Key? key, this.contactModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +82,16 @@ class TransactionSelect extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ListTile(title: Text('send_money'.tr), minVerticalPadding: 0,
-          onTap: () =>  Get.off(()=>  TransactionMoneyBalanceInput(transactionType: 'send_money',contactModel: contactModel))),
-
-        ListTile(title: Text('request_money'.tr), minVerticalPadding: 0,
-          onTap: () =>  Get.off(()=>  TransactionMoneyBalanceInput(transactionType: 'request_money',contactModel: contactModel))),
+        ListTile(
+            title: Text('send_money'.tr),
+            minVerticalPadding: 0,
+            onTap: () => Get.off(() => TransactionMoneyBalanceInput(
+                transactionType: 'send_money', contactModel: contactModel))),
+        ListTile(
+            title: Text('request_money'.tr),
+            minVerticalPadding: 0,
+            onTap: () => Get.off(() => TransactionMoneyBalanceInput(
+                transactionType: 'request_money', contactModel: contactModel))),
       ],
     );
   }

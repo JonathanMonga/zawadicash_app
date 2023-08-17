@@ -9,16 +9,17 @@ class FaqController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<HelpTopic> _helpTopics;
+  late List<HelpTopic> _helpTopics;
   List<HelpTopic> get helpTopics => _helpTopics;
 
-
-  Future getFaqList() async{
+  Future getFaqList() async {
     _isLoading = true;
     _helpTopics = [];
     Response response = await faqrepo.getFaqList();
-    if(response.body != null && response.body != {} && response.statusCode == 200){
-      _helpTopics =   FaqModel.fromJson(response.body).helpTopics;
+    if (response.body != null &&
+        response.body != {} &&
+        response.statusCode == 200) {
+      _helpTopics = FaqModel.fromJson(response.body).helpTopics!;
       _isLoading = false;
       update();
     }

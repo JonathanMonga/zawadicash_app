@@ -1,8 +1,8 @@
 class NotificationModel {
-  int totalSize;
-  int limit;
-  int offset;
-  List<Notifications> notifications;
+  int? totalSize;
+  int? limit;
+  int? offset;
+  List<Notifications>? notifications;
 
   NotificationModel(
       {this.totalSize, this.limit, this.offset, this.notifications});
@@ -14,7 +14,7 @@ class NotificationModel {
     if (json['notifications'] != null) {
       notifications = <Notifications>[];
       json['notifications'].forEach((v) {
-        notifications.add(Notifications.fromJson(v));
+        notifications!.add(Notifications.fromJson(v));
       });
     }
   }
@@ -24,29 +24,28 @@ class NotificationModel {
     data['total_size'] = totalSize;
     data['limit'] = limit;
     data['offset'] = offset;
-    data['notifications'] =
-        notifications.map((v) => v.toJson()).toList();
+    data['notifications'] = notifications!.map((v) => v.toJson()).toList();
     return data;
   }
 }
 
 class Notifications {
-  int id;
-  String title;
-  String description;
-  String image;
-  int status;
-  String createdAt;
-  String receiver;
+  int? id;
+  String? title;
+  String? description;
+  String? image;
+  int? status;
+  String? createdAt;
+  String? receiver;
 
   Notifications(
       {this.id,
-        this.title,
-        this.description,
-        this.image,
-        this.status,
-        this.createdAt,
-        this.receiver});
+      this.title,
+      this.description,
+      this.image,
+      this.status,
+      this.createdAt,
+      this.receiver});
 
   Notifications.fromJson(Map<String, dynamic> json) {
     id = json['id'];

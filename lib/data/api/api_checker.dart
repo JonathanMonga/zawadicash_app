@@ -9,7 +9,7 @@ class ApiChecker {
   static void checkApi(Response response) {
 
     if(response.statusCode == 401) {
-      if(Get.currentRoute != RouteHelper.login_screen) {
+      if(Get.currentRoute != RouteHelper.loginScreen) {
         Get.find<AuthController>().removeCustomerToken();
         Get.offAllNamed(
           RouteHelper.getLoginRoute(
@@ -36,7 +36,7 @@ class ApiChecker {
 
     }
     else {
-      showCustomSnackBar(response.body['message'] ?? ErrorBody.fromJson(response.body).errors.first.message ?? '', isError: true);
+      showCustomSnackBar(response.body['message'] ?? ErrorBody.fromJson(response.body).errors!.first.message ?? '', isError: true);
     }
   }
 

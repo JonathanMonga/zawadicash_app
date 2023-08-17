@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'custom_rect_tween.dart';
 
 class QrPopupCard extends StatelessWidget {
-  const QrPopupCard({Key key}) : super(key: key);
+  const QrPopupCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class QrPopupCard extends StatelessWidget {
         child: Hero(
           tag: Get.find<HomeController>().heroShowQr,
           createRectTween: (begin, end) {
-            return CustomRectTween(begin: begin, end: end);
+            return CustomRectTween(begin: begin!, end: end!);
           },
           child: Material(
             color: Colors.white,
