@@ -50,9 +50,11 @@ import 'package:unique_identifier/unique_identifier.dart';
 import 'package:zawadicash_app/data/repository/kyc_verify_repo.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
+
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
   final BaseDeviceInfo deviceInfo = await DeviceInfoPlugin().deviceInfo;
+
   Get.lazyPut(() => sharedPreferences);
   Get.lazyPut(() => deviceInfo);
   String? uniqueId;
@@ -135,5 +137,6 @@ Future<Map<String, Map<String, String>>> init() async {
     languages['${languageModel.languageCode}_${languageModel.countryCode}'] =
         json;
   }
+
   return languages;
 }

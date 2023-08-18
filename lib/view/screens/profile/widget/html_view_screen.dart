@@ -7,6 +7,7 @@ import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 class HtmlViewScreen extends StatelessWidget {
   final String title;
   final String url;
+
   const HtmlViewScreen({super.key, required this.url, required this.title});
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class HtmlViewScreen extends StatelessWidget {
         child: Column(
           children: [
             Html(
-              data: url ?? '',
+              data: url,
             ),
           ],
         ),

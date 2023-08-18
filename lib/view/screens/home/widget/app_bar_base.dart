@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:zawadicash_app/controller/home_controller.dart';
 import 'package:zawadicash_app/controller/menus_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class TransactionType{
   static const String  SEND_MONEY = 'send_money';
   static const String  ADD_MONEY = 'add_money';

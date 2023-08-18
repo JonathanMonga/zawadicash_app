@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/config_model.dart';
 import 'package:zawadicash_app/data/repository/splash_repo.dart';
+import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class SplashController extends GetxController implements GetxService {
   late final SplashRepo splashRepo;
@@ -24,7 +25,7 @@ class SplashController extends GetxController implements GetxService {
   bool get isVpn => _isVpn;
 
   Future<Response> getConfigData() async {
-    Response _response = await splashRepo!.getConfigData();
+    Response _response = await splashRepo.getConfigData();
     if (_response.statusCode == 200) {
       _configModel = ConfigModel.fromJson(_response.body);
     } else {
@@ -36,11 +37,11 @@ class SplashController extends GetxController implements GetxService {
   }
 
   Future<bool> initSharedData() {
-    return splashRepo!.initSharedData();
+    return splashRepo.initSharedData();
   }
 
   Future<bool> removeSharedData() {
-    return splashRepo!.removeSharedData();
+    return splashRepo.removeSharedData();
   }
 
   bool isRestaurantClosed() {
@@ -73,9 +74,9 @@ class SplashController extends GetxController implements GetxService {
 
   Future<bool> checkVpn() async {
     _isVpn = await ApiChecker.isVpnActive();
-    // if(_isVpn) {
-    //   showCustomSnackBar('you are using vpn', isVpn: true, duration: Duration(minutes: 10));
-    // }
+    if(_isVpn) {
+       showCustomSnackBar('you are using vpn', isVpn: true, duration: Duration(minutes: 10));
+     }
     return _isVpn;
   }
 }

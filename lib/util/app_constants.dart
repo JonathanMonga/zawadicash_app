@@ -1,41 +1,52 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/response/language_model.dart';
 import 'package:zawadicash_app/data/model/response/on_boarding_model.dart';
 
-import 'images.dart';
+import 'package:zawadicash_app/util/images.dart';
 
 class AppConstants {
-  static const String APP_NAME = 'TestCash';
-  //demo
-  static const String BASE_URL = 'https://6cash-admin.6amtech.com';
-  //
-  // static const String BASE_URL = 'https://6cash-admin.6am.one';
-  // //fun
-  // static const String BASE_URL = 'https://6cash-admin.6am.fun';
-  static const bool DEMO = true;
-   static const double APP_VERSION = 2.1;
+  static const String APP_NAME = 'Zawadicash wallet';
 
-  static const String CUSTOMER_PHONE_CHECK_URI = '/api/v1/customer/auth/check-phone';
-  static const String CUSTOMER_PHONE_RESEND_OTP_URI = '/api/v1/customer/auth/resend-otp';
-  static const String CUSTOMER_PHONE_VERIFY_URI = '/api/v1/customer/auth/verify-phone';
-  static const String CUSTOMER_REGISTRATION_URI = '/api/v1/customer/auth/register';
-  static const String CUSTOMER_UPDATE_PROFILE = '/api/v1/customer/update-profile';
+  static const String BASE_URL = 'https://zawadicashwallet2-jmonga98.b4a.run/';
+
+  static const bool DEMO = true;
+  static const double APP_VERSION = 14082023;
+
+  static const String CUSTOMER_PHONE_CHECK_URI =
+      '/api/v1/customer/auth/check-phone';
+  static const String CUSTOMER_PHONE_RESEND_OTP_URI =
+      '/api/v1/customer/auth/resend-otp';
+  static const String CUSTOMER_PHONE_VERIFY_URI =
+      '/api/v1/customer/auth/verify-phone';
+  static const String CUSTOMER_REGISTRATION_URI =
+      '/api/v1/customer/auth/register';
+  static const String CUSTOMER_UPDATE_PROFILE =
+      '/api/v1/customer/update-profile';
   static const String CUSTOMER_LOGIN_URI = '/api/v1/customer/auth/login';
   static const String CUSTOMER_LOGOUT_URI = '/api/v1/customer/logout';
-  static const String CUSTOMER_FORGET_PASS_OTP_URI = '/api/v1/customer/auth/forgot-password';
-  static const String CUSTOMER_FORGET_PASS_VERIFICATION = '/api/v1/customer/auth/verify-token';
-  static const String CUSTOMER_FORGET_PASS_RESET = '/api/v1/customer/auth/reset-password';
-  static const String CUSTOMER_LINKED_WEBSITE= '/api/v1/customer/linked-website';
-  static const String CUSTOMER_BANNER= '/api/v1/customer/get-banner';
-  static const String CUSTOMER_TRANSACTION_HISTORY= '/api/v1/customer/transaction-history';
+  static const String CUSTOMER_FORGET_PASS_OTP_URI =
+      '/api/v1/customer/auth/forgot-password';
+  static const String CUSTOMER_FORGET_PASS_VERIFICATION =
+      '/api/v1/customer/auth/verify-token';
+  static const String CUSTOMER_FORGET_PASS_RESET =
+      '/api/v1/customer/auth/reset-password';
+  static const String CUSTOMER_LINKED_WEBSITE =
+      '/api/v1/customer/linked-website';
+  static const String CUSTOMER_BANNER = '/api/v1/customer/get-banner';
+  static const String CUSTOMER_TRANSACTION_HISTORY =
+      '/api/v1/customer/transaction-history';
   static const String CUSTOMER_PURPOSE_URL = '/api/v1/customer/get-purpose';
   static const String CONFIG_URI = '/api/v1/config';
-  static const String IMAGE_CONFIG_URL_API_NEED = '/storage/app/public/purpose/';
+  static const String IMAGE_CONFIG_URL_API_NEED =
+      '/storage/app/public/purpose/';
   static const String CUSTOMER_PROFILE_INFO = '/api/v1/customer/get-customer';
   static const String CUSTOMER_CHECK_OTP = '/api/v1/customer/check-otp';
   static const String CUSTOMER_VERIFY_OTP = '/api/v1/customer/verify-otp';
   static const String CUSTOMER_CHANGE_PIN = '/api/v1/customer/change-pin';
-  static const String CUSTOMER_UPDATE_TWO_FACTOR = '/api/v1/customer/update-two-factor';
+  static const String CUSTOMER_UPDATE_TWO_FACTOR =
+      '/api/v1/customer/update-two-factor';
   static const String CUSTOMER_SEND_MONEY = '/api/v1/customer/send-money';
   static const String CUSTOMER_REQUEST_MONEY = '/api/v1/customer/request-money';
   static const String CUSTOMER_CASH_OUT = '/api/v1/customer/cash-out';
@@ -43,25 +54,33 @@ class AppConstants {
   static const String CUSTOMER_ADD_MONEY = '/api/v1/customer/add-money';
   static const String FAQ_URI = '/api/v1/faq';
   static const String NOTIFICATION_URI = '/api/v1/customer/get-notification';
-  static const String TRANSACTION_HISTORY_URI = '/api/v1/customer/transaction-history';
-  static const String REQUESTED_MONEY_URI = '/api/v1/customer/get-requested-money';
-  static const String ACCEPTED_REQUESTED_MONEY_URI = '/api/v1/customer/request-money/approve';
-  static const String DENIED_REQUESTED_MONEY_URI = '/api/v1/customer/request-money/deny';
+  static const String TRANSACTION_HISTORY_URI =
+      '/api/v1/customer/transaction-history';
+  static const String REQUESTED_MONEY_URI =
+      '/api/v1/customer/get-requested-money';
+  static const String ACCEPTED_REQUESTED_MONEY_URI =
+      '/api/v1/customer/request-money/approve';
+  static const String DENIED_REQUESTED_MONEY_URI =
+      '/api/v1/customer/request-money/deny';
   static const String TOKEN_URI = '/api/v1/customer/update-fcm-token';
   static const String CHECK_CUSTOMER_URI = '/api/v1/check-customer';
   static const String CHECK_AGENT_URI = '/api/v1/check-agent';
-  static const String WON_REQUESTED_MONEY = '/api/v1/customer/get-own-requested-money';
+  static const String WON_REQUESTED_MONEY =
+      '/api/v1/customer/get-own-requested-money';
   static const String CUSTOMER_REMOVE = '/api/v1/customer/remove-account';
-  static const String UPDATE_KYC_INFORMATION = '/api/v1/customer/update-kyc-information';
-  static const String WITHDRAW_METHOD_LIST = '/api/v1/customer/withdrawal-methods';
+  static const String UPDATE_KYC_INFORMATION =
+      '/api/v1/customer/update-kyc-information';
+  static const String WITHDRAW_METHOD_LIST =
+      '/api/v1/customer/withdrawal-methods';
   static const String WITHDRAW_REQUEST = '/api/v1/customer/withdraw';
-  static const String GET_WITHDRAWAL_REQUEST = '/api/v1/customer/withdrawal-requests';
-
+  static const String GET_WITHDRAWAL_REQUEST =
+      '/api/v1/customer/withdrawal-requests';
 
   // Shared Key
   static const String THEME = 'theme';
   static const String TOKEN = 'token';
-  static const String CUSTOMER_COUNTRY_CODE = 'customer_country_code';//not in project
+  static const String CUSTOMER_COUNTRY_CODE =
+      'customer_country_code'; //not in project
   static const String LANGUAGE_CODE = 'language_code';
   static const String CART_LIST = 'cart_list';
   static const String USER_PASSWORD = 'user_password';
@@ -94,7 +113,6 @@ class AppConstants {
   static const String BIOMETRIC_PIN = 'biometric';
   static const String CONTACT_PERMISSION = '';
 
-
   //topic
   static const String ALL = 'all';
   static const String USERS = 'customers';
@@ -108,14 +126,24 @@ class AppConstants {
   static const int BALANCE_INPUT_LEN = 10;
 
   static List<LanguageModel> languages = [
-    LanguageModel(imageUrl: Images.english, languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    LanguageModel(imageUrl: Images.saudi, languageName: 'Arabic', countryCode: 'SA', languageCode: 'ar'),
-
+    LanguageModel(
+        imageUrl: Images.english,
+        languageName: 'English',
+        countryCode: 'US',
+        languageCode: 'en'),
+    LanguageModel(
+        imageUrl: Images.saudi,
+        languageName: 'Arabic',
+        countryCode: 'SA',
+        languageCode: 'ar'),
   ];
 
-  static  List<OnboardModel> onboardList = [
-    OnboardModel(Images.onboard_image_1, Images.onboard_background_1, 'on_boarding_title_1'.tr, 'on_boarding_sub_title_1'.tr),
-    OnboardModel(Images.onboard_image_2, Images.onboard_background_2, 'on_boarding_title_2'.tr, 'on_boarding_sub_title_2'.tr),
-    OnboardModel(Images.onboard_image_3, Images.onboard_background_3, 'on_boarding_title_3'.tr, 'on_boarding_sub_title_3'.tr),
+  static List<OnboardModel> onboardList = [
+    OnboardModel(Images.onboard_image_1, Images.onboard_background_1,
+        'on_boarding_title_1'.tr, 'on_boarding_sub_title_1'.tr),
+    OnboardModel(Images.onboard_image_2, Images.onboard_background_2,
+        'on_boarding_title_2'.tr, 'on_boarding_sub_title_2'.tr),
+    OnboardModel(Images.onboard_image_3, Images.onboard_background_3,
+        'on_boarding_title_3'.tr, 'on_boarding_sub_title_3'.tr),
   ];
 }

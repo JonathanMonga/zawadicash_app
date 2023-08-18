@@ -45,32 +45,27 @@ class UnicornOutlineButton extends StatelessWidget {
 }
 
 class _GradientPainter extends CustomPainter {
-  final Paint _paint = Paint();
-  final double radius;
-  final double strokeWidth;
-  final Gradient gradient;
+  final Paint? _paint = Paint();
+  final double? radius;
+  final double? strokeWidth;
+  final Gradient? gradient;
   _GradientPainter(
-      {required double strokeWidth,
-      required double radius,
-      required Gradient gradient})
-      : strokeWidth = strokeWidth,
-        radius = radius,
-        gradient = gradient;
+      {this.strokeWidth, required double this.radius, required Gradient this.gradient});
 
   @override
   void paint(Canvas canvas, Size size) {
     Rect outerRect = Offset.zero & size;
     var outerRRect =
-        RRect.fromRectAndRadius(outerRect, Radius.circular(radius));
-    Rect innerRect = Rect.fromLTWH(strokeWidth, strokeWidth,
-        size.width - strokeWidth * 2, size.height - strokeWidth * 2);
+        RRect.fromRectAndRadius(outerRect, Radius.circular(radius!));
+    Rect innerRect = Rect.fromLTWH(strokeWidth!, strokeWidth!,
+        size.width - strokeWidth! * 2, size.height - strokeWidth! * 2);
     var innerRRect = RRect.fromRectAndRadius(
-        innerRect, Radius.circular(radius - strokeWidth));
-    _paint.shader = gradient.createShader(outerRect);
+        innerRect, Radius.circular(radius! - strokeWidth!));
+    _paint!.shader = gradient!.createShader(outerRect);
     Path path1 = Path()..addRRect(outerRRect);
     Path path2 = Path()..addRRect(innerRRect);
     var path = Path.combine(PathOperation.difference, path1, path2);
-    canvas.drawPath(path, _paint);
+    canvas.drawPath(path, _paint!);
   }
 
   @override

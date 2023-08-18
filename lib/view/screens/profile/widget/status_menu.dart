@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -56,8 +58,7 @@ class StatusMenu extends StatelessWidget {
               return GetBuilder<ProfileController>(builder: (profController) {
                 bool? isOn = isAuth!
                     ? (authController.biometric &&
-                            authController.bioList.isNotEmpty) ??
-                        false
+                            authController.bioList.isNotEmpty)
                     : profController.userInfo.twoFactor;
                 return profController.isLoading
                     ? Center(child: Text('off'.tr))

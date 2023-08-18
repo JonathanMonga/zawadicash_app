@@ -54,94 +54,92 @@ class ShareStatementWidgetState extends State<ShareStatementWidget> {
                 blurRadius: 6,
               )
             ]),
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Image.asset(Images.success_icon)),
-                  Center(
-                      child: Text('successful'.tr,
-                          style: rubikRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
-                              color: Theme.of(context).primaryColor))),
-                  const SizedBox(
-                    height: Dimensions.PADDING_SIZE_DEFAULT,
-                  ),
-                  Text(PriceConverter.balanceWithSymbol(balance: widget.amount),
-                      style: rubikSemiBold.copyWith(
-                          fontSize: 40, color: Theme.of(context).primaryColor)),
-                  widget.transactionType != 'request_money'
-                      ? Text('${'charge'.tr} ${widget.charge}',
-                          style: rubikRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_LARGE,
-                              color: Theme.of(context).primaryColor))
-                      : const SizedBox.shrink(),
-                  const SizedBox(
-                    height: Dimensions.PADDING_SIZE_DEFAULT,
-                  ),
-                  Divider(
-                    color: ColorResources.phoneNumberColor,
-                    height: 1,
-                    endIndent: size.width * 0.3,
-                    indent: size.width * 0.3,
-                  ),
-                  const SizedBox(
-                    height: Dimensions.PADDING_SIZE_SMALL,
-                  ),
-                  Divider(
-                    color: ColorResources.phoneNumberColor,
-                    height: 1,
-                    endIndent: size.width * 0.4,
-                    indent: size.width * 0.4,
-                  ),
-                  const SizedBox(
-                    height: Dimensions.PADDING_SIZE_OVER_LARGE,
-                  ),
-                  Text(
-                      widget.transactionType == 'send_money'
-                          ? 'send_money'.tr
-                          : widget.transactionType == 'cash_out'
-                              ? 'cash_out'.tr
-                              : 'request_money'.tr,
-                      style: rubikSemiBold.copyWith(
-                          fontSize: Dimensions.FONT_SIZE_OVER_LARGE)),
-                  const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                  Center(
-                      child: Text(
-                          '${widget.contactModel!.name ?? ''} (${widget.contactModel!.phoneNumber})',
-                          textAlign: TextAlign.center,
-                          style: rubikRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_DEFAULT,
-                              color: Theme.of(context).primaryColor))),
-                  const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                  widget.trxId != null
-                      ? Text('${'trx_id'.tr}: ${widget.trxId}',
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Image.asset(Images.success_icon)),
+                Center(
+                    child: Text('successful'.tr,
+                        style: rubikRegular.copyWith(
+                            fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
+                            color: Theme.of(context).primaryColor))),
+                const SizedBox(
+                  height: Dimensions.PADDING_SIZE_DEFAULT,
+                ),
+                Text(PriceConverter.balanceWithSymbol(balance: widget.amount),
+                    style: rubikSemiBold.copyWith(
+                        fontSize: 40, color: Theme.of(context).primaryColor)),
+                widget.transactionType != 'request_money'
+                    ? Text('${'charge'.tr} ${widget.charge}',
+                        style: rubikRegular.copyWith(
+                            fontSize: Dimensions.FONT_SIZE_LARGE,
+                            color: Theme.of(context).primaryColor))
+                    : const SizedBox.shrink(),
+                const SizedBox(
+                  height: Dimensions.PADDING_SIZE_DEFAULT,
+                ),
+                Divider(
+                  color: ColorResources.phoneNumberColor,
+                  height: 1,
+                  endIndent: size.width * 0.3,
+                  indent: size.width * 0.3,
+                ),
+                const SizedBox(
+                  height: Dimensions.PADDING_SIZE_SMALL,
+                ),
+                Divider(
+                  color: ColorResources.phoneNumberColor,
+                  height: 1,
+                  endIndent: size.width * 0.4,
+                  indent: size.width * 0.4,
+                ),
+                const SizedBox(
+                  height: Dimensions.PADDING_SIZE_OVER_LARGE,
+                ),
+                Text(
+                    widget.transactionType == 'send_money'
+                        ? 'send_money'.tr
+                        : widget.transactionType == 'cash_out'
+                            ? 'cash_out'.tr
+                            : 'request_money'.tr,
+                    style: rubikSemiBold.copyWith(
+                        fontSize: Dimensions.FONT_SIZE_OVER_LARGE)),
+                const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                Center(
+                    child: Text(
+                        '${widget.contactModel!.name ?? ''} (${widget.contactModel!.phoneNumber})',
+                        textAlign: TextAlign.center,
+                        style: rubikRegular.copyWith(
+                            fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                            color: Theme.of(context).primaryColor))),
+                const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                widget.trxId != null
+                    ? Text('${'trx_id'.tr}: ${widget.trxId}',
+                        style: rubikMedium.copyWith(
+                            fontSize: Dimensions.FONT_SIZE_DEFAULT))
+                    : const SizedBox(),
+                const SizedBox(
+                  height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CustomLogo(width: 67, height: 67),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      child: Text(splashController.configModel.companyName!,
                           style: rubikMedium.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_DEFAULT))
-                      : const SizedBox(),
-                  const SizedBox(
-                    height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CustomLogo(width: 67, height: 67),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                        child: Text(splashController.configModel.companyName!,
-                            style: rubikMedium.copyWith(
-                                fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
-                                color: Theme.of(context).primaryColor)),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                              fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
+                              color: Theme.of(context).primaryColor)),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

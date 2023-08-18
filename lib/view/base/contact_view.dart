@@ -75,9 +75,7 @@ class ContactView extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Theme.of(context).secondaryHeaderColor)),
             itemBuilder: (context, index) =>
-                contactController!.filterdContacts[index] == null
-                    ? const SizedBox()
-                    : Column(
+                Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           if (index == 0)

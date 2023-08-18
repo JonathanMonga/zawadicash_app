@@ -43,7 +43,7 @@ class AuthController extends GetxController implements GetxService {
     _bioList = await bioAuth.getAvailableBiometrics();
     if (_bioList.isEmpty) {
       try {
-        AppSettings.openLockAndPasswordSettings();
+        AppSettings.openAppSettings(type: AppSettingsType.lockAndPassword);
       } catch (e) {
         debugPrint(e.toString());
       }
@@ -80,7 +80,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<String> biometricPin() async {
-    return await authRepo.readSecureData(AppConstants.BIOMETRIC_PIN) ?? '';
+    return await authRepo.readSecureData(AppConstants.BIOMETRIC_PIN);
   }
 
   Future<void> removeBiometricPin() async {

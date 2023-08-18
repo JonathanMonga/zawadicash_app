@@ -1,4 +1,4 @@
-import 'package:country_code_picker/country_code.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 
 typedef OnTapFunction = void Function();
 typedef OnPressedFunction = void Function();

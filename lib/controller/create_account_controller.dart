@@ -1,4 +1,4 @@
-import 'package:country_code_picker/country_code.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';

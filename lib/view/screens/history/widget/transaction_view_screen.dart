@@ -70,9 +70,8 @@ class TransactionViewScreen extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: transactionList.length,
                           itemBuilder: (ctx, index) {
-                            return Container(
-                                child: TransactionHistoryCardView(
-                                    transactions: transactionList[index]));
+                            return TransactionHistoryCardView(
+                                transactions: transactionList[index]);
                           }),
                     )
                   : NoDataFoundScreen(fromHome: isHome!)

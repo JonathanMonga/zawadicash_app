@@ -19,37 +19,35 @@ class InputFieldShimmer extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Container(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                          bottom: Dimensions.PADDING_SIZE_LARGE),
-                      child: TextField(
-                        enabled: false,
-                        textAlignVertical: TextAlignVertical.center,
-                        textAlign: TextAlign.center,
-                        style: rubikMedium.copyWith(
-                            fontSize: 34,
-                            color: Theme.of(context).primaryColor),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: PriceConverter.balanceInputHint(),
-                            hintStyle: rubikMedium.copyWith(
-                                fontSize: 34,
-                                color: Theme.of(context).primaryColor)),
-                      ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                        bottom: Dimensions.PADDING_SIZE_LARGE),
+                    child: TextField(
+                      enabled: false,
+                      textAlignVertical: TextAlignVertical.center,
+                      textAlign: TextAlign.center,
+                      style: rubikMedium.copyWith(
+                          fontSize: 34,
+                          color: Theme.of(context).primaryColor),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: PriceConverter.balanceInputHint(),
+                          hintStyle: rubikMedium.copyWith(
+                              fontSize: 34,
+                              color: Theme.of(context).primaryColor)),
                     ),
-                    Center(
-                        child: Text(
-                            '${'available_balance'.tr} ${PriceConverter.availableBalance()}',
-                            style: rubikRegular.copyWith(
-                                fontSize: Dimensions.FONT_SIZE_LARGE,
-                                color: ColorResources.getGreyBaseGray1()))),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                  ],
-                ),
+                  ),
+                  Center(
+                      child: Text(
+                          '${'available_balance'.tr} ${PriceConverter.availableBalance()}',
+                          style: rubikRegular.copyWith(
+                              fontSize: Dimensions.FONT_SIZE_LARGE,
+                              color: ColorResources.getGreyBaseGray1()))),
+                  const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                ],
               ),
               Positioned(
                   left: Dimensions.PADDING_SIZE_LARGE,

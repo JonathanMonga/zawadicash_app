@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -67,37 +69,26 @@ class FieldItemView extends StatelessWidget {
         {
           return TextInputType.number;
         }
-        break;
-
       case 'date':
         {
           return TextInputType.datetime;
         }
-        break;
-
       case 'password':
         {
           return TextInputType.visiblePassword;
         }
-        break;
-
       case 'email':
         {
           return TextInputType.emailAddress;
         }
-        break;
-
       case 'phone':
         {
           return TextInputType.phone;
         }
-        break;
-
       default:
         {
           return TextInputType.text;
         }
-        break;
     }
   }
 }

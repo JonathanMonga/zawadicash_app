@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart' as Foundation;
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:http/http.dart' as Http;
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +73,7 @@ class ApiClient extends GetxService {
     } else {
       try {
         debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-        Http.Response _response = await Http.get(
+        http.Response _response = await http.get(
           Uri.parse(appBaseUrl + uri),
           headers: headers ?? _mainHeaders,
         ).timeout(Duration(seconds: timeoutInSeconds));
@@ -91,12 +91,12 @@ class ApiClient extends GetxService {
     }
     {
       try {
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint('====> GetX Base URL: $appBaseUrl');
           debugPrint('====> GetX Call: $uri');
           debugPrint('====> GetX Body: $body');
         }
-        Http.Response _response = await Http.post(
+        http.Response _response = await http.post(
           Uri.parse(appBaseUrl + uri),
           body: jsonEncode(body),
           headers: headers ?? _mainHeaders,
@@ -104,7 +104,7 @@ class ApiClient extends GetxService {
         debugPrint("++++++++++++>>>=====");
         Response response = handleResponse(_response, uri);
 
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint(
               '====> API Response: [${response.statusCode}] $uri\n${response.body}');
         }
@@ -123,18 +123,18 @@ class ApiClient extends GetxService {
     }
     {
       try {
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint('====> API Call: $uri\nToken: $token');
           debugPrint(
               '====> API Body: $body with ${multipartBody.length} image ');
         }
-        Http.MultipartRequest _request =
-            Http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
+        http.MultipartRequest _request =
+            http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
         _request.headers.addAll(headers ?? _mainHeaders);
         for (MultipartBody multipart in multipartBody) {
-          if (Foundation.kIsWeb) {
+          if (foundation.kIsWeb) {
             Uint8List _list = await multipart.file.readAsBytes();
-            Http.MultipartFile _part = Http.MultipartFile(
+            http.MultipartFile _part = http.MultipartFile(
               multipart.key,
               multipart.file.readAsBytes().asStream(),
               _list.length,
@@ -144,7 +144,7 @@ class ApiClient extends GetxService {
             _request.files.add(_part);
           } else {
             File _file = File(multipart.file.path);
-            _request.files.add(Http.MultipartFile(
+            _request.files.add(http.MultipartFile(
               multipart.key,
               _file.readAsBytes().asStream(),
               _file.lengthSync(),
@@ -153,10 +153,10 @@ class ApiClient extends GetxService {
           }
         }
         _request.fields.addAll(body);
-        Http.Response _response =
-            await Http.Response.fromStream(await _request.send());
+        http.Response _response =
+            await http.Response.fromStream(await _request.send());
         Response response = handleResponse(_response, uri);
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint(
               '====> API Response: [${response.statusCode}] $uri\n${response.body}');
         }
@@ -180,13 +180,13 @@ class ApiClient extends GetxService {
       try {
         debugPrint('====> GetX Call: $uri');
         debugPrint('====> GetX Body: $body');
-        Http.Response _response = await Http.put(
+        http.Response _response = await http.put(
           Uri.parse(appBaseUrl + uri),
           body: jsonEncode(body),
           headers: headers ?? _mainHeaders,
         ).timeout(Duration(seconds: timeoutInSeconds));
         Response response = handleResponse(_response, uri);
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint(
               '====> API Response: [${response.statusCode}] $uri\n${response.body}');
         }
@@ -205,17 +205,17 @@ class ApiClient extends GetxService {
     }
     {
       try {
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint('====> API Call: $uri\nToken: $token');
           debugPrint('====> API Body: $body');
         }
-        Http.MultipartRequest _request =
-            Http.MultipartRequest('PUT', Uri.parse(appBaseUrl + uri));
+        http.MultipartRequest _request =
+            http.MultipartRequest('PUT', Uri.parse(appBaseUrl + uri));
         _request.headers.addAll(headers ?? _mainHeaders);
         for (MultipartBody multipart in multipartBody) {
-          if (Foundation.kIsWeb) {
+          if (foundation.kIsWeb) {
             Uint8List _list = await multipart.file.readAsBytes();
-            Http.MultipartFile _part = Http.MultipartFile(
+            http.MultipartFile _part = http.MultipartFile(
               multipart.key,
               multipart.file.readAsBytes().asStream(),
               _list.length,
@@ -225,7 +225,7 @@ class ApiClient extends GetxService {
             _request.files.add(_part);
           } else {
             File _file = File(multipart.file.path);
-            _request.files.add(Http.MultipartFile(
+            _request.files.add(http.MultipartFile(
               multipart.key,
               _file.readAsBytes().asStream(),
               _file.lengthSync(),
@@ -234,10 +234,10 @@ class ApiClient extends GetxService {
           }
         }
         _request.fields.addAll(body);
-        Http.Response _response =
-            await Http.Response.fromStream(await _request.send());
+        http.Response _response =
+            await http.Response.fromStream(await _request.send());
         Response response = handleResponse(_response, uri);
-        if (Foundation.kDebugMode) {
+        if (foundation.kDebugMode) {
           debugPrint(
               '====> API Response: [${response.statusCode}] $uri\n${response.body}');
         }
@@ -256,7 +256,7 @@ class ApiClient extends GetxService {
     {
       try {
         debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-        Http.Response _response = await Http.delete(
+        http.Response _response = await http.delete(
           Uri.parse(appBaseUrl + uri),
           headers: headers ?? _mainHeaders,
         ).timeout(Duration(seconds: timeoutInSeconds));
@@ -267,11 +267,13 @@ class ApiClient extends GetxService {
     }
   }
 
-  Response handleResponse(Http.Response response, String uri) {
+  Response handleResponse(http.Response response, String uri) {
     dynamic _body;
     try {
       _body = jsonDecode(response.body);
-    } catch (e) {}
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     Response _response = Response(
       body: _body ?? response.body,
       bodyString: response.body.toString(),

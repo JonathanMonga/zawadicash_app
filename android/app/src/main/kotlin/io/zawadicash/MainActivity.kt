@@ -1,4 +1,4 @@
-package io.zawadicash.zawadicash_app
+package io.zawadicash
 
 import io.flutter.embedding.android.FlutterActivity
 

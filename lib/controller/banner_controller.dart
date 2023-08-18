@@ -1,5 +1,5 @@
 import 'package:zawadicash_app/data/api/api_checker.dart';
-import 'package:zawadicash_app/data/model/BannerModel.dart';
+import 'package:zawadicash_app/data/model/banner_model.dart';
 import 'package:zawadicash_app/data/repository/banner_repo.dart';
 import 'package:get/get.dart';
 
