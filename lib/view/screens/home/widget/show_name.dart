@@ -1,4 +1,4 @@
-import 'dart:js_interop';
+// ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +17,7 @@ class ShowName extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GetBuilder<ProfileController>(
-          builder: (controller) => controller.userInfo.isNull
+          builder: (controller) => controller.userInfo == null
               ? Text(
                   '${'Hi'.tr} ${controller.userInfo.fName} ${controller.userInfo.lName}',
                   textAlign: TextAlign.start,

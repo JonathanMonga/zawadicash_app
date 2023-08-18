@@ -24,7 +24,7 @@ class SplashController extends GetxController implements GetxService {
   bool get isVpn => _isVpn;
 
   Future<Response> getConfigData() async {
-    Response _response = await splashRepo!.getConfigData();
+    Response _response = await splashRepo.getConfigData();
     if (_response.statusCode == 200) {
       _configModel = ConfigModel.fromJson(_response.body);
     } else {
@@ -36,11 +36,11 @@ class SplashController extends GetxController implements GetxService {
   }
 
   Future<bool> initSharedData() {
-    return splashRepo!.initSharedData();
+    return splashRepo.initSharedData();
   }
 
   Future<bool> removeSharedData() {
-    return splashRepo!.removeSharedData();
+    return splashRepo.removeSharedData();
   }
 
   bool isRestaurantClosed() {

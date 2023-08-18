@@ -152,12 +152,14 @@ class CameraScreenController extends GetxController implements GetxService {
           _eyeBlink++;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      debugPrint(e.toString());
+    }
 
     if (_eyeBlink == 3) {
       try {
         await controller.stopImageStream().then((value) async {
-          showAnimatedDialog(Get.context!, LoaderDialog(),
+          showAnimatedDialog(Get.context!, const LoaderDialog(),
               dismissible: false, isFlip: true);
           _faceDetector.close();
           final XFile file = await controller.takePicture();
@@ -174,20 +176,12 @@ class CameraScreenController extends GetxController implements GetxService {
   }
 
   Future<void> processPicture(InputImage inputImage) async {
-    bool hasHeadEulerAngleY = false;
-    bool hasHeadEulerAngleZ = false;
     bool hasEyeOpen = false;
     final faces = await _faceDetector.processImage(inputImage);
     try {
       if (faces.length == 1) {
         debugPrint(
             'face is ${faces[0].headEulerAngleX} ${faces[0].headEulerAngleY} ${faces[0].headEulerAngleZ}');
-        if (faces[0].headEulerAngleY! > -15 && faces[0].headEulerAngleY! < 15) {
-          hasHeadEulerAngleY = true;
-        }
-        if (faces[0].headEulerAngleZ! > -1 && faces[0].headEulerAngleZ! < 6) {
-          hasHeadEulerAngleZ = true;
-        }
         if (faces[0].rightEyeOpenProbability != null &&
             faces[0].leftEyeOpenProbability != null) {
           if (faces[0].rightEyeOpenProbability! > 0.2 &&

@@ -74,24 +74,17 @@ KycVerification _getStatusType(String value) {
       {
         return KycVerification.pending;
       }
-      break;
-
     case '1':
       {
         return KycVerification.approve;
       }
-      break;
-
     case '2':
       {
         return KycVerification.denied;
       }
-      break;
-
     default:
       {
         return KycVerification.needApply;
       }
-      break;
   }
 }

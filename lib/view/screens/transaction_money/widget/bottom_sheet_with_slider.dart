@@ -201,10 +201,10 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                                   (widget.transactionType == 'request_money'
                                       ? PriceConverter.newBalanceWithCredit(
                                           inputBalance:
-                                              double.parse(widget!.amount!))
+                                              double.parse(widget.amount!))
                                       : PriceConverter.newBalanceWithDebit(
                                           inputBalance:
-                                              double.parse(widget!.amount!),
+                                              double.parse(widget.amount!),
                                           charge: widget.transactionType ==
                                                   'send_money'
                                               ? double.parse(

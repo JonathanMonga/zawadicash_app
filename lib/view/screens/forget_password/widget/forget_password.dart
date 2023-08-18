@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:phone_number/phone_number.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/forget_password_controller.dart';
@@ -130,6 +132,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           PhoneNumber number =
                               await PhoneChecker.isNumberValid(phoneNumber);
                           debugPrint('f number-------->: $number');
+
                           if (number != null) {
                             Get.find<ForgetPassController>().sendForOtpResponse(
                                 context: context,

@@ -48,7 +48,7 @@ Future<void> main() async {
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
-  } catch (e) {}
+  } catch (e) {debugPrint(e.toString());}
 
   runApp(MyApp(languages: _languages, orderID: _orderID!));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

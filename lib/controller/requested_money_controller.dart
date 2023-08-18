@@ -67,7 +67,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
       _acceptedRequestedMoneyList = [];
       _deniedRequestedMoneyList = [];
     }
-    Response response = await requestedMoneyRepo!.getRequestedMoneyList();
+    Response response = await requestedMoneyRepo.getRequestedMoneyList();
     if (response.body['requested_money'] != null &&
         response.body['requested_money'] != {} &&
         response.statusCode == 200) {
@@ -106,7 +106,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
       _ownAcceptedRequestedMoneyList = [];
       _ownDeniedRequestedMoneyList = [];
     }
-    Response response = await requestedMoneyRepo!.getOwnRequestedMoneyList();
+    Response response = await requestedMoneyRepo.getOwnRequestedMoneyList();
 
     if (response.body['requested_money'] != null &&
         response.body['requested_money'] != {} &&
@@ -141,7 +141,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response =
-        await requestedMoneyRepo!.approveRequestedMoney(requestId, pin);
+        await requestedMoneyRepo.approveRequestedMoney(requestId, pin);
     debugPrint(response.status.toString());
 
     if (response.statusCode == 200) {
@@ -161,7 +161,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response =
-        await requestedMoneyRepo!.denyRequestedMoney(requestId, pin);
+        await requestedMoneyRepo.denyRequestedMoney(requestId, pin);
     if (response.statusCode == 200) {
       getRequestedMoneyList(offset);
       showCustomSnackBar('request_denied_successfully'.tr, isError: false);
@@ -196,7 +196,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
     }
 
     if (_withdrawHistoryModel == null) {
-      Response _response = await requestedMoneyRepo!.getWithdrawRequest();
+      Response _response = await requestedMoneyRepo.getWithdrawRequest();
       debugPrint('withdraw data : ${_response.body}');
       if (_response.body['response_code'] == 'default_200' &&
           _response.body['content'] != null) {

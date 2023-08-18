@@ -1,17 +1,16 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/response/language_model.dart';
 import 'package:zawadicash_app/data/model/response/on_boarding_model.dart';
 
-import 'images.dart';
+import 'package:zawadicash_app/util/images.dart';
 
 class AppConstants {
-  static const String APP_NAME = 'TestCash';
-  //demo
+  static const String APP_NAME = 'Zawadicash wallet';
+
   static const String BASE_URL = 'https://6cash-admin.6amtech.com';
-  //
-  // static const String BASE_URL = 'https://6cash-admin.6am.one';
-  // //fun
-  // static const String BASE_URL = 'https://6cash-admin.6am.fun';
+
   static const bool DEMO = true;
    static const double APP_VERSION = 2.1;
 

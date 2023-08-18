@@ -20,7 +20,7 @@ import 'package:zawadicash_app/view/screens/profile/widget/change_pin_screen.dar
 import 'package:zawadicash_app/view/screens/profile/widget/edit_profile_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/profile_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/faq_screen.dart';
-import 'package:zawadicash_app/view/screens/profile/widget/html_view_Screen.dart';
+import 'package:zawadicash_app/view/screens/profile/widget/html_view_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/qr_code_download_or_share.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/support_screen.dart';
 import 'package:zawadicash_app/view/screens/forget_password/widget/reset_password_screen.dart';

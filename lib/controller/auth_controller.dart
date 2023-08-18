@@ -80,7 +80,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<String> biometricPin() async {
-    return await authRepo.readSecureData(AppConstants.BIOMETRIC_PIN) ?? '';
+    return await authRepo.readSecureData(AppConstants.BIOMETRIC_PIN);
   }
 
   Future<void> removeBiometricPin() async {
