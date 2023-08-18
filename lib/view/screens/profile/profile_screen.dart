@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: 'withdraw_history'.tr),
                           onTap: () => Get.to(() =>
                               const RequestedMoneyListScreen(
-                                  requestType: RequestType.WITHDRAW)),
+                                  requestType: RequestType.withdraw)),
                         ),
                         CustomInkWell(
                           child: widget.MenuItem(
@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: 'requests'.tr),
                           onTap: () => Get.to(() =>
                               const RequestedMoneyListScreen(
-                                  requestType: RequestType.REQUEST)),
+                                  requestType: RequestType.request)),
                         ),
                         CustomInkWell(
                           child: widget.MenuItem(
@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: 'send_requests'.tr),
                           onTap: () => Get.to(() =>
                               const RequestedMoneyListScreen(
-                                  requestType: RequestType.SEND_REQUEST)),
+                                  requestType: RequestType.sendRequest)),
                         ),
                         CustomInkWell(
                           child: widget.MenuItem(
@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () =>
                               Get.toNamed(RouteHelper.getChoseLanguageRoute()),
                         ),
-                        if (Get.find<SplashController>().configModel.twoFactor)
+                        if (Get.find<SplashController>().configModel.twoFactor!)
                           GetBuilder<ProfileController>(
                               builder: (profileController) {
                             return profileController.isLoading

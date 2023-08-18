@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'custom_rect_tween.dart';
+import 'package:zawadicash_app/view/screens/home/widget/animated_card/custom_rect_tween.dart';
 
 class QrPopupCard extends StatelessWidget {
   const QrPopupCard({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class QrPopupCard extends StatelessWidget {
                       // child: Image.asset( Images.qrImage,
                       //   fit: BoxFit.contain,),
                       child: SvgPicture.string(
-                        controller.userInfo.qrCode,
+                        controller.userInfo.qrCode!,
                         fit: BoxFit.contain,
                         width: size.width * 0.8,
                         // height: size.width * 0.8,

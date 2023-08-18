@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class AnimatedButtonView extends StatefulWidget {
-  final Function onTap;
-  const AnimatedButtonView({Key key,required this.onTap}) : super(key: key);
+  final OnTapFunction onTap;
+  const AnimatedButtonView({Key? key,required this.onTap}) : super(key: key);
 
   @override
   State<AnimatedButtonView> createState() => _AnimatedButtonViewState();

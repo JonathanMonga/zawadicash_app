@@ -98,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       width: 100,
                                                       fit: BoxFit.cover,
                                                       image:
-                                                          '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${proController.userInfo.image ?? ''}'),
+                                                          '${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${proController.userInfo.image ?? ''}'),
                                                 ),
                                               );
                                       })

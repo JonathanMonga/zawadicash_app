@@ -61,7 +61,7 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Theme.of(context).secondaryHeaderColor),
-                child: SvgPicture.string(controller.userInfo.qrCode,
+                child: SvgPicture.string(controller.userInfo.qrCode!,
                     height: size.width * 0.4, width: size.width * 0.4),
               ),
             );
@@ -84,9 +84,9 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
                     onTap: () => Get.find<ScreenShootWidgetController>()
                         .qrCodeDownloadAndShare(
                             qrCode:
-                                Get.find<ProfileController>().userInfo.qrCode,
+                                Get.find<ProfileController>().userInfo.qrCode!,
                             phoneNumber:
-                                Get.find<ProfileController>().userInfo.phone,
+                                Get.find<ProfileController>().userInfo.phone!,
                             isShare: false),
                   ),
                   /*child: Container(
@@ -113,9 +113,9 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
                     onTap: () => Get.find<ScreenShootWidgetController>()
                         .qrCodeDownloadAndShare(
                             qrCode:
-                                Get.find<ProfileController>().userInfo.qrCode,
+                                Get.find<ProfileController>().userInfo.qrCode!,
                             phoneNumber:
-                                Get.find<ProfileController>().userInfo.phone,
+                                Get.find<ProfileController>().userInfo.phone!,
                             isShare: true),
                   ),
                   /*child: InkWell(

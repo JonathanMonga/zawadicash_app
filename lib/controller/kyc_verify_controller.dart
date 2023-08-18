@@ -30,8 +30,8 @@ class KycVerifyController extends GetxController implements GetxService {
   String _dropDownSelectedValue = 'select_identity_type'.tr;
   String get dropDownSelectedValue => _dropDownSelectedValue;
 
-  void dropDownChange(String value) {
-    _dropDownSelectedValue = value;
+  void dropDownChange(String? value) {
+    _dropDownSelectedValue = value!;
     update();
   }
 

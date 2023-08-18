@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/localization_controller.dart';
@@ -18,8 +17,8 @@ class ChooseLanguageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: 'language'.tr),
-      body: GetBuilder<LocalizationController>(
-          builder: (localizationController) {
+      body:
+          GetBuilder<LocalizationController>(builder: (localizationController) {
         return Column(children: [
           Expanded(
               child: Center(
@@ -41,16 +40,22 @@ class ChooseLanguageScreen extends StatelessWidget {
                             width: 150,
                           ),
                         ),
-                        const SizedBox(height: Dimensions.PADDING_SIZE_OVER_LARGE,),
+                        const SizedBox(
+                          height: Dimensions.PADDING_SIZE_OVER_LARGE,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal:
-                                  Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                          child:
-                              Text('select_language'.tr, style: rubikMedium.copyWith(color: Theme.of(context).textTheme.titleLarge.color,fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE)),
+                              horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                          child: Text('select_language'.tr,
+                              style: rubikMedium.copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .color,
+                                  fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE)),
                         ),
-                        const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-
+                        const SizedBox(
+                            height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                         GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,7 +73,6 @@ class ChooseLanguageScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-
                         Text('* ${'you_can_change_language'.tr}',
                             style: rubikRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_SMALL,
@@ -80,7 +84,10 @@ class ChooseLanguageScreen extends StatelessWidget {
             ),
           )),
           Container(
-            padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_DEFAULT, right: Dimensions.PADDING_SIZE_DEFAULT, bottom: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
+            padding: const EdgeInsets.only(
+                left: Dimensions.PADDING_SIZE_DEFAULT,
+                right: Dimensions.PADDING_SIZE_DEFAULT,
+                bottom: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
             child: Row(
               children: [
                 Expanded(
@@ -89,19 +96,22 @@ class ChooseLanguageScreen extends StatelessWidget {
                       if (localizationController.languages.isNotEmpty &&
                           localizationController.selectedIndex != -1) {
                         localizationController.setLanguage(Locale(
-                          AppConstants.languages[localizationController.selectedIndex]
-                              .languageCode,
-                          AppConstants.languages[localizationController.selectedIndex]
+                          AppConstants
+                              .languages[localizationController.selectedIndex]
+                              .languageCode!,
+                          AppConstants
+                              .languages[localizationController.selectedIndex]
                               .countryCode,
                         ));
                         Get.back();
                       } else {
-                        showCustomSnackBar('select_a_language'.tr,isError: false);
+                        showCustomSnackBar('select_a_language'.tr,
+                            isError: false);
                       }
                     },
                     backgroundColor: Theme.of(context).secondaryHeaderColor,
                     text: 'save'.tr,
-                    textColor: Theme.of(context).textTheme.bodyLarge.color,
+                    textColor: Theme.of(context).textTheme.bodyLarge!.color!,
                   ),
                 ),
               ],

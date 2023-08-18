@@ -32,7 +32,7 @@ class _FaqScreenState extends State<FaqScreen> {
                 children: [
                   ExpansionTile(
                     iconColor: Theme.of(context).primaryColor,
-                    title: Text(faqController.helpTopics[index].question,
+                    title: Text(faqController.helpTopics[index].question!,
                         style: rubikRegular.copyWith(
                             color: ColorResources.getTextColor())),
                     leading: Icon(Icons.collections_bookmark_outlined,
@@ -40,7 +40,7 @@ class _FaqScreenState extends State<FaqScreen> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(faqController.helpTopics[index].answer,
+                        child: Text(faqController.helpTopics[index].answer!,
                             style: rubikLight,
                             textAlign: TextAlign.justify),
                       )

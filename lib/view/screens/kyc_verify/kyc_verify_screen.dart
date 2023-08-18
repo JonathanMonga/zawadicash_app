@@ -11,8 +11,8 @@ import 'package:zawadicash_app/view/base/custom_drop_down_button.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/custom_text_field.dart';
-import '../../../util/dimensions.dart';
-import '../../../util/images.dart';
+import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/images.dart';
 
 class KycVerifyScreen extends StatefulWidget {
   const KycVerifyScreen({Key? key}) : super(key: key);

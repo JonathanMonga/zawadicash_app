@@ -19,9 +19,9 @@ import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_confirmation.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/input_box_view.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/purpose_widget.dart';
-import 'widget/field_item_view.dart';
-import 'widget/for_person_widget.dart';
-import 'widget/next_button.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/field_item_view.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/for_person_widget.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/next_button.dart';
 
 class TransactionMoneyBalanceInput extends StatefulWidget {
   final String? transactionType;
@@ -286,9 +286,9 @@ class _TransactionMoneyBalanceInputState
                 } else {
                   String balance = _inputAmountController.text;
                   if (balance
-                      .contains(splashController.configModel.currencySymbol)) {
+                      .contains(splashController.configModel.currencySymbol!)) {
                     balance = balance.replaceAll(
-                        splashController.configModel.currencySymbol, '');
+                        splashController.configModel.currencySymbol!, '');
                   }
                   if (balance.contains(',')) {
                     balance = balance.replaceAll(',', '');
@@ -311,15 +311,15 @@ class _TransactionMoneyBalanceInputState
                         widget.transactionType == TransactionType.SEND_MONEY) {
                       _inSufficientBalance =
                           PriceConverter.withSendMoneyCharge(amount) >
-                              profileController.userInfo.balance;
+                              profileController.userInfo.balance!;
                     } else if (_isCheck &&
                         widget.transactionType == TransactionType.CASH_OUT) {
                       _inSufficientBalance =
                           PriceConverter.withCashOutCharge(amount) >
-                              profileController.userInfo.balance;
+                              profileController.userInfo.balance!;
                     } else if (_isCheck) {
                       _inSufficientBalance =
-                          amount > profileController.userInfo.balance;
+                          amount > profileController.userInfo.balance!;
                     }
 
                     if (_inSufficientBalance) {

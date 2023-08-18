@@ -7,7 +7,7 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/screens/requested_money/widget/requested_money_screen.dart';
 
-enum RequestType { SEND_REQUEST, REQUEST, WITHDRAW }
+enum RequestType { sendRequest, request, withdraw }
 
 class RequestedMoneyListScreen extends StatefulWidget {
   final RequestType requestType;
@@ -33,9 +33,9 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(
-        title: widget.requestType == RequestType.SEND_REQUEST
+        title: widget.requestType == RequestType.sendRequest
             ? 'send_requests'.tr
-            : widget.requestType == RequestType.REQUEST
+            : widget.requestType == RequestType.request
                 ? 'requests'.tr
                 : 'withdraw_history'.tr,
         onTap: () => Get.back(),
@@ -43,13 +43,13 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
       body: RefreshIndicator(
         backgroundColor: Theme.of(context).primaryColor,
         onRefresh: () async {
-          if (widget.requestType == RequestType.SEND_REQUEST) {
+          if (widget.requestType == RequestType.sendRequest) {
             await Get.find<RequestedMoneyController>()
                 .getOwnRequestedMoneyList(1, reload: true);
-          } else if (widget.requestType == RequestType.REQUEST) {
+          } else if (widget.requestType == RequestType.request) {
             await Get.find<RequestedMoneyController>()
                 .getRequestedMoneyList(1, reload: true);
-          } else if (widget.requestType == RequestType.WITHDRAW) {
+          } else if (widget.requestType == RequestType.withdraw) {
             await Get.find<RequestedMoneyController>()
                 .getWithdrawHistoryList(reload: true);
           }
@@ -75,10 +75,10 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
                             text: 'pending'.tr,
                             index: 0,
                             length:
-                                widget.requestType == RequestType.SEND_REQUEST
+                                widget.requestType == RequestType.sendRequest
                                     ? requestMoneyController
                                         .ownPendingRequestedMoneyList.length
-                                    : widget.requestType == RequestType.WITHDRAW
+                                    : widget.requestType == RequestType.withdraw
                                         ? requestMoneyController
                                             .pendingWithdraw.length
                                         : requestMoneyController
@@ -89,10 +89,10 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
                             text: 'accepted'.tr,
                             index: 1,
                             length:
-                                widget.requestType == RequestType.SEND_REQUEST
+                                widget.requestType == RequestType.sendRequest
                                     ? requestMoneyController
                                         .ownAcceptedRequestedMoneyList.length
-                                    : widget.requestType == RequestType.WITHDRAW
+                                    : widget.requestType == RequestType.withdraw
                                         ? requestMoneyController
                                             .acceptedWithdraw.length
                                         : requestMoneyController
@@ -103,10 +103,10 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
                             text: 'denied'.tr,
                             index: 2,
                             length:
-                                widget.requestType == RequestType.SEND_REQUEST
+                                widget.requestType == RequestType.sendRequest
                                     ? requestMoneyController
                                         .ownDeniedRequestedMoneyList.length
-                                    : widget.requestType == RequestType.WITHDRAW
+                                    : widget.requestType == RequestType.withdraw
                                         ? requestMoneyController
                                             .deniedWithdraw.length
                                         : requestMoneyController
@@ -117,9 +117,9 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
                             text: 'all'.tr,
                             index: 3,
                             length: widget.requestType ==
-                                    RequestType.SEND_REQUEST
+                                    RequestType.sendRequest
                                 ? requestMoneyController.ownRequestList.length
-                                : widget.requestType == RequestType.WITHDRAW
+                                : widget.requestType == RequestType.withdraw
                                     ? requestMoneyController.allWithdraw.length
                                     : requestMoneyController
                                         .requestedMoneyList.length,

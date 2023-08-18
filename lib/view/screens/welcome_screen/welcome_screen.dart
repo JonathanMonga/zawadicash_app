@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  final String phoneNumber;
-  final String countryCode;
-  final String password;
+  final String? phoneNumber;
+  final String? countryCode;
+  final String? password;
 
   const WelcomeScreen({
-    Key key, this.phoneNumber, this.countryCode, this.password,
+    Key? key,
+    this.phoneNumber,
+    this.countryCode,
+    this.password,
   }) : super(key: key);
 
   @override
@@ -23,14 +26,17 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
-    Get.find<AuthController>().authenticateWithBiometric(false,  widget.password).then((value) {
+    Get.find<AuthController>()
+        .authenticateWithBiometric(false, widget.password)
+        .then((value) {
       Get.offAllNamed(RouteHelper.getLoginRoute(
-        countryCode: widget.countryCode,
-        phoneNumber: widget.phoneNumber,
+        countryCode: widget.countryCode!,
+        phoneNumber: widget.phoneNumber!,
       ));
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -39,7 +45,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: Container(
         height: size.height * 0.7,
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.only(
@@ -59,29 +66,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             const SizedBox(
               height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
             ),
-             Text(
-                'welcome_to'.tr,
-                textAlign: TextAlign.center,
-                style: rubikMedium.copyWith(
-                  color: Theme.of(context).textTheme.titleLarge.color,
-                  fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
-                ),
+            Text(
+              'welcome_to'.tr,
+              textAlign: TextAlign.center,
+              style: rubikMedium.copyWith(
+                color: Theme.of(context).textTheme.titleLarge!.color,
+                fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
               ),
-              const SizedBox(
+            ),
+            const SizedBox(
               height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
             ),
-              const SizedBox(
+            const SizedBox(
               height: Dimensions.PADDING_SIZE_OVER_LARGE,
             ),
-             Text(
-                'start_exploring_the_amazing_ways_to_take_your_lifestyle_upward'.tr,
-                textAlign: TextAlign.center,
-                style: rubikLight.copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge.color,
-                  fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                ),
+            Text(
+              'start_exploring_the_amazing_ways_to_take_your_lifestyle_upward'
+                  .tr,
+              textAlign: TextAlign.center,
+              style: rubikLight.copyWith(
+                color: Theme.of(context).textTheme.bodyLarge!.color,
+                fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
               ),
-               const SizedBox(
+            ),
+            const SizedBox(
               height: Dimensions.PADDING_SIZE_OVER_LARGE,
             ),
           ],

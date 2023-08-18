@@ -4,9 +4,10 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 
 class CustomDropDownButton extends StatefulWidget {
-  final String value;
-  final List<String> itemList;
+  final String? value;
+  final List<String>? itemList;
   final OnChangeDropDownButtonFunction onChanged;
+
   const CustomDropDownButton({
     Key? key,
     required this.value,
@@ -36,7 +37,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         style: TextStyle(color: Theme.of(context).hintColor),
         underline: const SizedBox(),
         onChanged: widget.onChanged,
-        items: widget.itemList.map<DropdownMenuItem<String>>((String value) {
+        items: widget.itemList!.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
               value: value,
               child: Text(

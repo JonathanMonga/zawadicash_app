@@ -1,4 +1,5 @@
 import 'package:zawadicash_app/controller/home_controller.dart';
+import 'package:zawadicash_app/controller/menus_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/helper/transaction_type.dart';
@@ -43,7 +44,8 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Get.find<MenuController>().selectProfilePage(),
+                    onTap: () =>
+                        Get.find<MenusController>().selectProfilePage(),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -65,7 +67,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                               )
                             : CustomImage(
                                 image:
-                                    '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${profileController.userInfo.image ?? ''}',
+                                    '${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image ?? ''}',
                                 fit: BoxFit.cover,
                                 placeholder: Images.avatar,
                               ),
@@ -109,7 +111,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         child: profileController.userInfo == null
                             ? SvgPicture.string(
-                                profileController.userInfo.qrCode,
+                                profileController.userInfo.qrCode!,
                                 height: Dimensions.PADDING_SIZE_LARGE,
                                 width: Dimensions.PADDING_SIZE_LARGE,
                               )

@@ -2,12 +2,13 @@ import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:flutter/material.dart';
+
 class EditCustomTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final TextInputType textInputType;
-  final String hint;
-  final String levelText;
-  const EditCustomTextField({Key key,this.controller,this.textInputType,this.hint,this.levelText}) : super(key: key);
+  final TextEditingController? controller;
+  final TextInputType? textInputType;
+  final String? hint;
+  final String? levelText;
+  const EditCustomTextField({Key? key,this.controller,this.textInputType,this.hint,this.levelText}) : super(key: key);
 
   @override
   State<EditCustomTextField> createState() => _EditCustomTextFieldState();
@@ -21,7 +22,7 @@ class _EditCustomTextFieldState extends State<EditCustomTextField> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          child: Text(widget.levelText,
+          child: Text(widget.levelText!,
           style: rubikMedium.copyWith(
             fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
           ),),
@@ -44,7 +45,7 @@ class _EditCustomTextFieldState extends State<EditCustomTextField> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
               borderSide: BorderSide(
-                color: Theme.of(context).textTheme.titleLarge.color,
+                color: Theme.of(context).textTheme.titleLarge!.color!,
                 width: 2,
               ),
             ),

@@ -9,12 +9,13 @@ import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
-import 'confirm_pin_bottom_sheet.dart';
+import 'package:zawadicash_app/view/screens/profile/widget/confirm_pin_bottom_sheet.dart';
 
 class StatusMenu extends StatelessWidget {
   final String? title;
   final Widget? leading;
   final bool? isAuth;
+
   const StatusMenu({
     Key? key,
     this.title,
@@ -53,14 +54,14 @@ class StatusMenu extends StatelessWidget {
             const Spacer(),
             GetBuilder<AuthController>(builder: (authController) {
               return GetBuilder<ProfileController>(builder: (profController) {
-                bool isOn = isAuth!
+                bool? isOn = isAuth!
                     ? (authController.biometric &&
                             authController.bioList.isNotEmpty) ??
                         false
                     : profController.userInfo.twoFactor;
                 return profController.isLoading
                     ? Center(child: Text('off'.tr))
-                    : Text(isOn ? 'on'.tr : 'off'.tr);
+                    : Text(isOn! ? 'on'.tr : 'off'.tr);
               });
             })
           ],
@@ -95,7 +96,7 @@ class TwoFactorShimmer extends StatelessWidget {
               GetBuilder<ProfileController>(
                   builder: (profController) => profController.isLoading
                       ? Center(child: Text('off'.tr))
-                      : Text(profController.userInfo.twoFactor
+                      : Text(profController.userInfo.twoFactor!
                           ? 'on'.tr
                           : 'off'.tr)),
               //Image.asset(Images.arrow_right_logo,width: 32.0,)

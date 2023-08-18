@@ -17,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver {
-  StreamSubscription<ConnectivityResult> _onConnectivityChanged;
+  StreamSubscription<ConnectivityResult>? _onConnectivityChanged;
   final Connectivity _connectivity = Connectivity();
 
   @override
@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver
   @override
   void dispose() {
     super.dispose();
-    _onConnectivityChanged.cancel();
+    _onConnectivityChanged!.cancel();
   }
 
   void _route() {

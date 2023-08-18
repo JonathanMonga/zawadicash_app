@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,7 @@ import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
+
 class QrCodeDownloadOrShareScreen extends StatelessWidget {
   final String qrCode;
   final String phoneNumber;
@@ -42,7 +42,7 @@ class QrCodeDownloadOrShareScreen extends StatelessWidget {
                         const SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
 
                         Text(
-                          Get.find<SplashController>().configModel.companyName,
+                          Get.find<SplashController>().configModel.companyName!,
                           style: rubikMedium.copyWith(color: Theme.of(context).primaryColor,
                           fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE),
                           textAlign: TextAlign.center,

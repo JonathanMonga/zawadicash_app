@@ -68,7 +68,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       children: [
                                         Text(
                                             notification
-                                                .notificationList[index].title,
+                                                .notificationList[index].title!,
                                             style: rubikSemiBold.copyWith(
                                                 fontSize: Dimensions
                                                     .FONT_SIZE_DEFAULT,
@@ -85,7 +85,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           child: Text(
                                               notification
                                                   .notificationList[index]
-                                                  .description,
+                                                  .description!,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: rubikRegular.copyWith(
@@ -110,7 +110,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           width: 50,
                                           fit: BoxFit.cover,
                                           image:
-                                              '${Get.find<SplashController>().configModel.baseUrls.notificationImageUrl}/${notification.notificationList[index].image}',
+                                              '${Get.find<SplashController>().configModel.baseUrls!.notificationImageUrl}/${notification.notificationList[index].image}',
                                         ),
                                       ),
                                     )

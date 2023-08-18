@@ -13,8 +13,7 @@ class HistoryScreen extends StatelessWidget {
   static final ScrollController _scrollController = ScrollController();
   final Transactions? transactions;
 
-  const HistoryScreen([Key? key, this.transactions])
-      : super(key: key);
+  const HistoryScreen([Key? key, this.transactions]) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

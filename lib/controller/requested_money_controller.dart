@@ -2,7 +2,7 @@ import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/response/requested_money_model.dart';
-import 'package:zawadicash_app/data/model/withdraw_histroy_model.dart';
+import 'package:zawadicash_app/data/model/withdraw_history_model.dart';
 import 'package:zawadicash_app/data/repository/requested_money_repo.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';

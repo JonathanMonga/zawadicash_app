@@ -195,7 +195,7 @@ class FirstCardPortion extends StatelessWidget {
                             color: ColorResources.getReferFriendCardColor(),
                             onTap: () => Get.to(() =>
                                 const RequestedMoneyListScreen(
-                                    requestType: RequestType.REQUEST)),
+                                    requestType: RequestType.request)),
                           ),
                         ),
                       ],

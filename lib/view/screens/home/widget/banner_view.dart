@@ -53,7 +53,7 @@ class BannerView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                     child: CustomImage(
                                         image:
-                                            "${Get.find<SplashController>().configModel.baseUrls.bannerImageUrl}/$image",
+                                            "${Get.find<SplashController>().configModel.baseUrls!.bannerImageUrl}/$image",
                                         fit: BoxFit.cover,
                                         placeholder:
                                             Images.banner_place_holder),

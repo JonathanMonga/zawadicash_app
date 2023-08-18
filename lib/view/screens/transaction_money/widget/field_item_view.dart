@@ -9,93 +9,109 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_text_field.dart';
 
 class FieldItemView extends StatelessWidget {
-  final MethodField methodField;
-  final Map<String, TextEditingController> textControllers;
-  const FieldItemView({Key key, this.methodField, this.textControllers}) : super(key: key);
+  final MethodField? methodField;
+  final Map<String, TextEditingController>? textControllers;
+
+  const FieldItemView({Key? key, this.methodField, this.textControllers})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: Row(
             children: [
               Text(
-                methodField.inputName.replaceAll('_', ' ').formattedUpperCase(),
-                style: rubikRegular.copyWith(color: Theme.of(context).primaryColor),
+                methodField!.inputName!
+                    .replaceAll('_', ' ')
+                    .formattedUpperCase(),
+                style: rubikRegular.copyWith(
+                    color: Theme.of(context).primaryColor),
               ),
-              const SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
-
-              if(methodField.inputType == 'phone') Text(
-                '*${'must_use_country_code'.tr}',
-                style: rubikRegular.copyWith(color: Theme.of(context).colorScheme.error, fontSize: Dimensions.FONT_SIZE_SMALL),
+              const SizedBox(
+                width: Dimensions.PADDING_SIZE_EXTRA_SMALL,
               ),
+              if (methodField!.inputType == 'phone')
+                Text(
+                  '*${'must_use_country_code'.tr}',
+                  style: rubikRegular.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                      fontSize: Dimensions.FONT_SIZE_SMALL),
+                ),
             ],
           ),
         ),
-        const SizedBox(height: 5,),
-
-        CustomTextField(
-          controller: textControllers[methodField.inputName],
-          hintText:  methodField.placeHolder,
-          inputType:  _getType(methodField.inputType),
-          fillColor: Theme.of(context).cardColor,
-          isPassword: methodField.inputType == 'password',
+        const SizedBox(
+          height: 5,
         ),
-        const SizedBox(height: 5,),
+        CustomTextField(
+          controller: textControllers![methodField!.inputName],
+          hintText: methodField!.placeHolder,
+          inputType: _getType(methodField!.inputType!),
+          fillColor: Theme.of(context).cardColor,
+          isPassword: methodField!.inputType == 'password',
+        ),
+        const SizedBox(
+          height: 5,
+        ),
       ],
     );
   }
 
   TextInputType _getType(String type) {
-    switch(type) {
-      case 'number': {
-        return TextInputType.number;
-      }
-      break;
+    switch (type) {
+      case 'number':
+        {
+          return TextInputType.number;
+        }
+        break;
 
-      case 'date': {
-        return TextInputType.datetime;
-      }
-      break;
+      case 'date':
+        {
+          return TextInputType.datetime;
+        }
+        break;
 
-      case 'password': {
-        return TextInputType.visiblePassword;
-      }
-      break;
+      case 'password':
+        {
+          return TextInputType.visiblePassword;
+        }
+        break;
 
-      case 'email': {
-        return TextInputType.emailAddress;
-      }
-      break;
+      case 'email':
+        {
+          return TextInputType.emailAddress;
+        }
+        break;
 
-      case 'phone': {
-        return TextInputType.phone;
-      }
-      break;
+      case 'phone':
+        {
+          return TextInputType.phone;
+        }
+        break;
 
-      default: {
-        return TextInputType.text;
-      }
-      break;
+      default:
+        {
+          return TextInputType.text;
+        }
+        break;
     }
   }
 }
 
 extension StringExtension on String {
   String formattedUpperCase() => replaceAllMapped(
-      RegExp(r'(?<= |-|^).'), (match) => match[0].toUpperCase());
+      RegExp(r'(?<= |-|^).'), (match) => match[0]!.toUpperCase());
 }
 
-const INDEX_NOT_FOUND = -1;
-
+const indexNotFound = -1;
 
 class DateInputFormatter extends TextInputFormatter {
   final String _placeholder = '--/----';
-  TextEditingValue _lastNewValue;
+  TextEditingValue? _lastNewValue;
 
   @override
   TextEditingValue formatEditUpdate(
@@ -127,13 +143,12 @@ class DateInputFormatter extends TextInputFormatter {
 
     final String oldText = oldValue.text;
     final String newText = newValue.text;
-    String resultText;
+    String? resultText;
 
     int index = _indexOfDifference(newText, oldText);
     if (oldText.length < newText.length) {
-
       String newChar = newText[index];
-      if (index == 2 ) {
+      if (index == 2) {
         index++;
         offset++;
       }
@@ -163,7 +178,7 @@ class DateInputFormatter extends TextInputFormatter {
 
   int _indexOfDifference(String cs1, String cs2) {
     if (cs1 == cs2) {
-      return INDEX_NOT_FOUND;
+      return indexNotFound;
     }
     if (cs2 == null) {
       return 0;
@@ -177,7 +192,7 @@ class DateInputFormatter extends TextInputFormatter {
     if (i < cs2.length || i < cs1.length) {
       return i;
     }
-    return INDEX_NOT_FOUND;
+    return indexNotFound;
   }
 
   String _fillInputToPlaceholder(String input) {

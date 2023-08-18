@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'profile_shimmer.dart';
+import 'package:zawadicash_app/view/screens/profile/widget/profile_shimmer.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class UserInfo extends StatelessWidget {
                                     child: CustomImage(
                                       fit: BoxFit.cover,
                                       image:
-                                          "${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${profileController.userInfo.image}",
+                                          "${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image}",
                                       placeholder: Images.avatar,
                                     ),
                                   ),
@@ -87,7 +87,7 @@ class UserInfo extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
                                       child: Text(
-                                        profileController.userInfo.phone,
+                                        profileController.userInfo.phone!,
                                         style: rubikMedium.copyWith(
                                           color: Theme.of(context)
                                               .textTheme
@@ -128,7 +128,7 @@ class UserInfo extends StatelessWidget {
                                 color: Theme.of(context).secondaryHeaderColor),
                             padding: const EdgeInsets.all(10.0),
                             child: SvgPicture.string(
-                              controller.userInfo.qrCode,
+                              controller.userInfo.qrCode!,
                               height: 24,
                               width: 24,
                             ),

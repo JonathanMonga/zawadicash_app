@@ -35,10 +35,10 @@ class TransactionMoneyScreen extends StatefulWidget {
 
 class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
   String customerImageBaseUrl =
-      Get.find<SplashController>().configModel.baseUrls.customerImageUrl;
+      Get.find<SplashController>().configModel.baseUrls!.customerImageUrl!;
 
   String agentImageBaseUrl =
-      Get.find<SplashController>().configModel.baseUrls.agentImageUrl;
+      Get.find<SplashController>().configModel.baseUrls!.agentImageUrl!;
   final ScrollController _scrollController = ScrollController();
   String _countryCode = '';
 
@@ -276,16 +276,13 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                                           .PADDING_SIZE_SMALL),
                                                   child: Text(
                                                       sendMoneyController
-                                                              .sendMoneySuggestList[
-                                                                  index]
+                                                              .sendMoneySuggestList[index]
                                                               .name ??
                                                           sendMoneyController
-                                                              .sendMoneySuggestList[
-                                                                  index]
-                                                              .phoneNumber,
+                                                              .sendMoneySuggestList[index]
+                                                              .phoneNumber!,
                                                       style: sendMoneyController
-                                                                  .sendMoneySuggestList[
-                                                                      index]
+                                                                  .sendMoneySuggestList[index]
                                                                   .name ==
                                                               null
                                                           ? rubikLight.copyWith(
@@ -393,13 +390,11 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                                                         .PADDING_SIZE_SMALL),
                                                                 child: Text(
                                                                     requestMoneyController
-                                                                            .requestMoneySuggestList[
-                                                                                index]
+                                                                            .requestMoneySuggestList[index]
                                                                             .name ??
                                                                         requestMoneyController
-                                                                            .requestMoneySuggestList[
-                                                                                index]
-                                                                            .phoneNumber,
+                                                                            .requestMoneySuggestList[index]
+                                                                            .phoneNumber!,
                                                                     style: requestMoneyController.requestMoneySuggestList[index].name ==
                                                                             null
                                                                         ? rubikLight.copyWith(
