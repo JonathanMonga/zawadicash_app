@@ -1,9 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,19 +58,19 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _route() {
-    Get.find<SplashController>().getConfigData().then((value) {
+    Get.find<SplashController>(tag: getClassName<SplashController>()).getConfigData().then((value) {
       debugPrint('config call ');
       if (value.isOk) {
         Timer(const Duration(seconds: 1), () async {
-          Get.find<SplashController>().initSharedData().then((value) {
-            (Get.find<AuthController>().getCustomerName().isNotEmpty &&
-                    (Get.find<SplashController>().configModel.companyName !=
+          Get.find<SplashController>(tag: getClassName<SplashController>()).initSharedData().then((value) {
+            (Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerName().isNotEmpty &&
+                    (Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.companyName !=
                         null))
                 ? Get.offNamed(RouteHelper.getLoginRoute(
                     countryCode:
-                        Get.find<AuthController>().getCustomerCountryCode(),
+                        Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerCountryCode(),
                     phoneNumber:
-                        Get.find<AuthController>().getCustomerNumber()))
+                        Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerNumber()))
                 : Get.offNamed(RouteHelper.getChoseLoginRegRoute());
           });
         });

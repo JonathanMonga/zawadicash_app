@@ -4,6 +4,7 @@ import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/model/response/user_info.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
@@ -57,7 +58,7 @@ class UserInfo extends StatelessWidget {
                                     child: CustomImage(
                                       fit: BoxFit.cover,
                                       image:
-                                          "${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image}",
+                                          "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image}",
                                       placeholder: Images.avatar,
                                     ),
                                   ),

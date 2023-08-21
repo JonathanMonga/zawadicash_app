@@ -6,6 +6,7 @@ import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
@@ -29,7 +30,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final splashController = Get.find<SplashController>();
+    final splashController = Get.find<SplashController>(tag: getClassName<SplashController>());
     return Scaffold(
         backgroundColor: Theme.of(context).cardColor,
         appBar: AppbarHomeElement(title: 'profile'.tr),
@@ -91,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () =>
                               Get.toNamed(RouteHelper.getChoseLanguageRoute()),
                         ),
-                        if (Get.find<SplashController>().configModel.twoFactor!)
+                        if (Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.twoFactor!)
                           GetBuilder<ProfileController>(
                               builder: (profileController) {
                             return profileController.isLoading
@@ -130,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   isFailed: true,
                                   onTapFalse: () => Get.back(),
                                   onTapTrue: () =>
-                                      Get.find<AuthController>().removeUser(),
+                                      Get.find<AuthController>(tag: getClassName<AuthController>()).removeUser(),
                                   bigTitle: true,
                                 ),
                                 dismissible: false,
@@ -176,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                       ],
                     ),
-                    ProfileHeader(title: '6cash_support'.tr),
+                    ProfileHeader(title: 'Zawadicash_support'.tr),
                     Column(
                       children: [
                         if (((splashController.configModel.companyEmail !=
@@ -225,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: widget.MenuItem(
                               image: Images.log_out, title: 'logout'.tr),
                           onTap: () =>
-                              Get.find<ProfileController>().logOut(context),
+                              Get.find<ProfileController>(tag: getClassName<ProfileController>()).logOut(context),
                         ),
                         const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                       ],

@@ -1,6 +1,7 @@
 import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
 import 'package:flutter/material.dart';
@@ -64,8 +65,8 @@ class InformationSection extends StatelessWidget {
               // onTap: ()=> Get.back(),
               onTap: (){
                 Get.back();
-                Get.find<VerificationController>().cancelTimer();
-                Get.find<VerificationController>().setVisibility(false);
+                Get.find<VerificationController>(tag: getClassName<VerificationController>()).cancelTimer();
+                Get.find<VerificationController>(tag: getClassName<VerificationController>()).setVisibility(false);
 
 
                 // Get.offNamed(RouteHelper.getRegistrationRoute(phoneNumber: controller.phoneNumber.substring(4)));

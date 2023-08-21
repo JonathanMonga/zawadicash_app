@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 import 'package:zawadicash_app/util/images.dart';
@@ -32,15 +33,15 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() {
-    Get.find<CameraScreenController>().stopLiveFeed();
+    Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).stopLiveFeed();
     debugPrint('dispose method call');
     super.dispose();
   }
 
   @override
   void initState() {
-    Get.find<CameraScreenController>().valueInitialize(widget.fromEditProfile);
-    Get.find<CameraScreenController>().startLiveFeed(
+    Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).valueInitialize(widget.fromEditProfile);
+    Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).startLiveFeed(
       isQrCodeScan: widget.isBarCodeScan,
       isHome: widget.isHome,
       transactionType: widget.transactionType,

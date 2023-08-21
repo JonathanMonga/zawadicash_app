@@ -7,6 +7,7 @@ import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
@@ -27,8 +28,8 @@ class StatusMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileController = Get.find<ProfileController>();
-    final authController = Get.find<AuthController>();
+    final profileController = Get.find<ProfileController>(tag: getClassName<ProfileController>());
+    final authController = Get.find<AuthController>(tag: getClassName<AuthController>());
 
     debugPrint('biomatic in view : ${authController.biometric}');
     return CustomInkWell(

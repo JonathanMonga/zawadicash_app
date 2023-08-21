@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, library_private_types_in_public_api
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -13,6 +13,7 @@ import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/data/model/body/edit_profile_body.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
@@ -36,7 +37,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    ProfileController profileController = Get.find<ProfileController>();
+    ProfileController profileController = Get.find<ProfileController>(tag: getClassName<ProfileController>());
     occupationTextController.text = profileController.userInfo.occupation ?? '';
     firstNameController.text = profileController.userInfo.fName ?? '';
     lastNameController.text = profileController.userInfo.lName ?? '';
@@ -60,7 +61,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             appBar: CustomAppbar(
                 title: 'edit_profile'.tr,
                 onTap: () {
-                  Get.find<CameraScreenController>().removeImage();
+                  Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).removeImage();
                   Get.back();
                 }),
             body: Column(
@@ -100,7 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       width: 100,
                                                       fit: BoxFit.cover,
                                                       image:
-                                                          '${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${proController.userInfo.image ?? ''}'),
+                                                          '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${proController.userInfo.image ?? ''}'),
                                                 ),
                                               );
                                       })
@@ -129,7 +130,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               bottom: 5,
                               right: -5,
                               child: InkWell(
-                                onTap: () => Get.find<AuthController>()
+                                onTap: () => Get.find<AuthController>(tag: getClassName<AuthController>())
                                     .requestCameraPermission(
                                         fromEditProfile: true),
                                 child: Container(
@@ -202,8 +203,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<bool> _onWillPop(BuildContext context) async {
-    if (Get.find<CameraScreenController>().getImage != null) {
-      Get.find<CameraScreenController>().removeImage();
+    if (Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).getImage != null) {
+      Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).removeImage();
       debugPrint('====> Remove image from controller');
       Get.back();
 
@@ -220,7 +221,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     String email = emailController.text;
     String gender = controller.gender;
     String occupation = occupationTextController.text;
-    File image = Get.find<CameraScreenController>().getImage;
+    File image = Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).getImage;
 
     List<MultipartBody> multipartBody;
     if (image != null) {
@@ -238,7 +239,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
     controller.updateProfileData(editProfileBody, multipartBody).then((value) {
       if (value) {
-        Get.find<ProfileController>().profileData();
+        Get.find<ProfileController>(tag: getClassName<ProfileController>()).profileData();
       }
     });
   }

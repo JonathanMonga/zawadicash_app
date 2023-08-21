@@ -1,6 +1,7 @@
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
 
@@ -26,7 +27,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
-    Get.find<AuthController>()
+    Get.find<AuthController>(tag: getClassName<AuthController>())
         .authenticateWithBiometric(false, widget.password)
         .then((value) {
       Get.offAllNamed(RouteHelper.getLoginRoute(

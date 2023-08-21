@@ -16,6 +16,7 @@ import 'package:zawadicash_app/data/repository/auth_repo.dart';
 import 'package:zawadicash_app/data/repository/transaction_repo.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
@@ -29,9 +30,9 @@ class TransactionMoneyController extends GetxController implements GetxService {
       {required this.transactionRepo, required this.authRepo});
 
   BottomSliderController bottomSliderController =
-      Get.find<BottomSliderController>();
-  SplashController splashController = Get.find<SplashController>();
-  ProfileController profileController = Get.find<ProfileController>();
+      Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>());
+  SplashController splashController = Get.find<SplashController>(tag: getClassName<SplashController>());
+  ProfileController profileController = Get.find<ProfileController>(tag: getClassName<ProfileController>());
   List<Contact> contactList = [];
   List<AzItem> filterdContacts = [];
   List<AzItem> azItemList = [];
@@ -291,7 +292,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   Future<Response> checkCustomerNumber({required String phoneNumber}) async {
     late Response _response;
-    if (phoneNumber == Get.find<ProfileController>().userInfo.phone) {
+    if (phoneNumber == Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone) {
       //todo set message
       showCustomSnackBar('Please_enter_a_different_customer_number'.tr);
     } else {
@@ -353,14 +354,14 @@ class TransactionMoneyController extends GetxController implements GetxService {
       phoneNumber = phoneNumber.replaceAll('-', '');
     }
     if (!phoneNumber.contains('+')) {
-      phoneNumber = Get.find<AuthController>().getCustomerCountryCode() +
+      phoneNumber = Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerCountryCode() +
           phoneNumber.substring(1).trim();
     }
     if (phoneNumber.contains(' ')) {
       phoneNumber = phoneNumber.replaceAll(' ', '');
     }
     if (transactionType == "cash_out") {
-      Get.find<TransactionMoneyController>()
+      Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
           .checkAgentNumber(phoneNumber: phoneNumber)
           .then((value) {
         if (value.isOk) {
@@ -377,7 +378,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
         }
       });
     } else {
-      Get.find<TransactionMoneyController>()
+      Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
           .checkCustomerNumber(phoneNumber: phoneNumber)
           .then((value) {
         debugPrint('phone number contact ---- $phoneNumber');

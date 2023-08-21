@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 
 class PriceConverter {
   static String convertPrice(double price,
@@ -14,7 +15,7 @@ class PriceConverter {
         price = price - ((discount / 100) * price);
       }
     }
-    return '${Get.find<SplashController>().configModel.currencySymbol}${(price).toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}';
+    return '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol}${(price).toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}';
   }
 
   static double convertWithDiscount(BuildContext context, double price,
@@ -45,7 +46,7 @@ class PriceConverter {
 
   static double withCashOutCharge(double amount) {
     return (amount *
-                Get.find<SplashController>()
+                Get.find<SplashController>(tag: getClassName<SplashController>())
                     .configModel
                     .cashOutChargePercent!) /
             100 +
@@ -54,58 +55,58 @@ class PriceConverter {
 
   static double withSendMoneyCharge(double amount) {
     return amount +
-        Get.find<SplashController>().configModel.sendMoneyChargeFlat!;
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.sendMoneyChargeFlat!;
   }
 
   static String availableBalance() {
-    String _currencySymbol =
-        Get.find<SplashController>().configModel.currencySymbol!;
-    String _currentBalance =
-        Get.find<ProfileController>().userInfo.balance!.toStringAsFixed(2);
-    return Get.find<SplashController>().configModel.currencyPosition == 'left'
-        ? '$_currencySymbol$_currentBalance'
-        : '$_currentBalance$_currencySymbol';
+    String currencySymbol =
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
+    String currentBalance =
+        Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.balance!.toStringAsFixed(2);
+    return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
+        ? '$currencySymbol$currentBalance'
+        : '$currentBalance$currencySymbol';
   }
 
   static String newBalanceWithDebit(
       {required double inputBalance, required double charge}) {
     debugPrint(
-        'user balance = ${Get.find<ProfileController>().userInfo.phone}');
-    String _currencySymbol =
-        Get.find<SplashController>().configModel.currencySymbol!;
-    String _currentBalance = (Get.find<ProfileController>().userInfo.balance! -
+        'user balance = ${Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone}');
+    String currencySymbol =
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
+    String currentBalance = (Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.balance! -
             (inputBalance + charge))
         .toStringAsFixed(2);
-    return Get.find<SplashController>().configModel.currencyPosition == 'left'
-        ? '$_currencySymbol$_currentBalance'
-        : '$_currentBalance$_currencySymbol';
+    return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
+        ? '$currencySymbol$currentBalance'
+        : '$currentBalance$currencySymbol';
   }
 
   static String newBalanceWithCredit({required double inputBalance}) {
-    String _currencySymbol =
-        Get.find<SplashController>().configModel.currencySymbol!;
-    String _currentBalance =
-        (Get.find<ProfileController>().userInfo.balance! + inputBalance)
+    String currencySymbol =
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
+    String currentBalance =
+        (Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.balance! + inputBalance)
             .toStringAsFixed(2);
-    return Get.find<SplashController>().configModel.currencyPosition == 'left'
-        ? '$_currencySymbol$_currentBalance'
-        : '$_currentBalance$_currencySymbol';
+    return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
+        ? '$currencySymbol$currentBalance'
+        : '$currentBalance$currencySymbol';
   }
 
   static String balanceInputHint() {
-    String _currencySymbol =
-        Get.find<SplashController>().configModel.currencySymbol!;
-    String _balance = '0';
-    return Get.find<SplashController>().configModel.currencyPosition == 'left'
-        ? '$_currencySymbol$_balance'
-        : '$_balance$_currencySymbol';
+    String currencySymbol =
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
+    String balance = '0';
+    return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
+        ? '$currencySymbol$balance'
+        : '$balance$currencySymbol';
   }
 
   static String balanceWithSymbol({String? balance}) {
-    String _currencySymbol =
-        Get.find<SplashController>().configModel.currencySymbol!;
-    return Get.find<SplashController>().configModel.currencyPosition == 'left'
-        ? '$_currencySymbol$balance'
-        : '$balance$_currencySymbol';
+    String currencySymbol =
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
+    return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
+        ? '$currencySymbol$balance'
+        : '$balance$currencySymbol';
   }
 }

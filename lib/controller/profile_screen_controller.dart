@@ -7,6 +7,7 @@ import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/user_info.dart';
 import 'package:zawadicash_app/data/repository/profile_repo.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
@@ -19,7 +20,7 @@ class ProfileController extends GetxController implements GetxService {
   ProfileController({required this.profileRepo});
 
   final BottomSliderController bottomSliderController =
-      Get.find<BottomSliderController>();
+      Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>());
   UserInfo? _userInfo;
   bool _isLoading = false;
 
@@ -48,9 +49,9 @@ class ProfileController extends GetxController implements GetxService {
       Response response = await profileRepo!.getProfileDataApi();
       if (response.statusCode == 200) {
         _userInfo = UserInfo.fromJson(response.body);
-        Get.find<AuthController>()
+        Get.find<AuthController>(tag: getClassName<AuthController>())
             .setCustomerName('${_userInfo!.fName} ${_userInfo!.lName}');
-        Get.find<AuthController>().setCustomerQrCode(_userInfo!.qrCode!);
+        Get.find<AuthController>(tag: getClassName<AuthController>()).setCustomerQrCode(_userInfo!.qrCode!);
         _isLoading = false;
       } else {
         ApiChecker.checkApi(response);
@@ -77,11 +78,11 @@ class ProfileController extends GetxController implements GetxService {
           newPin: newPassword,
           confirmPin: confirmPassword);
       if (response.statusCode == 200) {
-        await Get.find<AuthController>().updatePin(newPassword);
+        await Get.find<AuthController>(tag: getClassName<AuthController>()).updatePin(newPassword);
 
         Get.offAllNamed(RouteHelper.getLoginRoute(
-            countryCode: Get.find<AuthController>().getCustomerCountryCode(),
-            phoneNumber: Get.find<AuthController>().getCustomerNumber()));
+            countryCode: Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerCountryCode(),
+            phoneNumber: Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerNumber()));
       } else {
         // Get.back();
         ApiChecker.checkApi(response);
@@ -176,15 +177,15 @@ class ProfileController extends GetxController implements GetxService {
           onTapTrueText: 'logout'.tr,
           isFailed: true,
           onTapFalse: () {
-            Get.find<AuthController>().removeBiometricPin().then((value) {
-              Get.find<AuthController>().change(0);
-              Get.find<AuthController>().logout();
-              Get.find<SplashController>().removeSharedData();
+            Get.find<AuthController>(tag: getClassName<AuthController>()).removeBiometricPin().then((value) {
+              Get.find<AuthController>(tag: getClassName<AuthController>()).change(0);
+              Get.find<AuthController>(tag: getClassName<AuthController>()).logout();
+              Get.find<SplashController>(tag: getClassName<SplashController>()).removeSharedData();
               Navigator.pop(context);
             });
           },
           onTapTrue: () {
-            Get.find<AuthController>().logout();
+            Get.find<AuthController>(tag: getClassName<AuthController>()).logout();
             Navigator.of(context).pop(true);
           },
         ),

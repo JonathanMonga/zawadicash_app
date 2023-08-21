@@ -6,6 +6,7 @@ import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/helper/transaction_type.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/screens/home/widget/animated_card/custom_rect_tween.dart';
@@ -47,7 +48,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   GestureDetector(
                     onTap: () =>
-                        Get.find<MenusController>().selectProfilePage(),
+                        Get.find<MenusController>(tag: getClassName<MenusController>()).selectProfilePage(),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -69,7 +70,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                               )
                             : CustomImage(
                                 image:
-                                    '${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image ?? ''}',
+                                    '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image ?? ''}',
                                 fit: BoxFit.cover,
                                 placeholder: Images.avatar,
                               ),
@@ -77,7 +78,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   const SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                  Get.find<SplashController>().configModel.themeIndex == '1'
+                  Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.themeIndex == '1'
                       ? const ShowName()
                       : ShowBalance(profileController: profileController),
                 ],
@@ -100,7 +101,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                     onTap: () => Navigator.of(context).push(
                         HeroDialogRoute(builder: (_) => const QrPopupCard())),
                     child: Hero(
-                      tag: Get.find<HomeController>().heroShowQr,
+                      tag: Get.find<HomeController>(tag: getClassName<HomeController>()).heroShowQr,
                       createRectTween: (begin, end) =>
                           CustomRectTween(begin: begin!, end: end!),
                       child: Container(

@@ -6,6 +6,7 @@ import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/next_button.dart';
@@ -37,7 +38,7 @@ class ConfirmPinBottomSheet extends StatelessWidget {
                 length: 4,
                 appContext: context,
                 onChanged: (value) {
-                  Get.find<BottomSliderController>().changePinComleted(value);
+                  Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).changePinComleted(value);
                 },
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
@@ -64,14 +65,14 @@ class ConfirmPinBottomSheet extends StatelessWidget {
           ),
         ),
         InkWell(onTap: () {
-          if (Get.find<BottomSliderController>().isPinCompleted) {
+          if (Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).isPinCompleted) {
             if (isAuth!) {
-              callBack!(!Get.find<AuthController>().biometric);
+              callBack!(!Get.find<AuthController>(tag: getClassName<AuthController>()).biometric);
             } else {
               callBack!();
             }
           } else {
-            Get.find<BottomSliderController>().changePinComleted('');
+            Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).changePinComleted('');
             Get.back(closeOverlays: true);
             showCustomSnackBar('please_input_4_digit_pin'.tr);
           }

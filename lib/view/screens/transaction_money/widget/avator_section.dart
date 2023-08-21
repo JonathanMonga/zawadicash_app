@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
 
@@ -20,14 +21,14 @@ class AvatarSection extends StatefulWidget {
 class _AvatarSectionState extends State<AvatarSection> {
   @override
   void initState() {
-    Get.find<BottomSliderController>().isStopFun();
-    Get.find<BottomSliderController>().changeAlignmentValue();
+    Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).isStopFun();
+    Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).changeAlignmentValue();
     super.initState();
   }
 
   @override
   void dispose() {
-    Get.find<BottomSliderController>().isStopFun();
+    Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).isStopFun();
     super.dispose();
   }
 
@@ -36,7 +37,10 @@ class _AvatarSectionState extends State<AvatarSection> {
     return Column(
       children: [
         const SizedBox(height: 50.0),
-        GetBuilder<BottomSliderController>(builder: (controller) {
+        GetBuilder<BottomSliderController>(
+            init: Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()),
+            tag: getClassName<BottomSliderController>(),
+            builder: (controller) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -50,7 +54,7 @@ class _AvatarSectionState extends State<AvatarSection> {
                   child: CustomImage(
                     fit: BoxFit.cover,
                     image:
-                        "${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${Get.find<ProfileController>().userInfo == null ? '' : Get.find<ProfileController>().userInfo.image}",
+                        "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo == null ? '' : Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.image}",
                     placeholder: Images.avatar,
                   ),
                 ),

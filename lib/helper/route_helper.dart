@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/model/response/contact_model.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/screens/add_money/web_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/create_account/create_account_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/login/login_screen.dart';
@@ -152,18 +153,18 @@ class RouteHelper {
       {required String amount,
       required String transactionType,
       required ContactModel contactModel}) {
-    String _data =
+    String data =
         base64Url.encode(utf8.encode(jsonEncode(contactModel.toJson())));
-    String _transactionType = base64Url.encode(utf8.encode(transactionType));
-    return '$shareStatement?amount=$amount&transaction-type=$_transactionType&contact=$_data';
+    String transactionType0 = base64Url.encode(utf8.encode(transactionType));
+    return '$shareStatement?amount=$amount&transaction-type=$transactionType0&contact=$data';
   }
 
   static getQrCodeDownloadOrShareRoute(
       {required String qrCode, required String phoneNumber}) {
-    String _qrCode = base64Url.encode(utf8.encode(qrCode));
-    String _phoneNumber = base64Url.encode(utf8.encode(phoneNumber));
+    String qrCode0 = base64Url.encode(utf8.encode(qrCode));
+    String phoneNumber0 = base64Url.encode(utf8.encode(phoneNumber));
 
-    return '$qrCodeDownloadOrShare?qr-code=$_qrCode&phone-number=$_phoneNumber';
+    return '$qrCodeDownloadOrShare?qr-code=$qrCode0&phone-number=$phoneNumber0';
   }
 
   static List<GetPage> routes = [
@@ -252,24 +253,24 @@ class RouteHelper {
     GetPage(name: editProfileScreen, page: () => const EditProfileScreen()),
     // GetPage(name: requested_money, page: () => RequestedMoneyListScreen(isOwn: Get.parameters['from'] == 'won' ? true : false)),
     // GetPage(name: faq, page: () => FaqScreen(title: 'FAQ')),
-    // GetPage(name: terms, page: () => HtmlViewScreen(title: 'Terms & Condition', url: Get.find<SplashController>().configModel.termsAndConditions)),
-    // GetPage(name: privacy, page: () => HtmlViewScreen(title: 'Privacy Policy', url: Get.find<SplashController>().configModel.privacyPolicy)),
+    // GetPage(name: terms, page: () => HtmlViewScreen(title: 'Terms & Condition', url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.termsAndConditions)),
+    // GetPage(name: privacy, page: () => HtmlViewScreen(title: 'Privacy Policy', url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.privacyPolicy)),
     GetPage(name: faq, page: () => FaqScreen(title: 'faq'.tr)),
     GetPage(
         name: terms,
         page: () => HtmlViewScreen(
             title: 'terms'.tr,
-            url: Get.find<SplashController>().configModel.termsAndConditions!)),
+            url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.termsAndConditions!)),
     GetPage(
         name: aboutUs,
         page: () => HtmlViewScreen(
             title: 'about_us'.tr,
-            url: Get.find<SplashController>().configModel.aboutUs!)),
+            url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.aboutUs!)),
     GetPage(
         name: privacy,
         page: () => HtmlViewScreen(
             title: 'privacy_policy'.tr,
-            url: Get.find<SplashController>().configModel.privacyPolicy!)),
+            url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.privacyPolicy!)),
     GetPage(name: support, page: () => const SupportScreen()),
     GetPage(
         name: qrCodeDownloadOrShare,

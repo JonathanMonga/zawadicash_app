@@ -5,6 +5,7 @@ import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_large_button.dart';
@@ -78,7 +79,7 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
                     } else {
                       if (emailTextController.text != '') {
                         bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(emailTextController.text);
                         if (!emailValid) {
                           showCustomSnackBar('please_provide_valid_email'.tr,
@@ -121,8 +122,8 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
           isFailed: true,
           showTwoBtn: true,
           onTap: () {
-            Get.find<CameraScreenController>().removeImage();
-            Get.find<AuthController>().change(0);
+            Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).removeImage();
+            Get.find<AuthController>(tag: getClassName<AuthController>()).change(0);
             Get.offAllNamed(RouteHelper.getChoseLoginRegRoute());
           }),
       dismissible: false,

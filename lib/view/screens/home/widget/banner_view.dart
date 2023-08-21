@@ -8,6 +8,7 @@ import 'package:zawadicash_app/controller/home_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/helper/custom_launch_url.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/screens/home/widget/shimmer/banner_shimmer.dart';
@@ -55,7 +56,7 @@ class BannerView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                     child: CustomImage(
                                         image:
-                                            "${Get.find<SplashController>().configModel.baseUrls!.bannerImageUrl}/$image",
+                                            "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.bannerImageUrl}/$image",
                                         fit: BoxFit.cover,
                                         placeholder:
                                             Images.banner_place_holder),
@@ -70,7 +71,7 @@ class BannerView extends StatelessWidget {
                             autoPlayInterval: const Duration(seconds: 4),
                             viewportFraction: 1,
                             onPageChanged: (index, reason) {
-                              Get.find<HomeController>().indicateIndex(index);
+                              Get.find<HomeController>(tag: getClassName<HomeController>()).indicateIndex(index);
                             },
                           ),
                         ),
@@ -83,9 +84,9 @@ class BannerView extends StatelessWidget {
                           alignment: Alignment.bottomCenter,
                           child: AnimatedSmoothIndicator(
                             activeIndex:
-                                Get.find<HomeController>().activeIndicator,
+                                Get.find<HomeController>(tag: getClassName<HomeController>()).activeIndicator,
                             count:
-                                Get.find<BannerController>().bannerList.length,
+                                Get.find<BannerController>(tag: getClassName<BannerController>()).bannerList.length,
                             effect: CustomizableEffect(
                               dotDecoration: DotDecoration(
                                 height: 5,

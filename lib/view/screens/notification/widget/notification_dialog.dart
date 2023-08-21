@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/model/response/notification_model.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
@@ -39,7 +40,7 @@ class NotificationDialog extends StatelessWidget {
               child: CustomImage(
                 placeholder: Images.placeholder,
                 image:
-                    '${Get.find<SplashController>().configModel.baseUrls!.notificationImageUrl}/${notificationModel.image}',
+                    '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.notificationImageUrl}/${notificationModel.image}',
                 height: MediaQuery.of(context).size.width - 130,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,

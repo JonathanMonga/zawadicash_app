@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/requested_money_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/screens/requested_money/widget/requested_money_screen.dart';
@@ -25,7 +26,7 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
 
   @override
   void initState() {
-    Get.find<RequestedMoneyController>().setIndex(0, isUpdate: false);
+    Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).setIndex(0, isUpdate: false);
     super.initState();
   }
 
@@ -44,13 +45,13 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         onRefresh: () async {
           if (widget.requestType == RequestType.sendRequest) {
-            await Get.find<RequestedMoneyController>()
+            await Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                 .getOwnRequestedMoneyList(1, reload: true);
           } else if (widget.requestType == RequestType.request) {
-            await Get.find<RequestedMoneyController>()
+            await Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                 .getRequestedMoneyList(1, reload: true);
           } else if (widget.requestType == RequestType.withdraw) {
-            await Get.find<RequestedMoneyController>()
+            await Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                 .getWithdrawHistoryList(reload: true);
           }
         },
@@ -161,14 +162,14 @@ class RequestTypeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => Get.find<RequestedMoneyController>().setIndex(index),
+      onPressed: () => Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).setIndex(index),
       style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
       child: Container(
         height: 40,
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color:
-                Get.find<RequestedMoneyController>().requestTypeIndex == index
+                Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestTypeIndex == index
                     ? Theme.of(context).secondaryHeaderColor
                     : Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(20),
@@ -178,10 +179,10 @@ class RequestTypeButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: Dimensions.PADDING_SIZE_DEFAULT,
               vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          child: Text(text + '($length)',
+          child: Text('$text($length)',
               style: rubikSemiBold.copyWith(
                   color:
-                      Get.find<RequestedMoneyController>().requestTypeIndex ==
+                      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestTypeIndex ==
                               index
                           ? ColorResources.blackColor
                           : Theme.of(context).textTheme.titleLarge!.color)),

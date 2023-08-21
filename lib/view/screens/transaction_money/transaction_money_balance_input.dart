@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,7 @@ import 'package:zawadicash_app/helper/email_checker.dart';
 import 'package:zawadicash_app/helper/price_converter.dart';
 import 'package:zawadicash_app/helper/transaction_type.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_loader.dart';
@@ -56,14 +59,14 @@ class _TransactionMoneyBalanceInputState
   void initState() {
     super.initState();
     if (widget.transactionType == TransactionType.WITHDRAW_REQUEST) {
-      Get.find<TransactionMoneyController>().getWithdrawMethods();
+      Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>()).getWithdrawMethods();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final ProfileController profileController = Get.find<ProfileController>();
-    final SplashController splashController = Get.find<SplashController>();
+    final ProfileController profileController = Get.find<ProfileController>(tag: getClassName<ProfileController>());
+    final SplashController splashController = Get.find<SplashController>(tag: getClassName<SplashController>());
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -131,8 +134,8 @@ class _TransactionMoneyBalanceInputState
 
                                 for (var _method in transactionMoneyController
                                     .withdrawModel.withdrawalMethods
-                                    .firstWhere((_method) =>
-                                        _method.id.toString() == id)
+                                    .firstWhere((method) =>
+                                        method.id.toString() == id)
                                     .methodFields!) {
                                   _gridFieldList.addIf(
                                       _method.inputName!.contains('cvv') ||
@@ -142,8 +145,8 @@ class _TransactionMoneyBalanceInputState
 
                                 for (var _method in transactionMoneyController
                                     .withdrawModel.withdrawalMethods
-                                    .firstWhere((_method) =>
-                                        _method.id.toString() == id)
+                                    .firstWhere((method) =>
+                                        method.id.toString() == id)
                                     .methodFields!) {
                                   _fieldList.addIf(
                                       !_method.inputName!.contains('cvv') &&
@@ -301,28 +304,28 @@ class _TransactionMoneyBalanceInputState
                     showCustomSnackBar('transaction_amount_must_be'.tr,
                         isError: true);
                   } else {
-                    bool _inSufficientBalance = false;
+                    bool inSufficientBalance = false;
 
-                    final bool _isCheck = widget.transactionType !=
+                    final bool isCheck = widget.transactionType !=
                             TransactionType.REQUEST_MONEY &&
                         widget.transactionType != TransactionType.ADD_MONEY;
 
-                    if (_isCheck &&
+                    if (isCheck &&
                         widget.transactionType == TransactionType.SEND_MONEY) {
-                      _inSufficientBalance =
+                      inSufficientBalance =
                           PriceConverter.withSendMoneyCharge(amount) >
                               profileController.userInfo.balance!;
-                    } else if (_isCheck &&
+                    } else if (isCheck &&
                         widget.transactionType == TransactionType.CASH_OUT) {
-                      _inSufficientBalance =
+                      inSufficientBalance =
                           PriceConverter.withCashOutCharge(amount) >
                               profileController.userInfo.balance!;
-                    } else if (_isCheck) {
-                      _inSufficientBalance =
+                    } else if (isCheck) {
+                      inSufficientBalance =
                           amount > profileController.userInfo.balance!;
                     }
 
-                    if (_inSufficientBalance) {
+                    if (inSufficientBalance) {
                       showCustomSnackBar('insufficient_balance'.tr,
                           isError: true);
                     } else {
@@ -331,79 +334,79 @@ class _TransactionMoneyBalanceInputState
                   }
                 }
               },
-              child: const NextButton(isSubmittable: true),
               backgroundColor: Theme.of(context).secondaryHeaderColor,
+              child: const NextButton(isSubmittable: true),
             );
           })),
     );
   }
 
   void _confirmationRoute(double amount) {
-    final transactionMoneyController = Get.find<TransactionMoneyController>();
+    final transactionMoneyController = Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>());
     if (widget.transactionType == 'add_money') {
-      Get.find<AddMoneyController>().addMoney(context, amount.toString());
+      Get.find<AddMoneyController>(tag: getClassName<AddMoneyController>()).addMoney(context, amount.toString());
     } else if (widget.transactionType == TransactionType.WITHDRAW_REQUEST) {
-      late String _message;
-      WithdrawalMethod _withdrawMethod = transactionMoneyController
+      late String message;
+      WithdrawalMethod withdrawMethod = transactionMoneyController
           .withdrawModel.withdrawalMethods
-          .firstWhere((_method) => _selectedMethodId == _method.id.toString());
+          .firstWhere((method) => _selectedMethodId == method.id.toString());
 
-      List<MethodField> _list = [];
-      late String _validationKey;
+      List<MethodField> list = [];
+      late String validationKey;
 
-      for (var _method in _withdrawMethod.methodFields!) {
+      for (var _method in withdrawMethod.methodFields!) {
         if (_method.inputType == 'email') {
-          _validationKey = _method.inputName!;
+          validationKey = _method.inputName!;
         }
         if (_method.inputType == 'date') {
-          _validationKey = _method.inputName!;
+          validationKey = _method.inputName!;
         }
       }
 
       _textControllers.forEach((key, textController) {
-        _list.add(MethodField(
+        list.add(MethodField(
           inputName: key,
           inputType: null,
           inputValue: textController.text,
           placeHolder: null,
         ));
 
-        if ((_validationKey == key) &&
+        if ((validationKey == key) &&
             EmailChecker.isNotValid(textController.text)) {
-          _message = 'please_provide_valid_email'.tr;
-        } else if ((_validationKey == key) &&
+          message = 'please_provide_valid_email'.tr;
+        } else if ((validationKey == key) &&
             textController.text.contains('-')) {
-          _message = 'please_provide_valid_date'.tr;
+          message = 'please_provide_valid_date'.tr;
         }
 
-        if (textController.text.isEmpty && _message.isEmpty) {
-          _message = 'please fill ${key.replaceAll('_', ' ')} field';
+        if (textController.text.isEmpty && message.isEmpty) {
+          message = 'please fill ${key.replaceAll('_', ' ')} field';
         }
       });
 
       _gridTextController.forEach((key, textController) {
-        _list.add(MethodField(
+        list.add(MethodField(
           inputName: key,
           inputType: null,
           inputValue: textController.text,
           placeHolder: null,
         ));
 
-        if ((_validationKey == key) && textController.text.contains('-')) {
-          _message = 'please_provide_valid_date'.tr;
+        if ((validationKey == key) && textController.text.contains('-')) {
+          message = 'please_provide_valid_date'.tr;
         }
       });
 
-      if (_message.isNotEmpty) {
-        showCustomSnackBar(_message);
+      if (message.isNotEmpty) {
+        showCustomSnackBar(message);
       } else {
         Get.to(() => TransactionMoneyConfirmation(
               inputBalance: amount,
               transactionType: TransactionType.WITHDRAW_REQUEST,
               withdrawMethod: WithdrawalMethod(
-                methodFields: _list,
-                methodName: _withdrawMethod.methodName,
-                id: _withdrawMethod.id,
+                methodFields: list,
+                methodName: withdrawMethod.methodName,
+                id: withdrawMethod.id,
               ),
               callBack: setFocus,
             ));

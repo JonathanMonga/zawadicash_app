@@ -6,6 +6,7 @@ import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_small_button.dart';
 import 'package:zawadicash_app/view/screens/onboarding/chose_login_registration/widget/indicator_section.dart';
@@ -30,7 +31,7 @@ class ChoiceScreen extends StatelessWidget {
                       itemCount: AppConstants.onboardList.length,
                       scrollDirection: Axis.horizontal,
                       onPageChanged: (page) {
-                        Get.find<AuthController>().change(page);
+                        Get.find<AuthController>(tag: getClassName<AuthController>()).change(page);
                       },
                       itemBuilder: (context, index) {
                         return Column(

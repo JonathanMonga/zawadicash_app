@@ -2,6 +2,7 @@ import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,7 @@ class PurposeItem extends StatelessWidget {
                         child: CustomImage(
                             placeholder: Images.placeholder,
                             image:
-                                '${Get.find<SplashController>().configModel.baseUrls!.purposeImageUrl}/$image',
+                                '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.purposeImageUrl}/$image',
                             fit: BoxFit.cover))
                     // ),
                     ),

@@ -8,6 +8,7 @@ import 'package:zawadicash_app/helper/price_converter.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
   @override
   void initState() {
     debugPrint('amount is : ${widget.amount}');
-    Get.find<TransactionMoneyController>().changeTrueFalse();
+    Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>()).changeTrueFalse();
     super.initState();
   }
 
@@ -55,15 +56,15 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
             ? 'cash_out'.tr
             : 'request_money'.tr;
     double cashOutCharge = double.parse(widget.amount.toString()) *
-        (double.parse(Get.find<SplashController>()
+        (double.parse(Get.find<SplashController>(tag: getClassName<SplashController>())
                 .configModel
                 .cashOutChargePercent
                 .toString()) /
             100);
     String customerImage =
-        '${Get.find<SplashController>().configModel.baseUrls!.customerImageUrl}/${widget.contactModel!.avatarImage}';
+        '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${widget.contactModel!.avatarImage}';
     String agentImage =
-        '${Get.find<SplashController>().configModel.baseUrls!.agentImageUrl}/${widget.contactModel!.avatarImage}';
+        '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.agentImageUrl}/${widget.contactModel!.avatarImage}';
     return WillPopScope(
       onWillPop: () =>
           Get.offAllNamed(RouteHelper.getNavBarRoute()) as Future<bool>,
@@ -92,7 +93,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                           top: Radius.circular(Dimensions.RADIUS_SIZE_LARGE)),
                     ),
                     child: Text(
-                      'confirm_to'.tr + ' ' + type,
+                      '${'confirm_to'.tr} $type',
                       style: rubikSemiBold.copyWith(),
                     ),
                   ),
@@ -160,7 +161,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                               Text(
                                   widget.transactionType == 'send_money'
                                       ? PriceConverter.balanceWithSymbol(
-                                          balance: Get.find<SplashController>()
+                                          balance: Get.find<SplashController>(tag: getClassName<SplashController>())
                                               .configModel
                                               .sendMoneyChargeFlat
                                               .toString())
@@ -196,9 +197,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                       return profileController.isLoading
                           ? const SizedBox()
                           : Text(
-                              'new_balance'.tr +
-                                  ' ' +
-                                  (widget.transactionType == 'request_money'
+                              '${'new_balance'.tr} ${widget.transactionType == 'request_money'
                                       ? PriceConverter.newBalanceWithCredit(
                                           inputBalance:
                                               double.parse(widget.amount!))
@@ -208,11 +207,11 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                                           charge: widget.transactionType ==
                                                   'send_money'
                                               ? double.parse(
-                                                  Get.find<SplashController>()
+                                                  Get.find<SplashController>(tag: getClassName<SplashController>())
                                                       .configModel
                                                       .sendMoneyChargeFlat
                                                       .toString())
-                                              : cashOutCharge)),
+                                              : cashOutCharge)}',
                               style: rubikRegular.copyWith(
                                   fontSize: Dimensions.FONT_SIZE_DEFAULT),
                             );
@@ -286,13 +285,13 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                         const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
                         CustomInkWell(
                           onTap: () async =>
-                              await Get.find<ScreenShootWidgetController>()
+                              await Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>())
                                   .statementScreenShootFunction(
                             amount: widget.amount!,
                             transactionType: widget.transactionType!,
                             contactModel: widget.contactModel!,
                             charge: widget.transactionType == 'send_money'
-                                ? Get.find<SplashController>()
+                                ? Get.find<SplashController>(tag: getClassName<SplashController>())
                                     .configModel
                                     .sendMoneyChargeFlat
                                     .toString()
@@ -320,7 +319,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                         ),
                         child: CustomInkWell(
                           onTap: () {
-                            Get.find<BottomSliderController>().goBackButton();
+                            Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).goBackButton();
                           },
                           radius: Dimensions.RADIUS_SIZE_SMALL,
                           highlightColor: Theme.of(context)

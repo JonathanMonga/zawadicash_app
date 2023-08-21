@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously, library_private_types_in_public_api
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:zawadicash_app/controller/add_money_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_loader.dart';
@@ -32,7 +35,7 @@ class _WebScreenState extends State<WebScreen> {
   @override
   void initState() {
     super.initState();
-    selectedUrl = Get.find<AddMoneyController>().addMoneyWebLink;
+    selectedUrl = Get.find<AddMoneyController>(tag: getClassName<AddMoneyController>()).addMoneyWebLink;
 
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
@@ -69,7 +72,7 @@ class _WebScreenState extends State<WebScreen> {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (_) => const NavBarScreen()),
                     (route) => false);
-                Get.find<ProfileController>().profileData(reload: true);
+                Get.find<ProfileController>(tag: getClassName<ProfileController>()).profileData(reload: true);
                 showAnimatedDialog(
                     context,
                     MyDialog(

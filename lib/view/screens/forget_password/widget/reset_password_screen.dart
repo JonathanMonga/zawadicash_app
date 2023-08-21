@@ -1,7 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/forget_password_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/screens/auth/pin_set/widget/appbar_view.dart';
 import 'package:zawadicash_app/view/screens/forget_password/widget/pin_field_view.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +70,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             padding: const EdgeInsets.only(bottom: 20, right: 10),
             child: FloatingActionButton(
               onPressed: () {
-                Get.find<ForgetPassController>().resetPassword(
+                Get.find<ForgetPassController>(tag: getClassName<ForgetPassController>()).resetPassword(
                     newPassController,
                     confirmPassController,
                     widget.phoneNumber!);
@@ -75,6 +78,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               elevation: 0,
               backgroundColor: Theme.of(context).secondaryHeaderColor,
               child: GetBuilder<AuthController>(
+                init: Get.find<AuthController>(
+                    tag: getClassName<AuthController>()),
+                tag: getClassName<AuthController>(),
                 builder: (controller) => !controller.isLoading
                     ? Center(
                         child: Icon(

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_barcode_kit/google_barcode_kit.dart' as google_barcode_kit;
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart' as google_mlkit_face_detection;
-//import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:zawadicash_app/controller/qr_code_scanner_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';

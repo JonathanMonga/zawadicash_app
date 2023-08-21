@@ -8,6 +8,7 @@ import 'package:zawadicash_app/helper/price_converter.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
@@ -51,21 +52,21 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
 
   @override
   Widget build(BuildContext context) {
-    String? _name;
-    String? _phoneNumber;
+    String? name;
+    String? phoneNumber;
 
     if (widget.requestType != RequestType.withdraw) {
       try {
         if (widget.requestType == RequestType.sendRequest) {
-          _name = widget.requestedMoney!.receiver!.name!;
-          _phoneNumber = widget.requestedMoney!.receiver!.phone!;
+          name = widget.requestedMoney!.receiver!.name!;
+          phoneNumber = widget.requestedMoney!.receiver!.phone!;
         } else {
-          _name = widget.requestedMoney!.sender!.name!;
-          _phoneNumber = widget.requestedMoney!.sender!.phone!;
+          name = widget.requestedMoney!.sender!.name!;
+          phoneNumber = widget.requestedMoney!.sender!.phone!;
         }
       } catch (e) {
-        _name = 'user_unavailable'.tr;
-        _phoneNumber = 'user_unavailable'.tr;
+        name = 'user_unavailable'.tr;
+        phoneNumber = 'user_unavailable'.tr;
       }
     }
     return widget.requestType == RequestType.withdraw
@@ -104,21 +105,21 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                   padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                   child: Column(
                       children: _itemList
-                          .map((_item) => Padding(
+                          .map((item) => Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: _methodFieldView(
-                                    type: _item.key
+                                    type: item.key
                                         .replaceAll('_', ' ')
                                         .capitalizeFirst!,
-                                    value: _item.value),
+                                    value: item.value),
                               ))
                           .toList()),
                 ),
               ],
             ),
           )
-        : !(_name == 'user_unavailable'.tr &&
-                _phoneNumber == 'user_unavailable'.tr)
+        : !(name == 'user_unavailable'.tr &&
+                phoneNumber == 'user_unavailable'.tr)
             ? Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Column(
@@ -128,14 +129,14 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(_name!,
+                              Text(name!,
                                   style: rubikMedium.copyWith(
                                       color: ColorResources.getTextColor(),
                                       fontSize: Dimensions.FONT_SIZE_LARGE)),
                               const SizedBox(
                                   height: Dimensions
                                       .PADDING_SIZE_SUPER_EXTRA_SMALL),
-                              Text(_phoneNumber!,
+                              Text(phoneNumber!,
                                   style: rubikMedium.copyWith(
                                       color: ColorResources.getTextColor(),
                                       fontSize: Dimensions.FONT_SIZE_SMALL)),
@@ -143,10 +144,9 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                                   height: Dimensions
                                       .PADDING_SIZE_SUPER_EXTRA_SMALL),
                               Text(
-                                  '${'amount'.tr} - ' +
-                                      PriceConverter.balanceWithSymbol(
+                                  '${'amount'.tr} - ${PriceConverter.balanceWithSymbol(
                                           balance: widget.requestedMoney!.amount
-                                              .toString()),
+                                              .toString())}',
                                   style: rubikMedium.copyWith(
                                       color: Theme.of(context)
                                           .textTheme
@@ -260,7 +260,7 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                                                   description:
                                                       '${'are_you_sure_want_to_denied'.tr} \n ${widget.requestedMoney!.sender!.name} \n ${widget.requestedMoney!.sender!.phone}',
                                                   onYesPressed: () {
-                                                    Get.find<RequestedMoneyController>()
+                                                    Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                                                             .isLoading
                                                         ? Center(
                                                             child: CircularProgressIndicator(
@@ -268,7 +268,7 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                                                                         context)
                                                                     .primaryColor))
                                                         : Get.find<
-                                                                RequestedMoneyController>()
+                                                                RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                                                             .denyRequest(
                                                                 context,
                                                                 widget
@@ -279,7 +279,7 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                                                                     .trim());
                                                   });
                                             });
-                                        Get.find<RequestedMoneyController>()
+                                        Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                                             .getRequestedMoneyList(1);
                                       },
                                       radius:

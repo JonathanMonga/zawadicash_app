@@ -65,7 +65,7 @@ class ScreenShootWidgetController extends GetxController
         imageFile.writeAsBytesSync(image!);
         await GallerySaver.saveImage(
           imageFile.path,
-          albumName: '6cash',
+          albumName: 'Zawadicash',
         ).then((value) =>
             showCustomSnackBar('QR code save to your Gallery', isError: false));
       }

@@ -4,6 +4,7 @@ import 'package:zawadicash_app/controller/notification_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/appbar_home_element.dart';
@@ -27,7 +28,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppbarHomeElement(title: 'notification'.tr),
       body: RefreshIndicator(
         onRefresh: () async {
-          await Get.find<NotificationController>().getNotificationList();
+          await Get.find<NotificationController>(tag: getClassName<NotificationController>()).getNotificationList();
         },
         child: GetBuilder<NotificationController>(
           builder: (notification) {
@@ -110,7 +111,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           width: 50,
                                           fit: BoxFit.cover,
                                           image:
-                                              '${Get.find<SplashController>().configModel.baseUrls!.notificationImageUrl}/${notification.notificationList[index].image}',
+                                              '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.notificationImageUrl}/${notification.notificationList[index].image}',
                                         ),
                                       ),
                                     )

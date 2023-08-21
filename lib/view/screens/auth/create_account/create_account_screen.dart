@@ -4,6 +4,7 @@ import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_country_code_picker.dart';
@@ -26,8 +27,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   void initState() {
     super.initState();
-    Get.find<CreateAccountController>()
-        .setInitCountryCode(Get.find<SplashController>().getCountryCode());
+    Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>())
+        .setInitCountryCode(Get.find<SplashController>(tag: getClassName<SplashController>()).getCountryCode());
   }
 
   @override
@@ -63,6 +64,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                   ),
                   GetBuilder<CreateAccountController>(
+                    init: Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()),
+                    tag: getClassName<CreateAccountController>(),
                     builder: (controller) => Container(
                       height: 52,
                       margin: const EdgeInsets.symmetric(
@@ -110,6 +113,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             ),
           ),
           GetBuilder<AuthController>(
+            init: Get.find<AuthController>(tag: getClassName<AuthController>()),
+            tag: getClassName<AuthController>(),
             builder: (controller) => SizedBox(
               height: 110,
               child: !controller.isLoading
@@ -118,10 +123,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       text: 'verify_umber'.tr,
                       onTap: () async {
                         String phoneNumber =
-                            '${Get.find<CreateAccountController>().countryCode}${numberFieldController.text}';
+                            '${Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()).countryCode}${numberFieldController.text}';
                         try {
                           await PhoneNumberUtil().parse(phoneNumber).then(
-                              (value) => Get.find<CreateAccountController>()
+                              (value) => Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>())
                                   .sendOtpResponse(number: phoneNumber));
                         } catch (e) {
                           showCustomSnackBar(

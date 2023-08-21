@@ -9,6 +9,7 @@ import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/data/model/body/signup_body.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_country_code_picker.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/screens/auth/pin_set/widget/appbar_view.dart';
@@ -80,34 +81,30 @@ class PinSetScreen extends StatelessWidget {
                         isError: true);
                   } else {
                     if (passController.text == confirmPassController.text) {
-                      String _password = passController.text;
-                      String _gender = Get.find<ProfileController>().gender;
-                      String _occupation = occupation!;
-                      String _fName = fName!;
-                      String _lName = lName!;
-                      String _email = email!;
-                      String _countryCode = getCountryCode(
-                          Get.find<CreateAccountController>().phoneNumber);
-                      String _phoneNumber = Get.find<CreateAccountController>()
+                      String password = passController.text;
+                      String gender = Get.find<ProfileController>(tag: getClassName<ProfileController>()).gender;
+                      String countryCode = getCountryCode(
+                          Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()).phoneNumber);
+                      String phoneNumber = Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>())
                           .phoneNumber
-                          .replaceAll(_countryCode, '');
-                      File _image = Get.find<CameraScreenController>().getImage;
-                      String _otp = Get.find<VerificationController>().otp;
+                          .replaceAll(countryCode, '');
+                      File image = Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).getImage;
+                      String otp = Get.find<VerificationController>(tag: getClassName<VerificationController>()).otp;
 
                       SignUpBody signUpBody = SignUpBody(
-                          fName: _fName,
-                          lName: _lName,
-                          gender: _gender,
-                          occupation: _occupation,
-                          email: _email,
-                          phone: _phoneNumber,
-                          otp: _otp,
-                          password: _password,
-                          dialCountryCode: _countryCode);
+                          fName: fName,
+                          lName: lName,
+                          gender: gender,
+                          occupation: occupation,
+                          email: email,
+                          phone: phoneNumber,
+                          otp: otp,
+                          password: password,
+                          dialCountryCode: countryCode);
 
                       MultipartBody multipartBody =
-                          MultipartBody('image', _image);
-                      Get.find<AuthController>()
+                          MultipartBody('image', image);
+                      Get.find<AuthController>(tag: getClassName<AuthController>())
                           .registration(signUpBody, [multipartBody]);
                     } else {
                       showCustomSnackBar('pin_not_matched'.tr, isError: true);
@@ -118,7 +115,9 @@ class PinSetScreen extends StatelessWidget {
               elevation: 0,
               backgroundColor: Theme.of(context).secondaryHeaderColor,
               child: GetBuilder<AuthController>(
-                builder: (controller) {
+                  init: Get.find<AuthController>(tag: getClassName<AuthController>()),
+                  tag: getClassName<AuthController>(),
+                  builder: (controller) {
                   return !controller.isLoading
                       ? SizedBox(
                           child: Icon(

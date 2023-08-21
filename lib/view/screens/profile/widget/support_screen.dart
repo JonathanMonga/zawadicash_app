@@ -5,6 +5,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
@@ -15,7 +16,7 @@ class SupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final splashController = Get.find<SplashController>();
+    final splashController = Get.find<SplashController>(tag: getClassName<SplashController>());
     return Scaffold(
       appBar: CustomAppbar(title: '24_support'.tr),
       body: SingleChildScrollView(

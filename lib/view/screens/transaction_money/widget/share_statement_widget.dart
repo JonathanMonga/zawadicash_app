@@ -9,6 +9,7 @@ import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/helper/price_converter.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
@@ -36,10 +37,10 @@ class ShareStatementWidgetState extends State<ShareStatementWidget> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final splashController = Get.find<SplashController>();
+    final splashController = Get.find<SplashController>(tag: getClassName<SplashController>());
     return Screenshot(
       key: widget.key,
-      controller: Get.find<ScreenShootWidgetController>().statementController,
+      controller: Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).statementController,
       child: Scaffold(
         backgroundColor: ColorResources.backgroundColor,
         body: Center(

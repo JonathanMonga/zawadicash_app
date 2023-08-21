@@ -6,6 +6,7 @@ import 'package:zawadicash_app/controller/screen_shot_widget_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
 
@@ -19,7 +20,7 @@ class QrCodeDownloadOrShareScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Screenshot(
-        controller: Get.find<ScreenShootWidgetController>().statementController,
+        controller: Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).statementController,
         child: Scaffold(
           backgroundColor: ColorResources.backgroundColor,
           body: Center(
@@ -42,7 +43,7 @@ class QrCodeDownloadOrShareScreen extends StatelessWidget {
                         const SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
 
                         Text(
-                          Get.find<SplashController>().configModel.companyName!,
+                          Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.companyName!,
                           style: rubikMedium.copyWith(color: Theme.of(context).primaryColor,
                           fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE),
                           textAlign: TextAlign.center,

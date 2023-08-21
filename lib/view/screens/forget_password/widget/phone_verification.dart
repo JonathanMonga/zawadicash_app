@@ -1,7 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/forget_password_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_pin_code_field.dart';
 import 'package:zawadicash_app/view/base/demo_otp_hint.dart';
@@ -37,9 +40,9 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   CustomPinCodeField(
                     padding: Dimensions.PADDING_SIZE_OVER_LARGE,
                     onCompleted: (pin) {
-                      Get.find<ForgetPassController>().setOtp(pin);
+                      Get.find<ForgetPassController>(tag: getClassName<ForgetPassController>()).setOtp(pin);
                       String phoneNumber = widget.phoneNumber!;
-                      Get.find<AuthController>()
+                      Get.find<AuthController>(tag: getClassName<AuthController>())
                           .verificationForForgetPass(phoneNumber, pin);
                     },
                   ),

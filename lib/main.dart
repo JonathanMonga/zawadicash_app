@@ -14,6 +14,7 @@ import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/theme/dark_theme.dart';
 import 'package:zawadicash_app/theme/light_theme.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/messages.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -33,16 +34,16 @@ Future<void> main() async {
   );
   cameras = await availableCameras();
 
-  Map<String, Map<String, String>> _languages = await di.init();
+  Map<String, Map<String, String>> languages = await di.init();
 
-  int? _orderID;
+  int? orderID;
   try {
     if (GetPlatform.isMobile) {
       final NotificationAppLaunchDetails? notificationAppLaunchDetails =
           await flutterLocalNotificationsPlugin
               .getNotificationAppLaunchDetails();
       if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-        _orderID = notificationAppLaunchDetails
+        orderID = notificationAppLaunchDetails
                     ?.notificationResponse?.payload !=
                 null
             ? int.parse(
@@ -55,7 +56,7 @@ Future<void> main() async {
     }
   } catch (e) {debugPrint(e.toString());}
 
-  runApp(MyApp(languages: _languages, orderID: _orderID));
+  runApp(MyApp(languages: languages, orderID: orderID));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent.withOpacity(0.3)));
 }
@@ -69,8 +70,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ThemeController>(
+      init: Get.find<ThemeController>(tag: getClassName<ThemeController>()),
+      tag: getClassName<ThemeController>(),
       builder: (themeController) {
         return GetBuilder<LocalizationController>(
+          init: Get.find<LocalizationController>(tag: getClassName<LocalizationController>()),
+          tag: getClassName<LocalizationController>(),
           builder: (localizeController) {
             return GetMaterialApp(
               navigatorObservers: [FlutterSmartDialog.observer],

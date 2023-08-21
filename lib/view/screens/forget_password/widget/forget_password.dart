@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, library_private_types_in_public_api, use_build_context_synchronously
 
 import 'package:phone_number/phone_number.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
@@ -6,6 +6,7 @@ import 'package:zawadicash_app/controller/forget_password_controller.dart';
 import 'package:zawadicash_app/helper/phone_cheker.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_country_code_picker.dart';
@@ -30,7 +31,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   void initState() {
     super.initState();
-    Get.find<ForgetPassController>().setInitialCode(widget.countryCode!);
+    Get.find<ForgetPassController>(tag: getClassName<ForgetPassController>())
+        .setInitialCode(widget.countryCode!);
     phoneNumberController.text = widget.phoneNumber!;
   }
 
@@ -102,11 +104,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             ),
                             prefixIcon: CustomCountryCodePiker(
                               onInit: (code) {},
-                              initSelect:
-                                  Get.find<ForgetPassController>().countryCode,
+                              initSelect: Get.find<ForgetPassController>(
+                                      tag: getClassName<ForgetPassController>())
+                                  .countryCode,
                               onChanged: (code) {
                                 debugPrint(code.toString());
-                                Get.find<ForgetPassController>()
+                                Get.find<ForgetPassController>(
+                                        tag: getClassName<
+                                            ForgetPassController>())
                                     .setCountryCode(code);
                               },
                             ),
@@ -118,38 +123,50 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
               ),
             ),
-            GetBuilder<AuthController>(builder: (controller) {
-              return SizedBox(
-                height: 110,
-                child: !controller.isLoading
-                    ? CustomLargeButton(
-                        backgroundColor: Theme.of(context).secondaryHeaderColor,
-                        text: 'Send_for_otp'.tr,
-                        onTap: () async {
-                          String phoneNumber =
-                              Get.find<ForgetPassController>().countryCode +
-                                  phoneNumberController.text;
-                          PhoneNumber number =
-                              await PhoneChecker.isNumberValid(phoneNumber);
-                          debugPrint('f number-------->: $number');
+            GetBuilder<AuthController>(
+                init: Get.find<AuthController>(
+                    tag: getClassName<AuthController>()),
+                tag: getClassName<AuthController>(),
+                builder: (controller) {
+                  return SizedBox(
+                    height: 110,
+                    child: !controller.isLoading
+                        ? CustomLargeButton(
+                            backgroundColor:
+                                Theme.of(context).secondaryHeaderColor,
+                            text: 'Send_for_otp'.tr,
+                            onTap: () async {
+                              String phoneNumber =
+                                  Get.find<ForgetPassController>(
+                                              tag: getClassName<
+                                                  ForgetPassController>())
+                                          .countryCode +
+                                      phoneNumberController.text;
+                              PhoneNumber number =
+                                  await PhoneChecker.isNumberValid(phoneNumber);
+                              debugPrint('f number-------->: $number');
 
-                          if (number != null) {
-                            Get.find<ForgetPassController>().sendForOtpResponse(
-                                context: context,
-                                phoneNumber: phoneNumberController.text);
-                          } else {
-                            showCustomSnackBar(
-                                'please_input_your_valid_number'.tr,
-                                isError: true);
-                          }
-                        },
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(
-                            color: Theme.of(context).primaryColor),
-                      ),
-              );
-            }),
+                              if (number != null) {
+                                Get.find<ForgetPassController>(
+                                        tag: getClassName<
+                                            ForgetPassController>())
+                                    .sendForOtpResponse(
+                                        context: context,
+                                        phoneNumber:
+                                            phoneNumberController.text);
+                              } else {
+                                showCustomSnackBar(
+                                    'please_input_your_valid_number'.tr,
+                                    isError: true);
+                              }
+                            },
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                  );
+                }),
           ],
         ),
       ),

@@ -23,12 +23,12 @@ class _CameraViewState extends State<CameraView> {
   // @override
   // void initState() {
   //   super.initState();
-  //   // Get.find<CameraScreenController>().startLiveFeed(fromEditProfile: widget.fromEditProfile, isQrCodeScan: widget.isQrCodeScan);
+  //   // Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).startLiveFeed(fromEditProfile: widget.fromEditProfile, isQrCodeScan: widget.isQrCodeScan);
   // }
   //
   // @override
   // void dispose() {
-  //   Get.find<CameraScreenController>().stopLiveFeed();
+  //   Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).stopLiveFeed();
   //   super.dispose();
   // }
 

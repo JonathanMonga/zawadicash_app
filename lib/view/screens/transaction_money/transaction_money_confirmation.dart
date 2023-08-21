@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
@@ -12,6 +14,7 @@ import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/helper/transaction_type.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +50,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomSliderController = Get.find<BottomSliderController>();
+    final bottomSliderController = Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>());
 
     bottomSliderController.setIsPinCompleted(
         isCompleted: false, isNotify: false);
@@ -93,13 +96,13 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                     Column(
                       children: withdrawMethod!.methodFields!
                           .map(
-                            (_method) => Padding(
+                            (method) => Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: _methodFieldView(
-                                type: _method.inputName!
+                                type: method.inputName!
                                     .replaceAll('_', ' ')
                                     .capitalizeFirst!,
-                                value: _method.inputValue!,
+                                value: method.inputValue!,
                               ),
                             ),
                           )
@@ -166,13 +169,13 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                       const SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
                       GestureDetector(
                         onTap: () {
-                          final _configModel =
-                              Get.find<SplashController>().configModel;
-                          if (!Get.find<BottomSliderController>()
+                          final configModel =
+                              Get.find<SplashController>(tag: getClassName<SplashController>()).configModel;
+                          if (!Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>())
                               .isPinCompleted) {
                             showCustomSnackBar('please_input_4_digit_pin'.tr);
                           } else {
-                            Get.find<TransactionMoneyController>()
+                            Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
                                 .pinVerify(
                               pin: _pinCodeFieldController.text,
                             )
@@ -181,11 +184,11 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                 if (transactionType ==
                                     TransactionType.WITHDRAW_REQUEST) {
                                   _placeWithdrawRequest();
-                                } else if (_configModel.twoFactor! &&
-                                    Get.find<ProfileController>()
+                                } else if (configModel.twoFactor! &&
+                                    Get.find<ProfileController>(tag: getClassName<ProfileController>())
                                         .userInfo
                                         .twoFactor!) {
-                                  Get.find<AuthController>()
+                                  Get.find<AuthController>(tag: getClassName<AuthController>())
                                       .checkOtp()
                                       .then((value) => value.isOk
                                           ? Get.defaultDialog(
@@ -264,7 +267,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                           amount: inputBalance.toString(),
                                           contactModel: contactModel!,
                                           pinCode:
-                                              Get.find<BottomSliderController>()
+                                              Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>())
                                                   .pin,
                                           transactionType: transactionType!,
                                           purpose: purpose!,
@@ -324,26 +327,26 @@ class TransactionMoneyConfirmation extends StatelessWidget {
   }
 
   void _placeWithdrawRequest() {
-    Map<String, String> _withdrawalMethodField = {};
+    Map<String, String> withdrawalMethodField = {};
 
     for (var _method in withdrawMethod!.methodFields!) {
-      _withdrawalMethodField.addAll({_method.inputName!: _method.inputValue!});
+      withdrawalMethodField.addAll({_method.inputName!: _method.inputValue!});
     }
 
-    List<Map<String, String>> _withdrawalMethodFieldList = [];
-    _withdrawalMethodFieldList.add(_withdrawalMethodField);
+    List<Map<String, String>> withdrawalMethodFieldList = [];
+    withdrawalMethodFieldList.add(withdrawalMethodField);
 
-    Map<String, String> _withdrawRequestBody = {};
-    _withdrawRequestBody = {
-      'pin': Get.find<BottomSliderController>().pin,
+    Map<String, String> withdrawRequestBody = {};
+    withdrawRequestBody = {
+      'pin': Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).pin,
       'amount': '$inputBalance',
       'withdrawal_method_id': '${withdrawMethod!.id}',
       'withdrawal_method_fields':
-          base64Url.encode(utf8.encode(jsonEncode(_withdrawalMethodFieldList))),
+          base64Url.encode(utf8.encode(jsonEncode(withdrawalMethodFieldList))),
     };
 
-    Get.find<TransactionMoneyController>()
-        .withDrawRequest(placeBody: _withdrawRequestBody);
+    Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
+        .withDrawRequest(placeBody: withdrawRequestBody);
   }
 
   Widget _methodFieldView({required String type, required String value}) {

@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,7 @@ class ForgetPassController extends GetxController implements GetxService {
       debugPrint("otp : $_otp");
       debugPrint("pass : ${newPassController.text}");
       debugPrint("Confirm pass : ${confirmPassController.text}");
-      Get.find<AuthController>().resetPassword(
+      Get.find<AuthController>(tag: getClassName<AuthController>()).resetPassword(
           number, _otp, newPassController.text, confirmPassController.text);
     } else {
       showCustomSnackBar('pin_not_matched'.tr, isError: true);
@@ -68,7 +69,7 @@ class ForgetPassController extends GetxController implements GetxService {
           isError: true);
     } else {
       String phoneNumber = _countryCode + number;
-      Get.find<AuthController>().otpForForgetPass(phoneNumber, context);
+      Get.find<AuthController>(tag: getClassName<AuthController>()).otpForForgetPass(phoneNumber, context);
 
       debugPrint('=====Phone=====>$phoneNumber');
     }

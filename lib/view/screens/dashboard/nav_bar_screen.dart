@@ -12,6 +12,7 @@ import 'package:zawadicash_app/controller/transaction_history_controller.dart';
 import 'package:zawadicash_app/helper/notification_helper.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
@@ -33,9 +34,9 @@ class _NavBarScreenState extends State<NavBarScreen> {
   @override
   void initState() {
     super.initState();
-    Get.find<MenusController>().selectHomePage(isUpdate: false);
+    Get.find<MenusController>(tag: getClassName<MenusController>()).selectHomePage(isUpdate: false);
 
-    Get.find<AuthController>().checkBiometricWithPin();
+    Get.find<AuthController>(tag: getClassName<AuthController>()).checkBiometricWithPin();
 
     var androidInitialize =
         const AndroidInitializationSettings('notification_icon');
@@ -49,26 +50,26 @@ class _NavBarScreenState extends State<NavBarScreen> {
       debugPrint('FirebaseMessaging.onMessage');
       NotificationHelper.showNotification(
           message, flutterLocalNotificationsPlugin!, false);
-      Get.find<ProfileController>().profileData(reload: true);
-      Get.find<RequestedMoneyController>()
+      Get.find<ProfileController>(tag: getClassName<ProfileController>()).profileData(reload: true);
+      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
           .getRequestedMoneyList(1, reload: true);
-      Get.find<RequestedMoneyController>()
+      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
           .getOwnRequestedMoneyList(1, reload: true);
-      Get.find<TransactionHistoryController>()
+      Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>())
           .getTransactionData(1, reload: true);
-      Get.find<RequestedMoneyController>().getWithdrawHistoryList(reload: true);
+      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).getWithdrawHistoryList(reload: true);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint('FirebaseMessaging.onMessageOpenedApp');
-      Get.find<ProfileController>().profileData(reload: true);
-      Get.find<RequestedMoneyController>()
+      Get.find<ProfileController>(tag: getClassName<ProfileController>()).profileData(reload: true);
+      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
           .getRequestedMoneyList(1, reload: true);
-      Get.find<RequestedMoneyController>()
+      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
           .getOwnRequestedMoneyList(1, reload: true);
-      Get.find<TransactionHistoryController>()
+      Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>())
           .getTransactionData(1, reload: true);
-      Get.find<RequestedMoneyController>().getWithdrawHistoryList(reload: true);
+      Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).getWithdrawHistoryList(reload: true);
     });
   }
 
@@ -197,7 +198,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
             child: Image.asset(
               icon!,
               fit: BoxFit.contain,
-              color: Get.find<MenusController>().currentTab == selectIndex
+              color: Get.find<MenusController>(tag: getClassName<MenusController>()).currentTab == selectIndex
                   ? Theme.of(context).textTheme.titleLarge!.color
                   : ColorResources.nevDefaultColor,
             ),
@@ -206,7 +207,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
           Text(
             name!,
             style: TextStyle(
-                color: Get.find<MenusController>().currentTab == selectIndex
+                color: Get.find<MenusController>(tag: getClassName<MenusController>()).currentTab == selectIndex
                     ? Theme.of(context).textTheme.titleLarge!.color
                     : ColorResources.nevDefaultColor,
                 fontSize: Dimensions.NAVBAR_FONT_SIZE,

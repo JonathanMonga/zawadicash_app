@@ -3,6 +3,7 @@ import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_pin_code_field.dart';
 import 'package:zawadicash_app/view/base/demo_otp_hint.dart';
@@ -21,7 +22,7 @@ class VerificationScreen extends StatelessWidget {
       appBar: CustomAppbar(
           title: 'phone_verification'.tr,
           onTap: () {
-            Get.find<VerificationController>().cancelTimer();
+            Get.find<VerificationController>(tag: getClassName<VerificationController>()).cancelTimer();
             Get.back();
           }),
       body: Column(
@@ -40,8 +41,8 @@ class VerificationScreen extends StatelessWidget {
                       onCompleted: (pin) {
                         getController.setOtp(pin);
                         String phoneNumber =
-                            Get.find<CreateAccountController>().phoneNumber;
-                        Get.find<AuthController>()
+                            Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()).phoneNumber;
+                        Get.find<AuthController>(tag: getClassName<AuthController>())
                             .phoneVerify(phoneNumber, pin);
                       },
                     );

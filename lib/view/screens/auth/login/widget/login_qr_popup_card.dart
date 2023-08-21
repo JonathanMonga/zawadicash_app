@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/screens/home/widget/animated_card/custom_rect_tween.dart';
 
 class LoginQrPopupCard extends StatelessWidget {
@@ -26,6 +27,8 @@ class LoginQrPopupCard extends StatelessWidget {
             child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: GetBuilder<AuthController>(
+                  init: Get.find<AuthController>(tag: getClassName<AuthController>()),
+                  tag: getClassName<AuthController>(),
                   builder: (controller) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.4,

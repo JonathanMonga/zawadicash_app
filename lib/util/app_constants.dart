@@ -9,7 +9,7 @@ import 'package:zawadicash_app/util/images.dart';
 class AppConstants {
   static const String APP_NAME = 'Zawadicash wallet';
 
-  static const String BASE_URL = 'https://6cash-admin.6amtech.com';
+  static const String BASE_URL = 'https://zawadicashwallet2-jmonga98.b4a.run/';
 
   static const bool DEMO = true;
    static const double APP_VERSION = 2.1;

@@ -2,6 +2,7 @@ import 'package:zawadicash_app/controller/transaction_history_controller.dart';
 import 'package:zawadicash_app/data/model/transaction_model.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,14 +18,14 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<TransactionHistoryController>().setIndex(0);
+    Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>()).setIndex(0);
     return Scaffold(
       appBar: AppbarHomeElement(title: 'history'.tr),
       body: SafeArea(
         child: RefreshIndicator(
           backgroundColor: Theme.of(context).primaryColor,
           onRefresh: () async {
-            await Get.find<TransactionHistoryController>()
+            await Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>())
                 .getTransactionData(1, reload: true);
           },
           child: CustomScrollView(
@@ -40,6 +41,8 @@ class HistoryScreen extends StatelessWidget {
                     height: 50,
                     alignment: Alignment.centerLeft,
                     child: GetBuilder<TransactionHistoryController>(
+                      init: Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>()),
+                      tag: getClassName<TransactionHistoryController>(),
                       builder: (historyController) {
                         return ListView(
                             shrinkWrap: true,
@@ -135,14 +138,14 @@ class TransactionTypeButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color:
-              Get.find<TransactionHistoryController>().transactionTypeIndex ==
+              Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>()).transactionTypeIndex ==
                       index
                   ? Theme.of(context).secondaryHeaderColor
                   : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_LARGE),
           border: Border.all(width: .5, color: ColorResources.getGreyColor())),
       child: CustomInkWell(
-        onTap: () => Get.find<TransactionHistoryController>().setIndex(index),
+        onTap: () => Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>()).setIndex(index),
         radius: Dimensions.RADIUS_SIZE_LARGE,
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -151,7 +154,7 @@ class TransactionTypeButton extends StatelessWidget {
           child: Text(text,
               style: rubikRegular.copyWith(
                   fontSize: Dimensions.FONT_SIZE_DEFAULT,
-                  color: Get.find<TransactionHistoryController>()
+                  color: Get.find<TransactionHistoryController>(tag: getClassName<TransactionHistoryController>())
                               .transactionTypeIndex ==
                           index
                       ? ColorResources.blackColor

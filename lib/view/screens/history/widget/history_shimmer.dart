@@ -94,7 +94,7 @@ class HistoryShimmer extends StatelessWidget {
             Column(
               children: [
                 if(item == 0) Padding(
-                  padding: Get.find<LocalizationController>().isLtr ? const EdgeInsets.only(left: Dimensions.PADDING_SIZE_DEFAULT, top: Dimensions.PADDING_SIZE_SMALL, bottom: Dimensions.PADDING_SIZE_SMALL) :
+                  padding: Get.find<LocalizationController>(tag: getClassName<LocalizationController>()).isLtr ? const EdgeInsets.only(left: Dimensions.PADDING_SIZE_DEFAULT, top: Dimensions.PADDING_SIZE_SMALL, bottom: Dimensions.PADDING_SIZE_SMALL) :
                   const EdgeInsets.only(right: Dimensions.PADDING_SIZE_DEFAULT, top: Dimensions.PADDING_SIZE_SMALL, bottom: Dimensions.PADDING_SIZE_SMALL),
                   child: Container(height: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE, child: ListView.builder( itemCount: 5, scrollDirection: Axis.horizontal, itemBuilder: (context, item) =>
                     Padding(

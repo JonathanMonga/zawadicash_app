@@ -3,6 +3,7 @@ import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 
 import 'package:zawadicash_app/view/screens/home/widget/animated_card/custom_rect_tween.dart';
 
@@ -16,7 +17,7 @@ class QrPopupCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Hero(
-          tag: Get.find<HomeController>().heroShowQr,
+          tag: Get.find<HomeController>(tag: getClassName<HomeController>()).heroShowQr,
           createRectTween: (begin, end) {
             return CustomRectTween(begin: begin!, end: end!);
           },

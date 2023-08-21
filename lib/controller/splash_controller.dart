@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/config_model.dart';
 import 'package:zawadicash_app/data/repository/splash_repo.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class SplashController extends GetxController implements GetxService {
@@ -25,15 +28,15 @@ class SplashController extends GetxController implements GetxService {
   bool get isVpn => _isVpn;
 
   Future<Response> getConfigData() async {
-    Response _response = await splashRepo.getConfigData();
-    if (_response.statusCode == 200) {
-      _configModel = ConfigModel.fromJson(_response.body);
+    Response response = await splashRepo.getConfigData();
+    if (response.statusCode == 200) {
+      _configModel = ConfigModel.fromJson(response.body);
     } else {
-      debugPrint(_response.toString());
-      ApiChecker.checkApi(_response);
+      debugPrint(response.toString());
+      ApiChecker.checkApi(response);
     }
     update();
-    return _response;
+    return response;
   }
 
   Future<bool> initSharedData() {
@@ -45,16 +48,16 @@ class SplashController extends GetxController implements GetxService {
   }
 
   bool isRestaurantClosed() {
-    DateTime _open = DateFormat('hh:mm').parse('');
-    DateTime _close = DateFormat('hh:mm').parse('');
-    DateTime _openTime = DateTime(_currentTime.year, _currentTime.month,
-        _currentTime.day, _open.hour, _open.minute);
-    DateTime _closeTime = DateTime(_currentTime.year, _currentTime.month,
-        _currentTime.day, _close.hour, _close.minute);
-    if (_closeTime.isBefore(_openTime)) {
-      _closeTime = _closeTime.add(const Duration(days: 1));
+    DateTime open = DateFormat('hh:mm').parse('');
+    DateTime close = DateFormat('hh:mm').parse('');
+    DateTime openTime = DateTime(_currentTime.year, _currentTime.month,
+        _currentTime.day, open.hour, open.minute);
+    DateTime closeTime = DateTime(_currentTime.year, _currentTime.month,
+        _currentTime.day, close.hour, close.minute);
+    if (closeTime.isBefore(openTime)) {
+      closeTime = closeTime.add(const Duration(days: 1));
     }
-    if (_currentTime.isAfter(_openTime) && _currentTime.isBefore(_closeTime)) {
+    if (_currentTime.isAfter(openTime) && _currentTime.isBefore(closeTime)) {
       return false;
     } else {
       return true;
@@ -67,15 +70,15 @@ class SplashController extends GetxController implements GetxService {
 
   String getCountryCode() {
     CountryCode countryCode = CountryCode.fromCountryCode(
-        Get.find<SplashController>().configModel.country!);
-    String _countryCode = countryCode.toString();
-    return _countryCode;
+        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.country!);
+    String countryCode0 = countryCode.toString();
+    return countryCode0;
   }
 
   Future<bool> checkVpn() async {
     _isVpn = await ApiChecker.isVpnActive();
     if(_isVpn) {
-       showCustomSnackBar('you are using vpn', isVpn: true, duration: Duration(minutes: 10));
+       showCustomSnackBar('you are using vpn', isVpn: true, duration: const Duration(minutes: 10));
      }
     return _isVpn;
   }

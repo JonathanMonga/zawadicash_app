@@ -4,6 +4,7 @@ import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 import 'package:zawadicash_app/view/base/custom_button.dart';
@@ -82,7 +83,10 @@ class CustomDialog extends StatelessWidget {
                   textAlign: TextAlign.center, style: rubikRegular),
               const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
               onTapFalseText != null
-                  ? GetBuilder<AuthController>(builder: (authController) {
+                  ? GetBuilder<AuthController>(
+                  init: Get.find<AuthController>(tag: getClassName<AuthController>()),
+                  tag: getClassName<AuthController>(),
+                  builder: (authController) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: Row(

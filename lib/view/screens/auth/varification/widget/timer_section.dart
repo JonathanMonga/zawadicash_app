@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,9 +27,9 @@ class TimerSection extends StatelessWidget {
               onTap: () {
                 controller.startTimer();
                 controller.setVisibility(false);
-                Get.find<AuthController>().resendOtp(
+                Get.find<AuthController>(tag: getClassName<AuthController>()).resendOtp(
                     phoneNumber:
-                        Get.find<CreateAccountController>().phoneNumber);
+                        Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()).phoneNumber);
               },
               child: Text(
                 'resend'.tr,

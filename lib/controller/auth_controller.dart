@@ -16,6 +16,7 @@ import 'package:zawadicash_app/data/model/response/response_model.dart';
 import 'package:zawadicash_app/data/repository/auth_repo.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -59,8 +60,8 @@ class AuthController extends GetxController implements GetxService {
       _callSetting();
     });
 
-    final String pin = Get.find<BottomSliderController>().pin;
-    Get.find<ProfileController>()
+    final String pin = Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).pin;
+    Get.find<ProfileController>(tag: getClassName<ProfileController>())
         .pinVerify(getPin: pin, isUpdateTwoFactor: false)
         .then((response) async {
       if (response.statusCode == 200 && response.body != null) {
@@ -146,10 +147,10 @@ class AuthController extends GetxController implements GetxService {
     Response response =
         await authRepo.checkPhoneNumber(phoneNumber: phoneNumber);
     if (response.statusCode == 200) {
-      if (!Get.find<SplashController>().configModel.phoneVerification!) {
+      if (!Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.phoneVerification!) {
         requestCameraPermission(fromEditProfile: false);
       } else if (response.body['otp'] == "active") {
-        Get.find<VerificationController>().startTimer();
+        Get.find<VerificationController>(tag: getClassName<VerificationController>()).startTimer();
         Get.toNamed(RouteHelper.getVerifyRoute());
       }
       _isLoading = false;
@@ -205,10 +206,10 @@ class AuthController extends GetxController implements GetxService {
           Get.offNamed(
               RouteHelper.getSelfieRoute(fromEditProfile: fromEditProfile));
         } else if (status == PermissionStatus.denied) {
-          Get.find<CameraScreenController>()
+          Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>())
               .showDeniedDialog(fromEditProfile: fromEditProfile);
         } else if (status == PermissionStatus.permanentlyDenied) {
-          Get.find<CameraScreenController>()
+          Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>())
               .showPermanentlyDeniedDialog(fromEditProfile: fromEditProfile);
         }
       }
@@ -227,7 +228,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       debugPrint(response.body['message']);
       responseModel = ResponseModel(true, response.body["message"]);
-      Get.find<VerificationController>().cancelTimer();
+      Get.find<VerificationController>(tag: getClassName<VerificationController>()).cancelTimer();
       showCustomSnackBar(responseModel.message, isError: false);
       requestCameraPermission(fromEditProfile: false);
     } else {
@@ -265,7 +266,7 @@ class AuthController extends GetxController implements GetxService {
         await authRepo.registration(allCustomerInfo, multipartBody);
     debugPrint('error is');
     if (response.statusCode == 200) {
-      Get.find<CameraScreenController>().removeImage();
+      Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).removeImage();
       late String countryCode, nationalNumber;
       try {
         PhoneNumber phoneNumber =
@@ -329,7 +330,7 @@ class AuthController extends GetxController implements GetxService {
     debugPrint('user del : ${response.body}');
 
     if (response.statusCode == 200) {
-      Get.find<SplashController>().removeSharedData().then((value) {
+      Get.find<SplashController>(tag: getClassName<SplashController>()).removeSharedData().then((value) {
         showCustomSnackBar('your_account_remove_successfully'.tr);
         Get.offAllNamed(RouteHelper.getSplashRoute());
       });

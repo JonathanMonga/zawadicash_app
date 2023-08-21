@@ -5,6 +5,7 @@ import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/data/model/body/edit_profile_body.dart';
 import 'package:zawadicash_app/data/model/response/response_model.dart';
 import 'package:zawadicash_app/data/repository/auth_repo.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class EditProfileController extends GetxController implements GetxService {
     };
     if (editProfileBody.email != '') {
       bool emailValid = RegExp(
-              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
           .hasMatch(editProfileBody.email);
 
       if (emailValid) {
@@ -72,8 +73,8 @@ class EditProfileController extends GetxController implements GetxService {
       if (response.statusCode == 200) {
         responseModel = ResponseModel(true, response.body['message']);
         isSuccess = true;
-        Get.find<CameraScreenController>().removeImage();
-        Get.find<ProfileController>().profileData(reload: true, isUpdate: true);
+        Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).removeImage();
+        Get.find<ProfileController>(tag: getClassName<ProfileController>()).profileData(reload: true, isUpdate: true);
         Get.back();
         debugPrint(responseModel.message);
         showCustomSnackBar(responseModel.message, isError: false);

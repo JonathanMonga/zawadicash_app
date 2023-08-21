@@ -1,11 +1,12 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class CreateAccountController extends GetxController implements GetxService {
-  String _countryCode = Get.find<SplashController>().getCountryCode();
+  String _countryCode = Get.find<SplashController>(tag: getClassName<SplashController>()).getCountryCode();
   late String _phoneNumber;
 
   String get countryCode => _countryCode;
@@ -40,7 +41,7 @@ class CreateAccountController extends GetxController implements GetxService {
           isError: true);
     } else {
       setPhoneNumber(number);
-      Get.find<AuthController>().checkPhone(number);
+      Get.find<AuthController>(tag: getClassName<AuthController>()).checkPhone(number);
     }
   }
 }

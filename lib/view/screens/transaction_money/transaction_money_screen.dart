@@ -8,6 +8,7 @@ import 'package:zawadicash_app/helper/transaction_type.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
@@ -35,10 +36,10 @@ class TransactionMoneyScreen extends StatefulWidget {
 
 class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
   String customerImageBaseUrl =
-      Get.find<SplashController>().configModel.baseUrls!.customerImageUrl!;
+      Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl!;
 
   String agentImageBaseUrl =
-      Get.find<SplashController>().configModel.baseUrls!.agentImageUrl!;
+      Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.agentImageUrl!;
   final ScrollController _scrollController = ScrollController();
   String _countryCode = '';
 
@@ -46,8 +47,8 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _countryCode = Get.find<AuthController>().getCustomerCountryCode();
-    Get.find<TransactionMoneyController>()
+    _countryCode = Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerCountryCode();
+    Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
         .getSuggestList(type: widget.transactionType!);
   }
 
@@ -57,7 +58,7 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
     widget.fromEdit!
         ? searchController.text = widget.phoneNumber!
         : const SizedBox();
-    final transactionMoneyController = Get.find<TransactionMoneyController>();
+    final transactionMoneyController = Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>());
 
     return Scaffold(
       appBar: CustomAppbar(title: widget.transactionType!.tr),
@@ -135,7 +136,7 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                               String phoneNumber =
                                   _countryCode + searchController.text.trim();
                               if (widget.transactionType == "cash_out") {
-                                Get.find<TransactionMoneyController>()
+                                Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
                                     .checkAgentNumber(phoneNumber: phoneNumber)
                                     .then((value) {
                                   if (value.isOk) {
@@ -153,7 +154,7 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                   }
                                 });
                               } else {
-                                Get.find<TransactionMoneyController>()
+                                Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
                                     .checkCustomerNumber(
                                         phoneNumber: phoneNumber)
                                     .then((value) {
@@ -552,7 +553,7 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                 .filterdContacts.isNotEmpty
                             ? BoxConstraints(
                                 maxHeight:
-                                    Get.find<TransactionMoneyController>()
+                                    Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
                                             .filterdContacts
                                             .length
                                             .toDouble() *

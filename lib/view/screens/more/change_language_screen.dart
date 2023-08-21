@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/localization_controller.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
@@ -18,7 +19,10 @@ class ChooseLanguageScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppbar(title: 'language'.tr),
       body:
-          GetBuilder<LocalizationController>(builder: (localizationController) {
+          GetBuilder<LocalizationController>(
+              init: Get.find<LocalizationController>(tag: getClassName<LocalizationController>()),
+              tag: getClassName<LocalizationController>(),
+              builder: (localizationController) {
         return Column(children: [
           Expanded(
               child: Center(

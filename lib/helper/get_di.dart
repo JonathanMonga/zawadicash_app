@@ -48,79 +48,167 @@ import 'package:get/get.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
 import 'package:zawadicash_app/data/repository/kyc_verify_repo.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
-
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
-  final BaseDeviceInfo deviceInfo = await DeviceInfoPlugin().deviceInfo;
+  final deviceInfo = await DeviceInfoPlugin().deviceInfo;
 
-  Get.lazyPut(() => sharedPreferences);
-  Get.lazyPut(() => deviceInfo);
-  String? uniqueId;
+  Get.lazyPut<SharedPreferences>(() => sharedPreferences, tag: getClassName<SharedPreferences>());
+  Get.lazyPut<BaseDeviceInfo>(() => deviceInfo, tag: getClassName<BaseDeviceInfo>());
+
+  late String uniqueId;
   try {
-    uniqueId = await UniqueIdentifier.serial;
+    uniqueId = (await UniqueIdentifier.serial)!;
   } catch (error) {
     debugPrint('error is : $error');
   }
 
-  Get.lazyPut(() => uniqueId);
+  Get.lazyPut<String>(() => uniqueId, tag: getClassName<String>());
 
-  Get.lazyPut(() => ApiClient(
-        appBaseUrl: AppConstants.BASE_URL,
-        sharedPreferences: Get.find(),
-        uniqueId: Get.find(),
-        deiceInfo: Get.find(),
-      ));
+  Get.lazyPut<ApiClient>(
+      () => ApiClient(
+            appBaseUrl: AppConstants.BASE_URL,
+            sharedPreferences: Get.find<SharedPreferences>(tag: getClassName<SharedPreferences>()),
+            uniqueId: Get.find<String>(tag: getClassName<String>()),
+            deiceInfo: Get.find<BaseDeviceInfo>(tag: getClassName<BaseDeviceInfo>()),
+          ),
+      tag: getClassName<ApiClient>());
 
   // Repository
   Get.lazyPut(
-      () => SplashRepo(sharedPreferences: Get.find(), apiClient: Get.find()));
-  Get.lazyPut(() => LanguageRepo());
-  Get.lazyPut(() =>
-      TransactionRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+      () => SplashRepo(
+          sharedPreferences: Get.find(tag: getClassName<SharedPreferences>()),
+          apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<SplashRepo>());
+  Get.lazyPut(() => LanguageRepo(), tag: getClassName<LanguageRepo>());
   Get.lazyPut(
-      () => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() => ProfileRepo(apiClient: Get.find()));
-  Get.lazyPut(() => ProfileRepo(apiClient: Get.find()));
-  Get.lazyPut(() => WebsiteLinkRepo(apiClient: Get.find()));
-  Get.lazyPut(() => BannerRepo(apiClient: Get.find()));
-  Get.lazyPut(() => AddMoneyRepo(apiClient: Get.find()));
-  Get.lazyPut(() => FaqRepo(apiClient: Get.find()));
-  Get.lazyPut(() => NotificationRepo(apiClient: Get.find()));
-  Get.lazyPut(() => RequestedMoneyRepo(apiClient: Get.find()));
-  Get.lazyPut(() => TransactionHistoryRepo(apiClient: Get.find()));
-  Get.lazyPut(() => KycVerifyRepo(apiClient: Get.find()));
+      () => TransactionRepo(
+          apiClient: Get.find(tag: getClassName<ApiClient>()),
+          sharedPreferences: Get.find(tag: getClassName<SharedPreferences>())),
+      tag: getClassName<TransactionRepo>());
+  Get.lazyPut(
+      () => AuthRepo(
+          apiClient: Get.find(tag: getClassName<ApiClient>()),
+          sharedPreferences: Get.find(tag: getClassName<SharedPreferences>())),
+      tag: getClassName<AuthRepo>());
+  Get.lazyPut(
+      () => ProfileRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<ProfileRepo>());
+  Get.lazyPut(
+      () =>
+          WebsiteLinkRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<WebsiteLinkRepo>());
+  Get.lazyPut(
+      () => BannerRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<BannerRepo>());
+  Get.lazyPut(
+      () => AddMoneyRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<AddMoneyRepo>());
+  Get.lazyPut(
+      () => FaqRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<FaqRepo>());
+  Get.lazyPut(
+      () =>
+          NotificationRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<NotificationRepo>());
+  Get.lazyPut(
+      () => RequestedMoneyRepo(
+          apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<RequestedMoneyRepo>());
+  Get.lazyPut(
+      () => TransactionHistoryRepo(
+          apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<TransactionHistoryRepo>());
+  Get.lazyPut(
+      () => KycVerifyRepo(apiClient: Get.find(tag: getClassName<ApiClient>())),
+      tag: getClassName<KycVerifyRepo>());
 
   // Controller
-  Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
-  Get.lazyPut(() => SplashController(splashRepo: Get.find()));
-  Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
-  Get.lazyPut(() => LanguageController(sharedPreferences: Get.find()));
-  Get.lazyPut(() => TransactionMoneyController(
-      transactionRepo: Get.find(), authRepo: Get.find()));
-  Get.lazyPut(() => AddMoneyController(addMoneyRepo: Get.find()));
-  Get.lazyPut(() => NotificationController(notificationRepo: Get.find()));
-  Get.lazyPut(() => ProfileController(profileRepo: Get.find()));
-  Get.lazyPut(() => FaqController(faqrepo: Get.find()));
-  Get.lazyPut(() => BottomSliderController());
-
-  Get.lazyPut(() => MenusController());
-  Get.lazyPut(() => AuthController(authRepo: Get.find()));
-  Get.lazyPut(() => HomeController());
-  Get.lazyPut(() => CreateAccountController());
-  Get.lazyPut(() => VerificationController(authRepo: Get.find()));
-  Get.lazyPut(() => CameraScreenController());
-  Get.lazyPut(() => ForgetPassController());
-  Get.lazyPut(() => WebsiteLinkController(websiteLinkRepo: Get.find()));
-  Get.lazyPut(() => QrCodeScannerController());
-  Get.lazyPut(() => BannerController(bannerRepo: Get.find()));
   Get.lazyPut(
-      () => TransactionHistoryController(transactionHistoryRepo: Get.find()));
-  Get.lazyPut(() => EditProfileController(authRepo: Get.find()));
-  Get.lazyPut(() => RequestedMoneyController(requestedMoneyRepo: Get.find()));
+      () => SplashController(
+          splashRepo: Get.find(tag: getClassName<SplashRepo>())),
+      tag: getClassName<SplashController>());
+  Get.lazyPut(
+      () => ThemeController(
+          sharedPreferences: Get.find(tag: getClassName<SharedPreferences>())),
+      tag: getClassName<ThemeController>());
+  Get.lazyPut(
+      () => LocalizationController(
+          sharedPreferences: Get.find(tag: getClassName<SharedPreferences>())),
+      tag: getClassName<LocalizationController>());
+  Get.lazyPut(
+      () => LanguageController(
+          sharedPreferences: Get.find(tag: getClassName<SharedPreferences>())),
+      tag: getClassName<LanguageController>());
+  Get.lazyPut(
+      () => TransactionMoneyController(
+          transactionRepo: Get.find(tag: getClassName<TransactionRepo>()),
+          authRepo: Get.find(tag: getClassName<AuthRepo>())),
+      tag: getClassName<TransactionMoneyController>());
+  Get.lazyPut(
+      () => AddMoneyController(
+          addMoneyRepo: Get.find(tag: getClassName<AddMoneyRepo>())),
+      tag: getClassName<AddMoneyController>());
+  Get.lazyPut(
+      () => NotificationController(
+          notificationRepo: Get.find(tag: getClassName<NotificationRepo>())),
+      tag: getClassName<NotificationController>());
+  Get.lazyPut(
+      () => ProfileController(
+          profileRepo: Get.find(tag: getClassName<ProfileRepo>())),
+      tag: getClassName<ProfileController>());
+  Get.lazyPut(
+      () => FaqController(faqrepo: Get.find(tag: getClassName<FaqRepo>())),
+      tag: getClassName<FaqController>());
+
+  Get.lazyPut(() => BottomSliderController(),
+      tag: getClassName<BottomSliderController>());
+  Get.lazyPut(() => MenusController(), tag: getClassName<MenusController>());
+  Get.lazyPut(
+      () => AuthController(authRepo: Get.find(tag: getClassName<AuthRepo>())),
+      tag: getClassName<AuthController>());
+  Get.lazyPut(() => HomeController(), tag: getClassName<HomeController>());
+  Get.lazyPut(() => CreateAccountController(),
+      tag: getClassName<CreateAccountController>());
+  Get.lazyPut(
+      () => VerificationController(
+          authRepo: Get.find(tag: getClassName<AuthRepo>())),
+      tag: getClassName<VerificationController>());
+  Get.lazyPut(() => CameraScreenController(),
+      tag: getClassName<CameraScreenController>());
+  Get.lazyPut(() => ForgetPassController(),
+      tag: getClassName<ForgetPassController>());
+  Get.lazyPut(
+      () => WebsiteLinkController(
+          websiteLinkRepo: Get.find(tag: getClassName<WebsiteLinkRepo>())),
+      tag: getClassName<WebsiteLinkController>());
+  Get.lazyPut(() => QrCodeScannerController(),
+      tag: getClassName<QrCodeScannerController>());
+  Get.lazyPut(
+      () => BannerController(
+          bannerRepo: Get.find(tag: getClassName<BannerRepo>())),
+      tag: getClassName<BannerController>());
+  Get.lazyPut(
+      () => TransactionHistoryController(
+          transactionHistoryRepo:
+              Get.find(tag: getClassName<TransactionHistoryRepo>())),
+      tag: getClassName<TransactionHistoryController>());
+  Get.lazyPut(
+      () => EditProfileController(
+          authRepo: Get.find(tag: getClassName<AuthRepo>())),
+      tag: getClassName<EditProfileController>());
+  Get.lazyPut(
+      () => RequestedMoneyController(
+          requestedMoneyRepo:
+              Get.find(tag: getClassName<RequestedMoneyRepo>())),
+      tag: getClassName<RequestedMoneyController>());
   Get.lazyPut(() => ScreenShootWidgetController());
-  Get.lazyPut(() => KycVerifyController(kycVerifyRepo: Get.find()));
+  Get.lazyPut(
+      () => KycVerifyController(
+          kycVerifyRepo: Get.find(tag: getClassName<KycVerifyRepo>())),
+      tag: getClassName<KycVerifyController>());
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

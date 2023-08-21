@@ -5,6 +5,7 @@ import 'package:zawadicash_app/controller/websitelink_controller.dart';
 import 'package:zawadicash_app/helper/custom_launch_url.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
@@ -65,7 +66,7 @@ class LinkedWebsite extends StatelessWidget {
                           height: 30,
                           child: CustomImage(
                             image:
-                                "${Get.find<SplashController>().configModel.baseUrls!.linkedWebsiteImageUrl}/${websiteLinkController.websiteList[index].image}",
+                                "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.linkedWebsiteImageUrl}/${websiteLinkController.websiteList[index].image}",
                             placeholder: Images.web_link_place_holder,
                             fit: BoxFit.fitWidth,
                           ),

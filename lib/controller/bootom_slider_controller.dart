@@ -121,7 +121,7 @@ class BottomSliderController extends GetxController implements GetxService {
   }
 
   void goBackButton(){
-    // Get.find<ProfileController>().setUserInfo = null;
+    // Get.find<ProfileController>(tag: getClassName<ProfileController>()).setUserInfo = null;
     changeIsNextBottomSheetFun();
     _isPinCompleted = false;
     Get.offAllNamed(RouteHelper.getNavBarRoute(), arguments:  true);

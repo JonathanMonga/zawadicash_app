@@ -9,6 +9,7 @@ import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_country_code_picker.dart';
 import 'package:zawadicash_app/view/base/custom_password_field.dart';
@@ -46,13 +47,15 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    Get.find<AuthController>().authenticateWithBiometric(true, null);
+    Get.find<AuthController>(tag: getClassName<AuthController>())
+        .authenticateWithBiometric(true, null);
   }
 
   @override
   void initState() {
     super.initState();
-    Get.find<AuthController>().authenticateWithBiometric(true, null);
+    Get.find<AuthController>(tag: getClassName<AuthController>())
+        .authenticateWithBiometric(true, null);
     WidgetsBinding.instance.addObserver(this);
     setInitialCountryCode(widget.countryCode!);
     phoneController.text = widget.phoneNumber!;
@@ -72,6 +75,9 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
         child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
           body: GetBuilder<AuthController>(
+              init:
+                  Get.find<AuthController>(tag: getClassName<AuthController>()),
+              tag: getClassName<AuthController>(),
               builder: (authController) => AbsorbPointer(
                     absorbing: authController.isLoading,
                     child: Stack(
@@ -123,118 +129,133 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                               child: Column(
                                 children: [
                                   GetBuilder<AuthController>(
+                                      init: Get.find<AuthController>(
+                                          tag: getClassName<AuthController>()),
+                                      tag: getClassName<AuthController>(),
                                       builder: (controller) {
-                                    return Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
+                                        return Row(
                                           children: [
-                                            Text(
-                                              'welcome_back'.tr,
-                                              textAlign: TextAlign.center,
-                                              style: rubikLight.copyWith(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .titleLarge!
-                                                    .color,
-                                                fontSize:
-                                                    Dimensions.FONT_SIZE_LARGE,
-                                              ),
-                                            ),
-                                            controller
-                                                    .getCustomerName()
-                                                    .isNotEmpty
-                                                ? SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  'welcome_back'.tr,
+                                                  textAlign: TextAlign.center,
+                                                  style: rubikLight.copyWith(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge!
+                                                        .color,
+                                                    fontSize: Dimensions
+                                                        .FONT_SIZE_LARGE,
+                                                  ),
+                                                ),
+                                                controller
+                                                        .getCustomerName()
+                                                        .isNotEmpty
+                                                    ? SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width *
                                                             0.6,
-                                                    child: Text(
-                                                      controller
-                                                          .getCustomerName(),
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style:
-                                                          rubikMedium.copyWith(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .titleLarge!
-                                                            .color,
-                                                        fontSize: Dimensions
-                                                            .FONT_SIZE_EXTRA_OVER_LARGE,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : Text(
-                                                    'user'.tr,
-                                                    overflow: TextOverflow.clip,
-                                                    textAlign: TextAlign.center,
-                                                    style: rubikMedium.copyWith(
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .titleLarge!
-                                                          .color,
-                                                      fontSize: Dimensions
-                                                          .FONT_SIZE_EXTRA_OVER_LARGE,
-                                                    ),
-                                                  ),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: Stack(
-                                            children: [
-                                              GetBuilder<AuthController>(
-                                                  builder: (controller) {
-                                                return controller
-                                                        .getCustomerQrCode()
-                                                        .isNotEmpty
-                                                    ? InkWell(
-                                                        onTap: () {
-                                                          Navigator.of(context)
-                                                              .push(HeroDialogRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                            return const LoginQrPopupCard();
-                                                          }));
-                                                        },
-                                                        child: Hero(
-                                                            tag: _heroQrTag,
-                                                            createRectTween:
-                                                                (begin, end) {
-                                                              return CustomRectTween(
-                                                                  begin: begin!,
-                                                                  end: end!);
-                                                            },
-                                                            child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(2),
-                                                                color: Colors
-                                                                    .white,
-                                                                child:
-                                                                    SvgPicture
-                                                                        .string(
-                                                                  controller
-                                                                      .getCustomerQrCode(),
-                                                                ))),
+                                                        child: Text(
+                                                          controller
+                                                              .getCustomerName(),
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: rubikMedium
+                                                              .copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .titleLarge!
+                                                                .color,
+                                                            fontSize: Dimensions
+                                                                .FONT_SIZE_EXTRA_OVER_LARGE,
+                                                          ),
+                                                        ),
                                                       )
-                                                    : Container();
-                                              }),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  }),
+                                                    : Text(
+                                                        'user'.tr,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: rubikMedium
+                                                            .copyWith(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .titleLarge!
+                                                                  .color,
+                                                          fontSize: Dimensions
+                                                              .FONT_SIZE_EXTRA_OVER_LARGE,
+                                                        ),
+                                                      ),
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            SizedBox(
+                                              height: 50,
+                                              width: 50,
+                                              child: Stack(
+                                                children: [
+                                                  GetBuilder<AuthController>(
+                                                      init: Get.find<AuthController>(
+                                                          tag: getClassName<AuthController>()),
+                                                      tag: getClassName<AuthController>(),
+                                                      builder: (controller) {
+                                                    return controller
+                                                            .getCustomerQrCode()
+                                                            .isNotEmpty
+                                                        ? InkWell(
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .push(HeroDialogRoute(
+                                                                      builder:
+                                                                          (context) {
+                                                                return const LoginQrPopupCard();
+                                                              }));
+                                                            },
+                                                            child: Hero(
+                                                                tag: _heroQrTag,
+                                                                createRectTween:
+                                                                    (begin,
+                                                                        end) {
+                                                                  return CustomRectTween(
+                                                                      begin:
+                                                                          begin!,
+                                                                      end:
+                                                                          end!);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            2),
+                                                                        color: Colors
+                                                                            .white,
+                                                                        child: SvgPicture
+                                                                            .string(
+                                                                          controller
+                                                                              .getCustomerQrCode(),
+                                                                        ))),
+                                                          )
+                                                        : Container();
+                                                  }),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      }),
                                   const SizedBox(
                                     height: Dimensions.PADDING_SIZE_DEFAULT,
                                   ),
@@ -352,6 +373,9 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
           floatingActionButton: Padding(
               padding: const EdgeInsets.only(bottom: 20, right: 10),
               child: GetBuilder<AuthController>(
+                init: Get.find<AuthController>(
+                    tag: getClassName<AuthController>()),
+                tag: getClassName<AuthController>(),
                 builder: (controller) {
                   return FloatingActionButton(
                     onPressed: () {
@@ -384,7 +408,8 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _login(BuildContext context) async {
-    Get.find<MenusController>().resetNavBar();
+    Get.find<MenusController>(tag: getClassName<MenusController>())
+        .resetNavBar();
     String code = _countryCode!;
     String phone = phoneController.text.trim();
     String password = passwordController.text.trim();
@@ -401,11 +426,13 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
         PhoneNumber num = await PhoneNumberUtil().parse(phoneNumber);
         debugPrint('+${num.countryCode}');
         debugPrint(num.nationalNumber);
-        Get.find<AuthController>()
+        Get.find<AuthController>(tag: getClassName<AuthController>())
             .login(code: code, phone: phone, password: password)
             .then((value) async {
           if (value.isOk) {
-            await Get.find<ProfileController>().profileData(reload: true);
+            await Get.find<ProfileController>(
+                    tag: getClassName<ProfileController>())
+                .profileData(reload: true);
           }
         });
       } catch (e) {

@@ -8,6 +8,7 @@ import 'package:zawadicash_app/helper/transaction_type.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
@@ -18,15 +19,15 @@ class TransactionHistoryCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? _userPhone;
-    String? _userName;
-    bool? _isCredit =
+    String? userPhone;
+    String? userName;
+    bool? isCredit =
         transactions!.transactionType == AppConstants.SEND_MONEY ||
             transactions!.transactionType == AppConstants.WITHDRAW ||
             transactions!.transactionType == TransactionType.CASH_OUT;
 
     try {
-      _userPhone = transactions!.transactionType == AppConstants.SEND_MONEY
+      userPhone = transactions!.transactionType == AppConstants.SEND_MONEY
           ? transactions!.receiver!.phone
           : transactions!.transactionType == AppConstants.RECEIVED_MONEY
               ? transactions!.sender!.phone
@@ -38,7 +39,7 @@ class TransactionHistoryCardView extends StatelessWidget {
                           ? transactions!.receiver!.phone
                           : transactions!.userInfo!.phone;
 
-      _userName = transactions!.transactionType == AppConstants.SEND_MONEY
+      userName = transactions!.transactionType == AppConstants.SEND_MONEY
           ? transactions!.receiver!.name
           : transactions!.transactionType == AppConstants.RECEIVED_MONEY
               ? transactions!.sender!.name
@@ -50,8 +51,8 @@ class TransactionHistoryCardView extends StatelessWidget {
                           ? transactions!.receiver!.name
                           : transactions!.userInfo!.name;
     } catch (e) {
-      _userPhone = 'no_user'.tr;
-      _userName = 'no_user'.tr;
+      userPhone = 'no_user'.tr;
+      userName = 'no_user'.tr;
     }
 
     return Padding(
@@ -86,7 +87,7 @@ class TransactionHistoryCardView extends StatelessWidget {
                         const SizedBox(
                             height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
                         Text(
-                          _userName ?? '',
+                          userName ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: rubikRegular.copyWith(
@@ -96,7 +97,7 @@ class TransactionHistoryCardView extends StatelessWidget {
                         const SizedBox(
                             height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
                         Text(
-                          _userPhone ?? '',
+                          userPhone ?? '',
                           style: rubikMedium.copyWith(
                             fontSize: Dimensions.FONT_SIZE_SMALL,
                           ),
@@ -111,10 +112,10 @@ class TransactionHistoryCardView extends StatelessWidget {
                       ]),
                   const Spacer(),
                   Text(
-                    '${_isCredit ? '-' : '+'} ${PriceConverter.convertPrice(double.parse(transactions!.amount.toString()))}',
+                    '${isCredit ? '-' : '+'} ${PriceConverter.convertPrice(double.parse(transactions!.amount.toString()))}',
                     style: rubikMedium.copyWith(
                       fontSize: Dimensions.FONT_SIZE_DEFAULT,
-                      color: _isCredit ? Colors.redAccent : Colors.green,
+                      color: isCredit ? Colors.redAccent : Colors.green,
                     ),
                   ),
                 ],
@@ -123,7 +124,7 @@ class TransactionHistoryCardView extends StatelessWidget {
               Divider(height: .125, color: ColorResources.getGreyColor()),
             ],
           ),
-          Get.find<LocalizationController>().isLtr
+          Get.find<LocalizationController>(tag: getClassName<LocalizationController>()).isLtr
               ? Positioned(
                   bottom: 3,
                   right: 2,

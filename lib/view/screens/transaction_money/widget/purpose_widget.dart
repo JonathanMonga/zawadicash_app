@@ -5,6 +5,7 @@ import 'package:zawadicash_app/controller/localization_controller.dart';
 import 'package:zawadicash_app/controller/transaction_controller.dart';
 import 'package:zawadicash_app/helper/hexa_color.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_loader.dart';
@@ -19,7 +20,7 @@ class PurposeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizationController = Get.find<LocalizationController>();
+    final localizationController = Get.find<LocalizationController>(tag: getClassName<LocalizationController>());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

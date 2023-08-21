@@ -8,6 +8,7 @@ import 'package:zawadicash_app/data/model/response/requested_money_model.dart';
 import 'package:zawadicash_app/data/model/withdraw_history_model.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/no_data_screen.dart';
 import 'package:zawadicash_app/view/screens/requested_money/requested_money_list_screen.dart';
 import 'package:zawadicash_app/view/screens/requested_money/widget/requested_money_card.dart';
@@ -31,24 +32,24 @@ class RequestedMoneyScreen extends StatelessWidget {
           scrollController!.position.maxScrollExtent ==
               scrollController!.position.pixels &&
           (requestType == RequestType.sendRequest
-                  ? Get.find<RequestedMoneyController>().ownRequestList.length
-                  : Get.find<RequestedMoneyController>()
+                  ? Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).ownRequestList.length
+                  : Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                       .requestedMoneyList
                       .length) !=
               0 &&
-          !Get.find<RequestedMoneyController>().isLoading) {
+          !Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).isLoading) {
         int pageSize;
-        pageSize = Get.find<RequestedMoneyController>().pageSize;
+        pageSize = Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).pageSize;
 
         if (offset < pageSize) {
           offset++;
           debugPrint('end of the page');
-          Get.find<RequestedMoneyController>().showBottomLoader();
+          Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).showBottomLoader();
           if (requestType == RequestType.sendRequest) {
-            Get.find<RequestedMoneyController>()
+            Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                 .getOwnRequestedMoneyList(offset);
           } else {
-            Get.find<RequestedMoneyController>().getRequestedMoneyList(offset);
+            Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).getRequestedMoneyList(offset);
           }
         }
       }
@@ -60,7 +61,7 @@ class RequestedMoneyScreen extends StatelessWidget {
           ? req.ownRequestList
           : req.requestedMoneyList;
 
-      if (Get.find<RequestedMoneyController>().requestTypeIndex == 0) {
+      if (Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestTypeIndex == 0) {
         if (requestType == RequestType.withdraw) {
           withdrawHistoryList = req.pendingWithdraw;
         } else {
@@ -68,7 +69,7 @@ class RequestedMoneyScreen extends StatelessWidget {
               ? req.ownPendingRequestedMoneyList
               : req.pendingRequestedMoneyList;
         }
-      } else if (Get.find<RequestedMoneyController>().requestTypeIndex == 1) {
+      } else if (Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestTypeIndex == 1) {
         if (requestType == RequestType.withdraw) {
           withdrawHistoryList = req.acceptedWithdraw;
         } else {
@@ -76,7 +77,7 @@ class RequestedMoneyScreen extends StatelessWidget {
               ? req.ownAcceptedRequestedMoneyList
               : req.acceptedRequestedMoneyList;
         }
-      } else if (Get.find<RequestedMoneyController>().requestTypeIndex == 2) {
+      } else if (Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestTypeIndex == 2) {
         if (requestType == RequestType.withdraw) {
           withdrawHistoryList = req.deniedWithdraw;
         } else {
@@ -137,7 +138,7 @@ class RequestedMoneyShimmer extends StatelessWidget {
     return ListView.builder(
       itemCount: isHome!
           ? 1
-          : Get.find<RequestedMoneyController>().requestedMoneyList.length,
+          : Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestedMoneyList.length,
       padding: const EdgeInsets.all(0),
       itemBuilder: (context, index) {
         return Container(
@@ -149,7 +150,7 @@ class RequestedMoneyShimmer extends StatelessWidget {
             baseColor: Colors.grey[500]!,
             highlightColor: Colors.grey[100]!,
             enabled:
-                Get.find<RequestedMoneyController>().requestedMoneyList == null,
+                Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()).requestedMoneyList == null,
             child: ListTile(
               leading: const CircleAvatar(child: Icon(Icons.notifications)),
               title: Container(height: 20, color: Colors.white),

@@ -7,6 +7,7 @@ import 'package:zawadicash_app/controller/localization_controller.dart';
 import 'package:zawadicash_app/controller/transaction_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/contact_shimmer.dart';
@@ -56,7 +57,7 @@ class ContactView extends StatelessWidget {
     return !contactController!.contactIsLoading
         ? AzListView(
             physics: const NeverScrollableScrollPhysics(),
-            indexBarAlignment: Get.find<LocalizationController>().isLtr
+            indexBarAlignment: Get.find<LocalizationController>(tag: getClassName<LocalizationController>()).isLtr
                 ? Alignment.topRight
                 : Alignment.topLeft,
             indexBarData: const [],
