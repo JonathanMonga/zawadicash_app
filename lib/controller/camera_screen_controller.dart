@@ -4,7 +4,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import 'package:google_barcode_kit/google_barcode_kit.dart' as google_barcode_kit;
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart' as google_mlkit_face_detection;
+//import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:zawadicash_app/controller/qr_code_scanner_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
@@ -93,16 +95,16 @@ class CameraScreenController extends GetxController implements GetxService {
 
     final camera = cameras[1];
     final imageRotation =
-        InputImageRotationValue.fromRawValue(camera.sensorOrientation);
+    google_mlkit_face_detection.InputImageRotationValue.fromRawValue(camera.sensorOrientation);
     if (imageRotation == null) return;
 
     final inputImageFormat =
-        InputImageFormatValue.fromRawValue(image.format.raw);
+    google_mlkit_face_detection.InputImageFormatValue.fromRawValue(image.format.raw);
     if (inputImageFormat == null) return;
 
     final planeData = image.planes.map(
       (Plane plane) {
-        return InputImagePlaneMetadata(
+        return google_barcode_kit.InputImagePlaneMetadata(
           bytesPerRow: plane.bytesPerRow,
           height: plane.height,
           width: plane.width,
@@ -110,15 +112,15 @@ class CameraScreenController extends GetxController implements GetxService {
       },
     ).toList();
 
-    final inputImageData = InputImageData(
+    final inputImageData = google_barcode_kit.InputImageData(
       size: imageSize,
-      imageRotation: imageRotation,
-      inputImageFormat: inputImageFormat,
+      imageRotation: imageRotation as google_barcode_kit.InputImageRotation,
+      inputImageFormat: inputImageFormat as google_barcode_kit.InputImageFormat,
       planeData: planeData,
     );
 
     final inputImage =
-        InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
+    google_barcode_kit.InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
     if (isQrCodeScan) {
       Get.find<QrCodeScannerController>()
@@ -128,8 +130,8 @@ class CameraScreenController extends GetxController implements GetxService {
     }
   }
 
-  final FaceDetector _faceDetector = FaceDetector(
-    options: FaceDetectorOptions(
+  final _faceDetector = google_mlkit_face_detection.FaceDetector(
+    options: google_mlkit_face_detection.FaceDetectorOptions(
       enableContours: true,
       enableClassification: true,
     ),
@@ -137,10 +139,10 @@ class CameraScreenController extends GetxController implements GetxService {
 
   File get getImage => _imageFile;
   //MLKit
-  Future<void> processImage(InputImage inputImage) async {
+  Future<void> processImage(google_barcode_kit.InputImage inputImage) async {
     if (_isBusy) return;
     _isBusy = true;
-    final faces = await _faceDetector.processImage(inputImage);
+    final faces = await _faceDetector.processImage(inputImage as google_mlkit_face_detection.InputImage);
     debugPrint('eye Blink count is : $_eyeBlink');
     try {
       if (faces.length < 2) {
@@ -168,16 +170,16 @@ class CameraScreenController extends GetxController implements GetxService {
       } catch (e) {
         debugPrint('error is $e');
       }
-      final inputImage = InputImage.fromFilePath(_imageFile.path);
+      final inputImage = google_barcode_kit.InputImage.fromFilePath(_imageFile.path);
       processPicture(inputImage);
     }
     update();
     _isBusy = false;
   }
 
-  Future<void> processPicture(InputImage inputImage) async {
+  Future<void> processPicture(google_barcode_kit.InputImage inputImage) async {
     bool hasEyeOpen = false;
-    final faces = await _faceDetector.processImage(inputImage);
+    final faces = await _faceDetector.processImage(inputImage as google_mlkit_face_detection.InputImage);
     try {
       if (faces.length == 1) {
         debugPrint(
