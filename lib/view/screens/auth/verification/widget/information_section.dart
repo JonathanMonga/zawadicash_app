@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class InformationSection extends StatelessWidget {
   const InformationSection({
@@ -47,43 +47,47 @@ class InformationSection extends StatelessWidget {
         const SizedBox(
           height: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
         ),
-        GetBuilder<CreateAccountController>(builder: (controller)=>Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              controller.phoneNumber,
-              style: rubikRegular.copyWith(
-                color: Theme.of(context).textTheme.bodyLarge!.color,
-                fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              width: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-            ),
-            InkWell(
-              // onTap: ()=> Get.back(),
-              onTap: (){
-                Get.back();
-                Get.find<VerificationController>(tag: getClassName<VerificationController>()).cancelTimer();
-                Get.find<VerificationController>(tag: getClassName<VerificationController>()).setVisibility(false);
-
-
-                // Get.offNamed(RouteHelper.getRegistrationRoute(phoneNumber: controller.phoneNumber.substring(4)));
-
-              },
-              child: Text(
-                '(${'change_number'.tr})',
+        GetBuilder<CreateAccountController>(
+          init: Get.find<CreateAccountController>(
+              tag: getClassName<CreateAccountController>()),
+          tag: getClassName<CreateAccountController>(),
+          builder: (controller) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                controller.phoneNumber,
                 style: rubikRegular.copyWith(
-                  decoration: TextDecoration.underline,
                   color: Theme.of(context).textTheme.bodyLarge!.color,
-                  fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                  fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
                 ),
                 textAlign: TextAlign.center,
               ),
-            ),
-          ],
-        ),),
+              const SizedBox(
+                    width: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                  ),
+                  InkWell(
+                    // onTap: ()=> Get.back(),
+                    onTap: (){
+                      Get.back();
+                      Get.find<VerificationController>(tag: getClassName<VerificationController>()).cancelTimer();
+                      Get.find<VerificationController>(tag: getClassName<VerificationController>()).setVisibility(false);
+
+
+                      // Get.offNamed(RouteHelper.getRegistrationRoute(phoneNumber: controller.phoneNumber.substring(4)));
+
+                    },
+                    child: Text(
+                      '(${'change_number'.tr})',
+                      style: rubikRegular.copyWith(
+                        decoration: TextDecoration.underline,
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                        fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),),
       ],
     );
   }

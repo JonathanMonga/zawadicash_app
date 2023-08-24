@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
@@ -8,30 +10,29 @@ import 'package:zawadicash_app/view/screens/auth/login/login_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/other_info/other_info_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/pin_set/pin_set_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/selfie_capture/camera_screen.dart';
-import 'package:zawadicash_app/view/screens/auth/varification/varification_screen.dart';
+import 'package:zawadicash_app/view/screens/auth/verification/verification_screen.dart';
 import 'package:zawadicash_app/view/screens/dashboard/nav_bar_screen.dart';
 import 'package:zawadicash_app/view/screens/forget_password/widget/forget_password.dart';
 import 'package:zawadicash_app/view/screens/forget_password/widget/phone_verification.dart';
+import 'package:zawadicash_app/view/screens/forget_password/widget/reset_password_screen.dart';
 import 'package:zawadicash_app/view/screens/history/history_screen.dart';
 import 'package:zawadicash_app/view/screens/home/home_screen.dart';
 import 'package:zawadicash_app/view/screens/more/change_language_screen.dart';
-import 'package:zawadicash_app/view/screens/onboarding/chose_login_registration/choice_screen.dart';
 import 'package:zawadicash_app/view/screens/notification/notification_screen.dart';
+import 'package:zawadicash_app/view/screens/onboarding/chose_login_registration/choice_screen.dart';
+import 'package:zawadicash_app/view/screens/profile/profile_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/change_pin_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/edit_profile_screen.dart';
-import 'package:zawadicash_app/view/screens/profile/profile_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/faq_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/html_view_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/qr_code_download_or_share.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/support_screen.dart';
-import 'package:zawadicash_app/view/screens/forget_password/widget/reset_password_screen.dart';
 import 'package:zawadicash_app/view/screens/splash/splash_screen.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_screen.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_confirmation.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_screen.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/share_statement_widget.dart';
 import 'package:zawadicash_app/view/screens/welcome_screen/welcome_screen.dart';
-import 'package:get/get.dart';
 
 class RouteHelper {
   static const String splash = '/splash';
@@ -252,15 +253,32 @@ class RouteHelper {
         name: choseLanguageScreen, page: () => const ChooseLanguageScreen()),
     GetPage(name: editProfileScreen, page: () => const EditProfileScreen()),
     // GetPage(name: requested_money, page: () => RequestedMoneyListScreen(isOwn: Get.parameters['from'] == 'won' ? true : false)),
-    // GetPage(name: faq, page: () => FaqScreen(title: 'FAQ')),
-    // GetPage(name: terms, page: () => HtmlViewScreen(title: 'Terms & Condition', url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.termsAndConditions)),
-    // GetPage(name: privacy, page: () => HtmlViewScreen(title: 'Privacy Policy', url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.privacyPolicy)),
+    GetPage(name: faq, page: () => const FaqScreen(title: 'FAQ')),
+    GetPage(
+        name: terms,
+        page: () => HtmlViewScreen(
+            title: 'Terms & Condition',
+            url: Get.find<SplashController>(
+                    tag: getClassName<SplashController>())
+                .configModel
+                .termsAndConditions!)),
+    GetPage(
+        name: privacy,
+        page: () => HtmlViewScreen(
+            title: 'Privacy Policy',
+            url: Get.find<SplashController>(
+                    tag: getClassName<SplashController>())
+                .configModel
+                .privacyPolicy!)),
     GetPage(name: faq, page: () => FaqScreen(title: 'faq'.tr)),
     GetPage(
         name: terms,
         page: () => HtmlViewScreen(
             title: 'terms'.tr,
-            url: Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.termsAndConditions!)),
+            url: Get.find<SplashController>(
+                    tag: getClassName<SplashController>())
+                .configModel
+                .termsAndConditions!)),
     GetPage(
         name: aboutUs,
         page: () => HtmlViewScreen(

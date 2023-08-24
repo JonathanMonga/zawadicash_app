@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
@@ -100,6 +101,7 @@ class ApiClient extends GetxService {
           debugPrint('====> GetX Base URL: $appBaseUrl');
           debugPrint('====> GetX Call: $uri');
           debugPrint('====> GetX Body: $body');
+          debugPrint('====> GetX Headers: $_mainHeaders');
         }
         http.Response response0 = await http
             .post(
@@ -134,6 +136,7 @@ class ApiClient extends GetxService {
           debugPrint('====> API Call: $uri\nToken: $token');
           debugPrint(
               '====> API Body: $body with ${multipartBody.length} image ');
+          debugPrint('====> GetX Headers: $_mainHeaders');
         }
         http.MultipartRequest request =
             http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
@@ -187,6 +190,8 @@ class ApiClient extends GetxService {
       try {
         debugPrint('====> GetX Call: $uri');
         debugPrint('====> GetX Body: $body');
+        debugPrint('====> GetX Headers: $_mainHeaders');
+
         http.Response response0 = await http
             .put(
               Uri.parse(appBaseUrl + uri),
@@ -217,6 +222,7 @@ class ApiClient extends GetxService {
         if (foundation.kDebugMode) {
           debugPrint('====> API Call: $uri\nToken: $token');
           debugPrint('====> API Body: $body');
+          debugPrint('====> GetX Headers: $_mainHeaders');
         }
         http.MultipartRequest request =
             http.MultipartRequest('PUT', Uri.parse(appBaseUrl + uri));

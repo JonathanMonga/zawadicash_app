@@ -1,15 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,22 +31,29 @@ class _SplashScreenState extends State<SplashScreen>
 
     _onConnectivityChanged = _connectivity.onConnectivityChanged
         .listen((ConnectivityResult result) async {
-
       if (await ApiChecker.isVpnActive()) {
         showCustomSnackBar('you are using vpn',
             isVpn: true, duration: const Duration(minutes: 10));
       }
 
-      bool isNotConnected = result != ConnectivityResult.wifi &&
-          result != ConnectivityResult.mobile;
+      bool firstTime = true;
 
-      showCustomSnackBar(
-        isNotConnected ? 'no_connection'.tr : 'connected'.tr,
-        duration: Duration(seconds: isNotConnected ? 6000 : 3),
-        isError: isNotConnected,
-      );
+      if (!firstTime) {
+        debugPrint('connection state : $result');
+        bool isNotConnected = result != ConnectivityResult.wifi &&
+            result != ConnectivityResult.mobile;
 
-      if (!isNotConnected) {
+        showCustomSnackBar(
+          isNotConnected ? 'no_connection'.tr : 'connected'.tr,
+          duration: Duration(seconds: isNotConnected ? 6000 : 3),
+          isError: isNotConnected,
+        );
+
+        if (!isNotConnected) {
+          _route();
+        }
+      } else {
+        debugPrint('splash screen call 2');
         _route();
       }
     });

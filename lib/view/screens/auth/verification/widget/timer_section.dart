@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
@@ -7,8 +9,6 @@ import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class TimerSection extends StatelessWidget {
   const TimerSection({
@@ -17,18 +17,24 @@ class TimerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VerificationController>(builder: (controller) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Visibility(
-            visible: controller.visibility == true ? true : false,
-            child: InkWell(
-              onTap: () {
-                controller.startTimer();
-                controller.setVisibility(false);
-                Get.find<AuthController>(tag: getClassName<AuthController>()).resendOtp(
-                    phoneNumber:
+    return GetBuilder<VerificationController>(
+        init: Get.find<VerificationController>(
+            tag: getClassName<VerificationController>()),
+        tag: getClassName<VerificationController>(),
+        builder: (controller) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Visibility(
+                visible: controller.visibility == true ? true : false,
+                child: InkWell(
+                  onTap: () {
+                    controller.startTimer();
+                    controller.setVisibility(false);
+                    Get.find<AuthController>(
+                            tag: getClassName<AuthController>())
+                        .resendOtp(
+                            phoneNumber:
                         Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()).phoneNumber);
               },
               child: Text(

@@ -46,7 +46,7 @@
     </queries>
 
     <application
-        android:label="Zawadicash Wallet"
+        android:label="Zawadicash"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"
