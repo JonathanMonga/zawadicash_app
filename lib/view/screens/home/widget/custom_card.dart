@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:flutter/material.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
 class CustomCard extends StatelessWidget {
@@ -26,7 +26,7 @@ class CustomCard extends StatelessWidget {
                 offset: const Offset(0, 4))
           ]),
       child: CustomInkWell(
-        onTap: onTap,
+        onTap: onTap!,
         radius: Dimensions.RADIUS_SIZE_DEFAULT,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

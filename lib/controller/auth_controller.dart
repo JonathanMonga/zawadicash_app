@@ -5,8 +5,8 @@ import 'package:local_auth/local_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
-import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/camera_screen_controller.dart';
+import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
@@ -267,17 +267,18 @@ class AuthController extends GetxController implements GetxService {
     debugPrint('error is');
     if (response.statusCode == 200) {
       Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).removeImage();
-      late String countryCode, nationalNumber;
+      String? countryCode, nationalNumber;
       try {
         PhoneNumber phoneNumber =
-            await PhoneNumberUtil().parse(signUpBody.phone!);
+            await PhoneNumberUtil().parse(signUpBody.dialCountryCode! + signUpBody.phone!);
         countryCode = '+${phoneNumber.countryCode}';
         nationalNumber = phoneNumber.nationalNumber;
       } catch (e) {
         debugPrint(e.toString());
       }
-      setCustomerCountryCode(countryCode);
-      setCustomerNumber(nationalNumber);
+      setCustomerCountryCode(countryCode!);
+      setCustomerNumber(nationalNumber!);
+
       Get.offAllNamed(RouteHelper.getWelcomeRoute(
           countryCode: getCustomerCountryCode(),
           phoneNumber: getCustomerNumber(),

@@ -11,7 +11,6 @@ import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
-
 import 'package:zawadicash_app/view/screens/profile/widget/confirm_pin_bottom_sheet.dart';
 
 class StatusMenu extends StatelessWidget {
@@ -55,12 +54,18 @@ class StatusMenu extends StatelessWidget {
                 style: rubikRegular.copyWith(
                     fontSize: Dimensions.FONT_SIZE_LARGE)),
             const Spacer(),
-            GetBuilder<AuthController>(builder: (authController) {
-              return GetBuilder<ProfileController>(builder: (profController) {
+            GetBuilder<AuthController>(
+                init: Get.find<AuthController>(tag: getClassName<AuthController>()),
+                tag: getClassName<AuthController>(),
+                builder: (authController) {
+              return GetBuilder<ProfileController>(
+                  init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                  tag: getClassName<ProfileController>(),
+                  builder: (profController) {
                 bool? isOn = isAuth!
                     ? (authController.biometric &&
                             authController.bioList.isNotEmpty)
-                    : profController.userInfo.twoFactor;
+                    : profController.userInfo!.twoFactor;
                 return profController.isLoading
                     ? Center(child: Text('off'.tr))
                     : Text(isOn! ? 'on'.tr : 'off'.tr);
@@ -96,9 +101,11 @@ class TwoFactorShimmer extends StatelessWidget {
                       fontSize: Dimensions.FONT_SIZE_LARGE)),
               const Spacer(),
               GetBuilder<ProfileController>(
+                  init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                  tag: getClassName<ProfileController>(),
                   builder: (profController) => profController.isLoading
                       ? Center(child: Text('off'.tr))
-                      : Text(profController.userInfo.twoFactor!
+                      : Text(profController.userInfo!.twoFactor!
                           ? 'on'.tr
                           : 'off'.tr)),
               //Image.asset(Images.arrow_right_logo,width: 32.0,)

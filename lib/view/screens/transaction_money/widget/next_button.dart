@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:flutter/material.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
 class NextButton extends StatelessWidget {
@@ -12,7 +12,7 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomInkWell(
-      onTap: onTap!,
+      onTap: onTap ?? (){},
       radius: Dimensions.RADIUS_PROFILE_AVATAR,
       child: CircleAvatar(
           maxRadius: Dimensions.RADIUS_PROFILE_AVATAR,

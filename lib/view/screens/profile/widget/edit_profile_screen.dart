@@ -1,13 +1,14 @@
 // ignore_for_file: unnecessary_null_comparison, library_private_types_in_public_api
 
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
+import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/controller/edit_profile_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
-import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/data/model/body/edit_profile_body.dart';
@@ -38,19 +39,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     ProfileController profileController = Get.find<ProfileController>(tag: getClassName<ProfileController>());
-    occupationTextController.text = profileController.userInfo.occupation ?? '';
-    firstNameController.text = profileController.userInfo.fName ?? '';
-    lastNameController.text = profileController.userInfo.lName ?? '';
-    emailController.text = profileController.userInfo.email ?? '';
-    Get.find<EditProfileController>()
-        .setGender(profileController.userInfo.gender ?? 'Male');
-    Get.find<EditProfileController>()
-        .setImage(profileController.userInfo.image ?? '');
+    occupationTextController.text = profileController.userInfo!.occupation ?? '';
+    firstNameController.text = profileController.userInfo!.fName ?? '';
+    lastNameController.text = profileController.userInfo!.lName ?? '';
+    emailController.text = profileController.userInfo!.email ?? '';
+    Get.find<EditProfileController>(tag: getClassName<EditProfileController>())
+        .setGender(profileController.userInfo!.gender ?? 'Male');
+    Get.find<EditProfileController>(tag: getClassName<EditProfileController>())
+        .setImage(profileController.userInfo!.image ?? '');
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<EditProfileController>(builder: (controller) {
+    return GetBuilder<EditProfileController>(
+        init: Get.find<EditProfileController>(tag: getClassName<EditProfileController>()),
+        tag: getClassName<EditProfileController>(),
+        builder: (controller) {
       return ModalProgressHUD(
         inAsyncCall: controller.isLoading,
         progressIndicator:
@@ -77,9 +81,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           clipBehavior: Clip.none,
                           children: [
                             GetBuilder<CameraScreenController>(
+                              init: Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()),
+                              tag: getClassName<CameraScreenController>(),
                               builder: (imageController) {
                                 return imageController.getImage == null
                                     ? GetBuilder<ProfileController>(
+                                    init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                                    tag: getClassName<ProfileController>(),
                                         builder: (proController) {
                                         return proController.isLoading
                                             ? const SizedBox()
@@ -101,7 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       width: 100,
                                                       fit: BoxFit.cover,
                                                       image:
-                                                          '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${proController.userInfo.image ?? ''}'),
+                                                          '${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${proController.userInfo!.image ?? ''}'),
                                                 ),
                                               );
                                       })

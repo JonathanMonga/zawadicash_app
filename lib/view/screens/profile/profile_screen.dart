@@ -35,6 +35,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Theme.of(context).cardColor,
         appBar: AppbarHomeElement(title: 'profile'.tr),
         body: GetBuilder<AuthController>(
+          init: Get.find<AuthController>(tag: getClassName<AuthController>()),
+          tag: getClassName<AuthController>(),
           builder: (authController) {
             return ModalProgressHUD(
               inAsyncCall: authController.isLoading,
@@ -94,6 +96,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         if (Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.twoFactor!)
                           GetBuilder<ProfileController>(
+                              init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                              tag: getClassName<ProfileController>(),
                               builder: (profileController) {
                             return profileController.isLoading
                                 ? const TwoFactorShimmer()
@@ -139,6 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                         GetBuilder<ProfileController>(
+                          init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                          tag: getClassName<ProfileController>(),
                           builder: (profileController) {
                             return Container(
                               padding: const EdgeInsets.only(

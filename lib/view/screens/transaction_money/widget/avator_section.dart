@@ -1,8 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
@@ -54,7 +54,7 @@ class _AvatarSectionState extends State<AvatarSection> {
                   child: CustomImage(
                     fit: BoxFit.cover,
                     image:
-                        "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo == null ? '' : Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.image}",
+                        "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo == null ? '' : Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.image}",
                     placeholder: Images.avatar,
                   ),
                 ),

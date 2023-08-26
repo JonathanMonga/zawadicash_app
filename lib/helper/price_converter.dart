@@ -62,7 +62,7 @@ class PriceConverter {
     String currencySymbol =
         Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
     String currentBalance =
-        Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.balance!.toStringAsFixed(2);
+        Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.balance!.toStringAsFixed(2);
     return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
         ? '$currencySymbol$currentBalance'
         : '$currentBalance$currencySymbol';
@@ -71,10 +71,10 @@ class PriceConverter {
   static String newBalanceWithDebit(
       {required double inputBalance, required double charge}) {
     debugPrint(
-        'user balance = ${Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone}');
+        'user balance = ${Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone}');
     String currencySymbol =
         Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
-    String currentBalance = (Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.balance! -
+    String currentBalance = (Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.balance! -
             (inputBalance + charge))
         .toStringAsFixed(2);
     return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
@@ -86,7 +86,7 @@ class PriceConverter {
     String currencySymbol =
         Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencySymbol!;
     String currentBalance =
-        (Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.balance! + inputBalance)
+        (Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.balance! + inputBalance)
             .toStringAsFixed(2);
     return Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.currencyPosition == 'left'
         ? '$currencySymbol$currentBalance'

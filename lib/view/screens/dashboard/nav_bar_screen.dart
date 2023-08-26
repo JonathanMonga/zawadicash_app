@@ -77,7 +77,10 @@ class _NavBarScreenState extends State<NavBarScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => _onWillPop(context),
-      child: GetBuilder<MenusController>(builder: (menuController) {
+      child: GetBuilder<MenusController>(
+          init: Get.find<MenusController>(tag: getClassName<MenusController>()),
+          tag: getClassName<MenusController>(),
+          builder: (menuController) {
         return Scaffold(
           backgroundColor:
               Theme.of(context).bottomNavigationBarTheme.selectedItemColor,

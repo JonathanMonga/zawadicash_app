@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_barcode_kit/google_barcode_kit.dart';
+import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
@@ -36,11 +36,11 @@ class QrCodeScannerController extends GetxController implements GetxService {
     if (inputImage.inputImageData?.size != null &&
         inputImage.inputImageData?.imageRotation != null) {
       for (final barcode in barcodes) {
-        debugPrint('barcode row value : ${barcode.value.rawValue}');
-        _name = jsonDecode(barcode.value.rawValue!)['name'];
-        _phone = jsonDecode(barcode.value.rawValue!)['phone'];
-        _type = jsonDecode(barcode.value.rawValue!)['type'];
-        _image = jsonDecode(barcode.value.rawValue!)['image'];
+        debugPrint('barcode row value : ${barcode.rawValue}');
+        _name = jsonDecode(barcode.rawValue!)['name'];
+        _phone = jsonDecode(barcode.rawValue!)['phone'];
+        _type = jsonDecode(barcode.rawValue!)['type'];
+        _image = jsonDecode(barcode.rawValue!)['image'];
         if (_type == "customer") {
           _transactionType = transactionType;
         } else if (_type == "agent") {

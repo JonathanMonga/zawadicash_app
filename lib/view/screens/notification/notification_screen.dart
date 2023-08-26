@@ -31,6 +31,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           await Get.find<NotificationController>(tag: getClassName<NotificationController>()).getNotificationList();
         },
         child: GetBuilder<NotificationController>(
+          init: Get.find<NotificationController>(tag: getClassName<NotificationController>()),
+          tag: getClassName<NotificationController>(),
           builder: (notification) {
             return notification.notificationList.isEmpty
                 ? const NotificationShimmer()

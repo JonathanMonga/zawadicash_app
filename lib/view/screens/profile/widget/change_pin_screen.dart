@@ -2,6 +2,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_loader.dart';
@@ -28,6 +29,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
+      init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+      tag: getClassName<ProfileController>(),
       builder: (controller) {
         return ModalProgressHUD(
           inAsyncCall: controller.isLoading,
@@ -108,7 +111,10 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                 ),
               ),
               floatingActionButton:
-                  GetBuilder<ProfileController>(builder: (controller) {
+                  GetBuilder<ProfileController>(
+                      init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                      tag: getClassName<ProfileController>(),
+                      builder: (controller) {
                 return FloatingActionButton(
                   elevation: 0,
                   onPressed: () => controller.changePin(

@@ -4,6 +4,7 @@ import 'package:zawadicash_app/controller/theme_controller.dart';
 import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class CustomButton extends StatelessWidget {
@@ -35,7 +36,7 @@ class CustomButton extends StatelessWidget {
                   blurRadius: 7,
                   offset: const Offset(0, 1)), // changes position of shadow
             ],
-            gradient: (Get.find<ThemeController>().darkTheme)
+            gradient: (Get.find<ThemeController>(tag: getClassName<ThemeController>()).darkTheme)
                 ? null
                 : LinearGradient(colors: [
                     Theme.of(context).primaryColor,

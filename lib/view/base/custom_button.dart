@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 
 class CustomButton extends StatelessWidget {
   final OnTapFunction? onTap;
@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
       ),
       child: CustomInkWell(
-        onTap: onTap,
+        onTap: onTap!,
         radius: Dimensions.RADIUS_SIZE_SMALL,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),

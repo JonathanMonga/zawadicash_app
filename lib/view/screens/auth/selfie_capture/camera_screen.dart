@@ -5,13 +5,12 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
-import 'package:zawadicash_app/util/styles.dart';
-
 import 'package:zawadicash_app/util/images.dart';
+import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
-import 'package:zawadicash_app/view/screens/profile/widget/edit_profile_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/other_info/other_info_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/selfie_capture/widget/camera_view.dart';
+import 'package:zawadicash_app/view/screens/profile/widget/edit_profile_screen.dart';
 
 class CameraScreen extends StatefulWidget {
   final bool fromEditProfile;
@@ -97,6 +96,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Widget _hintView(bool isBarCodeScan) {
     return GetBuilder<CameraScreenController>(
+        init: Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()),
+        tag: getClassName<CameraScreenController>(),
         builder: (cameraScreenController) {
       return SingleChildScrollView(
         child: isBarCodeScan

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zawadicash_app/helper/functions.dart';
@@ -135,7 +137,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onSubmitted: (text) => widget.nextFocus != null
           ? FocusScope.of(context).requestFocus(widget.nextFocus)
           : widget.onSubmit!(text),
-      onChanged: widget.onChanged!,
+      onChanged: widget.onChanged,
     );
   }
 

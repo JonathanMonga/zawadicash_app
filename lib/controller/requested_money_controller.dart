@@ -1,6 +1,8 @@
-import 'package:zawadicash_app/data/api/api_checker.dart';
+// ignore_for_file: use_build_context_synchronously, no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/requested_money_model.dart';
 import 'package:zawadicash_app/data/model/withdraw_history_model.dart';
 import 'package:zawadicash_app/data/repository/requested_money_repo.dart';
@@ -196,16 +198,16 @@ class RequestedMoneyController extends GetxController implements GetxService {
     }
 
     if (_withdrawHistoryModel == null) {
-      Response _response = await requestedMoneyRepo.getWithdrawRequest();
-      debugPrint('withdraw data : ${_response.body}');
-      if (_response.body['response_code'] == 'default_200' &&
-          _response.body['content'] != null) {
+      Response response = await requestedMoneyRepo.getWithdrawRequest();
+      debugPrint('withdraw data : ${response.body}');
+      if (response.body['response_code'] == 'default_200' &&
+          response.body['content'] != null) {
         pendingWithdraw = [];
         acceptedWithdraw = [];
         deniedWithdraw = [];
         allWithdraw = [];
 
-        _withdrawHistoryModel = WithdrawHistoryModel.fromJson(_response.body);
+        _withdrawHistoryModel = WithdrawHistoryModel.fromJson(response.body);
         debugPrint(
             'withdraw list : ${_withdrawHistoryModel!.withdrawHistoryList.length}');
         for (var _withdrawHistory
@@ -223,7 +225,7 @@ class RequestedMoneyController extends GetxController implements GetxService {
         }
         debugPrint('${pendingWithdraw.length}');
       } else {
-        ApiChecker.checkApi(_response);
+        ApiChecker.checkApi(response);
       }
     }
     _isLoading = false;

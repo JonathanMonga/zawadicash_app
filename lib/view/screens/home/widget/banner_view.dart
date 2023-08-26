@@ -3,6 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zawadicash_app/controller/banner_controller.dart';
 import 'package:zawadicash_app/controller/home_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
@@ -12,7 +13,6 @@ import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/screens/home/widget/shimmer/banner_shimmer.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BannerView extends StatelessWidget {
   const BannerView({Key? key}) : super(key: key);
@@ -20,10 +20,13 @@ class BannerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return GetBuilder<BannerController>(builder: (controller) {
+    return GetBuilder<BannerController>(
+        init: Get.find<BannerController>(tag: getClassName<BannerController>()),
+        tag: getClassName<BannerController>(),
+        builder: (controller) {
       return controller.bannerList == null
           ? const Center(child: BannerShimmer())
-          : controller.bannerList.isNotEmpty
+          : controller.bannerList!.isNotEmpty
               ? Container(
                   margin: const EdgeInsets.symmetric(
                       vertical: Dimensions.PADDING_SIZE_LARGE),
@@ -33,15 +36,15 @@ class BannerView extends StatelessWidget {
                         height: size.width / 3.5,
                         width: size.width,
                         child: CarouselSlider.builder(
-                          itemCount: controller.bannerList.length,
+                          itemCount: controller.bannerList!.length,
                           itemBuilder: (context, index, realIndex) {
-                            final image = controller.bannerList.isNotEmpty
-                                ? controller.bannerList[index].image
+                            final image = controller.bannerList!.isNotEmpty
+                                ? controller.bannerList![index].image
                                 : '';
                             return InkWell(
-                              onTap: controller.bannerList.isNotEmpty
+                              onTap: controller.bannerList!.isNotEmpty
                                   ? () => CustomLaunchUrl.launchURL(
-                                      url: controller.bannerList[index].url)
+                                      url: controller.bannerList![index].url)
                                   : () {},
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -86,7 +89,7 @@ class BannerView extends StatelessWidget {
                             activeIndex:
                                 Get.find<HomeController>(tag: getClassName<HomeController>()).activeIndicator,
                             count:
-                                Get.find<BannerController>(tag: getClassName<BannerController>()).bannerList.length,
+                                Get.find<BannerController>(tag: getClassName<BannerController>()).bannerList!.length,
                             effect: CustomizableEffect(
                               dotDecoration: DotDecoration(
                                 height: 5,

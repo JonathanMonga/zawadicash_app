@@ -2,12 +2,15 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
 import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
-import 'package:zawadicash_app/controller/transaction_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
+import 'package:zawadicash_app/controller/transaction_controller.dart';
 import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/data/model/withdraw_model.dart';
 import 'package:zawadicash_app/helper/functions.dart';
@@ -17,17 +20,12 @@ import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-
 import 'package:zawadicash_app/view/base/custom_pin_code_field.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/demo_otp_hint.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/widget/show_amount_view.dart';
-
 import 'package:zawadicash_app/view/screens/transaction_money/widget/bottom_sheet_with_slider.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/for_person_widget.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/show_amount_view.dart';
 
 class TransactionMoneyConfirmation extends StatelessWidget {
   final double? inputBalance;
@@ -186,7 +184,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                   _placeWithdrawRequest();
                                 } else if (configModel.twoFactor! &&
                                     Get.find<ProfileController>(tag: getClassName<ProfileController>())
-                                        .userInfo
+                                        .userInfo!
                                         .twoFactor!) {
                                   Get.find<AuthController>(tag: getClassName<AuthController>())
                                       .checkOtp()
@@ -199,7 +197,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                                   CustomPinCodeField(
                                                     onCompleted: (pin) =>
                                                         Get.find<
-                                                                AuthController>()
+                                                                AuthController>(tag: getClassName<AuthController>())
                                                             .verifyOtp(pin)
                                                             .then((value) {
                                                       if (value.isOk) {
@@ -223,7 +221,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                                             contactModel:
                                                                 contactModel!,
                                                             pinCode: Get.find<
-                                                                    BottomSliderController>()
+                                                                    BottomSliderController>(tag: getClassName<BottomSliderController>())
                                                                 .pin,
                                                             transactionType:
                                                                 transactionType!,

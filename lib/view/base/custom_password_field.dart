@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';

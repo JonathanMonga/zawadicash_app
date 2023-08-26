@@ -28,7 +28,7 @@ class _KycVerifyScreenState extends State<KycVerifyScreen> {
 
   @override
   void initState() {
-    Get.find<KycVerifyController>().initialSelect();
+    Get.find<KycVerifyController>(tag: getClassName<KycVerifyController>()).initialSelect();
     super.initState();
   }
 
@@ -181,8 +181,8 @@ class _KycVerifyScreenState extends State<KycVerifyScreen> {
       color: Theme.of(Get.context!).hintColor,
       child: CustomInkWell(
         onTap: path != null
-            ? null
-            : () => Get.find<KycVerifyController>().pickImage(false),
+            ? () {}
+            : () => Get.find<KycVerifyController>(tag: getClassName<KycVerifyController>()).pickImage(false),
         child: path != null
             ? Padding(
                 padding: const EdgeInsets.all(8.0),

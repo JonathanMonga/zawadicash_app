@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'package:zawadicash_app/data/repository/auth_repo.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:zawadicash_app/data/repository/auth_repo.dart';
 
 class VerificationController extends GetxController implements GetxService {
-  late final AuthRepo authRepo;
+  final AuthRepo authRepo;
   VerificationController({required this.authRepo});
   int maxSecond = 30;
   late Timer _timer;

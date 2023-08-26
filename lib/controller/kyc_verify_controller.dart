@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
+import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/data/repository/kyc_verify_repo.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
-import 'package:zawadicash_app/data/api/api_client.dart';
 
 class KycVerifyController extends GetxController implements GetxService {
   final KycVerifyRepo kycVerifyRepo;
@@ -42,11 +42,11 @@ class KycVerifyController extends GetxController implements GetxService {
   }
 
   void pickImage(bool isRemove) async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     if (isRemove) {
       _imageFile = [];
     } else {
-      _imageFile = await _picker.pickMultiImage(imageQuality: 30);
+      _imageFile = await picker.pickMultiImage(imageQuality: 30);
       _identityImage.addAll(_imageFile);
     }
     update();
@@ -60,7 +60,7 @@ class KycVerifyController extends GetxController implements GetxService {
   late List<MultipartBody> _multipartBody;
 
   Future<void> kycVerify(String idNumber) async {
-    Map<String, String> _field = {
+    Map<String, String> field = {
       'identification_number': idNumber,
       'identification_type': _dropDownSelectedValue == 'passport'.tr
           ? 'passport'
@@ -80,7 +80,7 @@ class KycVerifyController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response =
-        await kycVerifyRepo.kycVerifyApi(_field, _multipartBody);
+        await kycVerifyRepo.kycVerifyApi(field, _multipartBody);
     if (response.body['response_code'] == 'default_update_200') {
       Get.back();
       showCustomSnackBar(response.body['message'], isError: false);

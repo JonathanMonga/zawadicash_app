@@ -37,9 +37,9 @@ class AuthRepo extends GetxService {
   }
 
   Future<Response> login({String? phone, String? password}) async {
-    String _countryCode = getCountryCode(phone!);
+    String countryCode = getCountryCode(phone!);
     return await apiClient.postData(AppConstants.CUSTOMER_LOGIN_URI, {
-      "phone": phone.replaceAll(_countryCode, ''),
+      "phone": phone.replaceAll(countryCode, ''),
       "password": password,
       "dial_country_code": getCountryCode(phone)
     });
@@ -50,7 +50,7 @@ class AuthRepo extends GetxService {
   }
 
   Future<Response> updateToken() async {
-    String? _deviceToken;
+    String? deviceToken;
     if (GetPlatform.isIOS) {
       NotificationSettings settings =
           await FirebaseMessaging.instance.requestPermission(
@@ -63,16 +63,16 @@ class AuthRepo extends GetxService {
         sound: true,
       );
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        _deviceToken = await _saveDeviceToken();
+        deviceToken = await _saveDeviceToken();
         FirebaseMessaging.instance.subscribeToTopic(AppConstants.ALL);
         FirebaseMessaging.instance.subscribeToTopic(AppConstants.USERS);
-        debugPrint('=========>Device Token ======$_deviceToken');
+        debugPrint('=========>Device Token ======$deviceToken');
       }
     } else {
-      _deviceToken = await _saveDeviceToken();
+      deviceToken = await _saveDeviceToken();
       FirebaseMessaging.instance.subscribeToTopic(AppConstants.ALL);
       FirebaseMessaging.instance.subscribeToTopic(AppConstants.USERS);
-      debugPrint('=========>Device Token ======$_deviceToken');
+      debugPrint('=========>Device Token ======$deviceToken');
     }
     if (!GetPlatform.isWeb) {
       // FirebaseMessaging.instance.subscribeToTopic('zawadicash_app');
@@ -80,16 +80,16 @@ class AuthRepo extends GetxService {
       FirebaseMessaging.instance.subscribeToTopic(AppConstants.USERS);
     }
     return await apiClient.postData(
-        AppConstants.TOKEN_URI, {"_method": "put", "token": _deviceToken});
+        AppConstants.TOKEN_URI, {"_method": "put", "token": deviceToken});
   }
 
   Future<String> _saveDeviceToken() async {
-    String? _deviceToken = '';
+    String? deviceToken = '';
     if (!GetPlatform.isWeb) {
-      _deviceToken = await FirebaseMessaging.instance.getToken();
+      deviceToken = await FirebaseMessaging.instance.getToken();
     }
 
-    return _deviceToken!;
+    return deviceToken!;
   }
 
   Future<Response> checkOtpApi() async {
@@ -251,13 +251,13 @@ class AuthRepo extends GetxService {
   Future<String> readSecureData(String key) async {
     String value = "";
     try {
-      String _value = await (_storage.read(
+      String value0 = await (_storage.read(
               key: key,
               aOptions: _getAndroidOptions(),
               iOptions: _getIOSOptions())) ??
           "";
-      String _decodeValue = utf8.decode(base64Url.decode(_value));
-      value = _decodeValue.replaceRange(4, _decodeValue.length, '');
+      String decodeValue = utf8.decode(base64Url.decode(value0));
+      value = decodeValue.replaceRange(4, decodeValue.length, '');
     } catch (e) {
       debugPrint('error read data : $e');
     }
@@ -274,13 +274,13 @@ class AuthRepo extends GetxService {
   }
 
   Future<void> writeSecureData(String key, String value) async {
-    String _uniqueKey = base64Encode(
+    String uniqueKey = base64Encode(
         utf8.encode('${UniqueKey().toString()}${UniqueKey().toString()}'));
-    String _storeValue = base64Encode(utf8.encode('$value $_uniqueKey'));
+    String storeValue = base64Encode(utf8.encode('$value $uniqueKey'));
     try {
       await _storage.write(
         key: key,
-        value: _storeValue,
+        value: storeValue,
         iOptions: _getIOSOptions(),
         aOptions: _getAndroidOptions(),
       );

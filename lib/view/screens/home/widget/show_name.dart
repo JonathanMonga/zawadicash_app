@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/home_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class ShowName extends StatelessWidget {
@@ -17,9 +18,12 @@ class ShowName extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GetBuilder<ProfileController>(
-          builder: (controller) => controller.userInfo == null
+          init: Get.find<ProfileController>(
+              tag: getClassName<ProfileController>()),
+          tag: getClassName<ProfileController>(),
+          builder: (controller) => controller.userInfo != null
               ? Text(
-                  '${'Hi'.tr} ${controller.userInfo.fName} ${controller.userInfo.lName}',
+                  '${'Hi'.tr} ${controller.userInfo!.fName} ${controller.userInfo!.lName}',
                   textAlign: TextAlign.start,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -33,15 +37,18 @@ class ShowName extends StatelessWidget {
                       fontSize: Dimensions.FONT_SIZE_DEFAULT,
                       color: Colors.white.withOpacity(0.5))),
         ),
-        GetBuilder<HomeController>(builder: (controller) {
-          return Text(
-            controller.greetingMessage(),
-            style: rubikRegular.copyWith(
-              fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
-              color: Colors.white,
-            ),
-          );
-        }),
+        GetBuilder<HomeController>(
+            init: Get.find<HomeController>(tag: getClassName<HomeController>()),
+            tag: getClassName<HomeController>(),
+            builder: (controller) {
+              return Text(
+                controller.greetingMessage(),
+                style: rubikRegular.copyWith(
+                  fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
+                  color: Colors.white,
+                ),
+              );
+            }),
       ],
     );
   }

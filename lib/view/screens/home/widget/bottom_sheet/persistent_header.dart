@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/theme_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:flutter/material.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 
 class CustomPersistentHeader extends StatefulWidget {
   final VoidCallback? onTap;
@@ -27,7 +28,11 @@ class _CustomPersistentHeaderState extends State<CustomPersistentHeader> {
             boxShadow: [
               BoxShadow(
                   color: ColorResources.getBlackAndWhite().withOpacity(0.2),
-                  blurRadius: Get.find<ThemeController>().darkTheme ? 0 : 20,
+                  blurRadius: Get.find<ThemeController>(
+                              tag: getClassName<ThemeController>())
+                          .darkTheme
+                      ? 0
+                      : 20,
                   offset: const Offset(0, 0)),
             ]),
         child: Center(

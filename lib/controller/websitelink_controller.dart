@@ -1,10 +1,10 @@
+import 'package:get/get.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/websitelink_models.dart';
 import 'package:zawadicash_app/data/repository/websitelink_repo.dart';
-import 'package:get/get.dart';
 
 class WebsiteLinkController extends GetxController implements GetxService {
-  final WebsiteLinkRepo? websiteLinkRepo;
+  final WebsiteLinkRepo websiteLinkRepo;
   WebsiteLinkController({required this.websiteLinkRepo});
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -17,7 +17,7 @@ class WebsiteLinkController extends GetxController implements GetxService {
     if (_websiteList == null) {
       _isLoading = true;
       _websiteList = [];
-      Response response = await websiteLinkRepo!.getWebsiteListApi();
+      Response response = await websiteLinkRepo.getWebsiteListApi();
       if (response.body != null &&
           response.body != {} &&
           response.statusCode == 200) {

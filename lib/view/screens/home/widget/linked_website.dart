@@ -16,7 +16,10 @@ class LinkedWebsite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<WebsiteLinkController>(builder: (websiteLinkController) {
+    return GetBuilder<WebsiteLinkController>(
+        init: Get.find<WebsiteLinkController>(tag: getClassName<WebsiteLinkController>()),
+        tag: getClassName<WebsiteLinkController>(),
+        builder: (websiteLinkController) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

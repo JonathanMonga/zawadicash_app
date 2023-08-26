@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
-import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/camera_screen_controller.dart';
+import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
@@ -65,7 +65,10 @@ class _OtherInfoScreenState extends State<OtherInfoScreen> {
                 ),
               ),
             ),
-            GetBuilder<ProfileController>(builder: (getController) {
+            GetBuilder<ProfileController>(
+                init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                tag: getClassName<ProfileController>(),
+                builder: (getController) {
               return SizedBox(
                 height: 110,
                 child: CustomLargeButton(

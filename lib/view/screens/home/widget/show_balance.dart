@@ -20,7 +20,7 @@ class ShowBalance extends StatelessWidget {
         profileController!.userInfo != null
             ? Text(
                 PriceConverter.balanceWithSymbol(
-                    balance: profileController!.userInfo.balance.toString()),
+                    balance: profileController!.userInfo!.balance.toString()),
                 style: rubikMedium.copyWith(
                   color: Colors.white,
                   fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
@@ -41,7 +41,7 @@ class ShowBalance extends StatelessWidget {
         ),
         profileController!.userInfo != null
             ? Text(
-                '(${'sent'.tr} ${PriceConverter.balanceWithSymbol(balance: profileController!.userInfo.pendingBalance.toString())} ${'withdraw_req'.tr})',
+                '(${'sent'.tr} ${PriceConverter.balanceWithSymbol(balance: profileController!.userInfo!.pendingBalance.toString())} ${'withdraw_req'.tr})',
                 style: rubikMedium.copyWith(
                   color: Colors.white,
                   fontSize: Dimensions.FONT_SIZE_SMALL,

@@ -54,7 +54,10 @@ class RequestedMoneyScreen extends StatelessWidget {
         }
       }
     });
-    return GetBuilder<RequestedMoneyController>(builder: (req) {
+    return GetBuilder<RequestedMoneyController>(
+        init: Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()),
+        tag: getClassName<RequestedMoneyController>(),
+        builder: (req) {
       List<RequestedMoney>? reqList;
       List<WithdrawHistory>? withdrawHistoryList;
       reqList = requestType == RequestType.sendRequest

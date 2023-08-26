@@ -67,6 +67,8 @@ class _RequestedMoneyListScreenState extends State<RequestedMoneyListScreen> {
                 height: 50,
                 alignment: Alignment.centerLeft,
                 child: GetBuilder<RequestedMoneyController>(
+                  init: Get.find<RequestedMoneyController>(tag: getClassName<RequestedMoneyController>()),
+                  tag: getClassName<RequestedMoneyController>(),
                   builder: (requestMoneyController) {
                     return ListView(
                         shrinkWrap: true,

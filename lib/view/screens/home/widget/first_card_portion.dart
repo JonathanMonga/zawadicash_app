@@ -7,14 +7,15 @@ import 'package:zawadicash_app/helper/price_converter.dart';
 import 'package:zawadicash_app/helper/transaction_type.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 import 'package:zawadicash_app/view/screens/home/widget/banner_view.dart';
 import 'package:zawadicash_app/view/screens/home/widget/custom_card.dart';
 import 'package:zawadicash_app/view/screens/requested_money/requested_money_list_screen.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_screen.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_screen.dart';
 
 class FirstCardPortion extends StatelessWidget {
   const FirstCardPortion({Key? key}) : super(key: key);
@@ -50,6 +51,8 @@ class FirstCardPortion extends StatelessWidget {
                           horizontal: Dimensions.PADDING_SIZE_LARGE,
                         ),
                         child: GetBuilder<ProfileController>(
+                            init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                            tag: getClassName<ProfileController>(),
                             builder: (profileController) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +72,7 @@ class FirstCardPortion extends StatelessWidget {
                                   ? Text(
                                       PriceConverter.balanceWithSymbol(
                                           balance: profileController
-                                              .userInfo.balance
+                                              .userInfo!.balance
                                               .toString()),
                                       style: rubikMedium.copyWith(
                                         color: Theme.of(context)
@@ -95,7 +98,7 @@ class FirstCardPortion extends StatelessWidget {
                                   height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                               profileController.userInfo != null
                                   ? Text(
-                                      '(${'sent'.tr} ${PriceConverter.balanceWithSymbol(balance: profileController.userInfo.pendingBalance != null ? profileController.userInfo.pendingBalance.toString() : 0.toString())} ${'withdraw_req'.tr})',
+                                      '(${'sent'.tr} ${PriceConverter.balanceWithSymbol(balance: profileController.userInfo!.pendingBalance != null ? profileController.userInfo!.pendingBalance.toString() : 0.toString())} ${'withdraw_req'.tr})',
                                       style: rubikMedium.copyWith(
                                         fontSize: Dimensions.FONT_SIZE_SMALL,
                                       ))

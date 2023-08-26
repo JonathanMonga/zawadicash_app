@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_text_field.dart';
 
@@ -30,7 +31,10 @@ class _InputSectionState extends State<InputSection> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(builder: (controller) {
+    return GetBuilder<ProfileController>(
+        init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+        tag: getClassName<ProfileController>(),
+        builder: (controller) {
       return Container(
         padding: const EdgeInsets.symmetric(
             horizontal: Dimensions.PADDING_SIZE_LARGE,

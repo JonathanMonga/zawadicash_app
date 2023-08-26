@@ -1,10 +1,10 @@
+import 'package:get/get.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/notification_model.dart';
-import 'package:get/get.dart';
 import 'package:zawadicash_app/data/repository/notification_repo.dart';
 
 class NotificationController extends GetxController implements GetxService {
-  final NotificationRepo? notificationRepo;
+  final NotificationRepo notificationRepo;
   NotificationController({required this.notificationRepo});
 
   bool _isLoading = false;
@@ -15,7 +15,7 @@ class NotificationController extends GetxController implements GetxService {
 
   Future getNotificationList() async {
     _notificationList = [];
-    Response response = await notificationRepo!.getNotificationList();
+    Response response = await notificationRepo.getNotificationList();
     if (response.body != null &&
         response.body != {} &&
         response.statusCode == 200) {

@@ -65,7 +65,7 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Theme.of(context).secondaryHeaderColor),
-                child: SvgPicture.string(controller.userInfo.qrCode!,
+                child: SvgPicture.string(controller.userInfo!.qrCode!,
                     height: size.width * 0.4, width: size.width * 0.4),
               ),
             );
@@ -88,9 +88,9 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
                     onTap: () => Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>())
                         .qrCodeDownloadAndShare(
                             qrCode:
-                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.qrCode!,
+                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.qrCode!,
                             phoneNumber:
-                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone!,
+                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone!,
                             isShare: false),
                   ),
                   /*child: Container(
@@ -98,7 +98,7 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
 
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),color: Theme.of(context).secondaryHeaderColor),
                   child: CustomInkWell(
-                    onTap: () => Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).qrCodeDownloadAndShare(qrCode: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.qrCode, phoneNumber: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone,isShare: false),
+                    onTap: () => Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).qrCodeDownloadAndShare(qrCode: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.qrCode, phoneNumber: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone,isShare: false),
                     child: Padding(
                       padding: const EdgeInsets.symmetric( vertical: 14.0),
                       child: Text('download'.tr, style: rubikMedium.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE),),
@@ -117,21 +117,21 @@ class ProfileQRCodeBottomSheet extends StatelessWidget {
                     onTap: () => Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>())
                         .qrCodeDownloadAndShare(
                             qrCode:
-                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.qrCode!,
+                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.qrCode!,
                             phoneNumber:
-                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone!,
+                                Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone!,
                             isShare: true),
                   ),
                   /*child: InkWell(
                   onTap: (){
-                    Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).qrCodeDownloadAndShare(qrCode: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.qrCode, phoneNumber: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone,isShare: true);
+                    Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).qrCodeDownloadAndShare(qrCode: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.qrCode, phoneNumber: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone,isShare: true);
 
                     },
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),color: Theme.of(context).primaryColor),
                     child: CustomInkWell(
-                      onTap: ()=> Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).qrCodeDownloadAndShare(qrCode: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.qrCode, phoneNumber: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone,isShare: true),
+                      onTap: ()=> Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).qrCodeDownloadAndShare(qrCode: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.qrCode, phoneNumber: Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone,isShare: true),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 9.0, vertical: 14.0),
                         child: Text('share_QR_code'.tr,maxLines: 1, style: rubikMedium.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE,color: Colors.white),),

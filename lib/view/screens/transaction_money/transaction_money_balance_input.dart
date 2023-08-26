@@ -20,11 +20,11 @@ import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_loader.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_confirmation.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/widget/input_box_view.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/widget/purpose_widget.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/field_item_view.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/for_person_widget.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/input_box_view.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/next_button.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/purpose_widget.dart';
 
 class TransactionMoneyBalanceInput extends StatefulWidget {
   final String? transactionType;
@@ -43,9 +43,9 @@ class _TransactionMoneyBalanceInputState
     extends State<TransactionMoneyBalanceInput> {
   static final TextEditingController _inputAmountController =
       TextEditingController();
-  late String _selectedMethodId;
-  late List<MethodField> _fieldList;
-  late List<MethodField> _gridFieldList;
+  String? _selectedMethodId;
+  List<MethodField>? _fieldList;
+  List<MethodField>? _gridFieldList;
   Map<String, TextEditingController> _textControllers = {};
   Map<String, TextEditingController> _gridTextController = {};
   final FocusNode _inputAmountFocusNode = FocusNode();
@@ -72,9 +72,11 @@ class _TransactionMoneyBalanceInputState
       child: Scaffold(
           appBar: CustomAppbar(title: widget.transactionType!.tr),
           body: GetBuilder<TransactionMoneyController>(
+              init: Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>()),
+              tag: getClassName<TransactionMoneyController>(),
               builder: (transactionMoneyController) {
             if (widget.transactionType == TransactionType.WITHDRAW_REQUEST &&
-                transactionMoneyController.withdrawModel.isBlank!) {
+                transactionMoneyController.withdrawModel == null) {
               return CustomLoader(color: Theme.of(context).primaryColor);
             }
             return SingleChildScrollView(
@@ -116,7 +118,7 @@ class _TransactionMoneyBalanceInputState
                               ),
                               value: _selectedMethodId,
                               items: transactionMoneyController
-                                  .withdrawModel.withdrawalMethods
+                                  .withdrawModel!.withdrawalMethods
                                   .map((withdraw) => DropdownMenuItem<String>(
                                         value: withdraw.id.toString(),
                                         child: Text(
@@ -133,22 +135,22 @@ class _TransactionMoneyBalanceInputState
                                 _fieldList = [];
 
                                 for (var _method in transactionMoneyController
-                                    .withdrawModel.withdrawalMethods
+                                    .withdrawModel!.withdrawalMethods
                                     .firstWhere((method) =>
                                         method.id.toString() == id)
                                     .methodFields!) {
-                                  _gridFieldList.addIf(
+                                  _gridFieldList!.addIf(
                                       _method.inputName!.contains('cvv') ||
                                           _method.inputType == 'date',
                                       _method);
                                 }
 
                                 for (var _method in transactionMoneyController
-                                    .withdrawModel.withdrawalMethods
+                                    .withdrawModel!.withdrawalMethods
                                     .firstWhere((method) =>
                                         method.id.toString() == id)
                                     .methodFields!) {
-                                  _fieldList.addIf(
+                                  _fieldList!.addIf(
                                       !_method.inputName!.contains('cvv') &&
                                           _method.inputType != 'date',
                                       _method);
@@ -159,11 +161,11 @@ class _TransactionMoneyBalanceInputState
                                 _gridTextController = _gridTextController =
                                     <String, TextEditingController>{};
 
-                                for (var _method in _fieldList) {
+                                for (var _method in _fieldList!) {
                                   _textControllers[_method.inputName!] =
                                       TextEditingController();
                                 }
-                                for (var _method in _gridFieldList) {
+                                for (var _method in _gridFieldList!) {
                                   _gridTextController[_method.inputName!] =
                                       TextEditingController();
                                 }
@@ -176,21 +178,21 @@ class _TransactionMoneyBalanceInputState
                           ),
                           const SizedBox(
                               height: Dimensions.PADDING_SIZE_DEFAULT),
-                          if (_fieldList.isNotEmpty)
+                          if (_fieldList != null && _fieldList!.isNotEmpty)
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _fieldList.length,
+                              itemCount: _fieldList!.length,
                               padding: const EdgeInsets.symmetric(
                                 vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL,
                                 horizontal: 10,
                               ),
                               itemBuilder: (context, index) => FieldItemView(
-                                methodField: _fieldList[index],
+                                methodField: _fieldList![index],
                                 textControllers: _textControllers,
                               ),
                             ),
-                          if (_gridFieldList.isNotEmpty)
+                          if (_gridFieldList!.isNotEmpty)
                             GridView.builder(
                               padding: const EdgeInsets.symmetric(
                                 vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL,
@@ -205,9 +207,9 @@ class _TransactionMoneyBalanceInputState
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
                               ),
-                              itemCount: _gridFieldList.length,
+                              itemCount: _gridFieldList!.length,
                               itemBuilder: (context, index) => FieldItemView(
-                                methodField: _gridFieldList[index],
+                                methodField: _gridFieldList![index],
                                 textControllers: _gridTextController,
                               ),
                             ),
@@ -280,6 +282,8 @@ class _TransactionMoneyBalanceInputState
             );
           }),
           floatingActionButton: GetBuilder<TransactionMoneyController>(
+              init: Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>()),
+              tag: getClassName<TransactionMoneyController>(),
               builder: (transactionMoneyController) {
             return FloatingActionButton(
               onPressed: () {
@@ -314,15 +318,15 @@ class _TransactionMoneyBalanceInputState
                         widget.transactionType == TransactionType.SEND_MONEY) {
                       inSufficientBalance =
                           PriceConverter.withSendMoneyCharge(amount) >
-                              profileController.userInfo.balance!;
+                              profileController.userInfo!.balance!;
                     } else if (isCheck &&
                         widget.transactionType == TransactionType.CASH_OUT) {
                       inSufficientBalance =
                           PriceConverter.withCashOutCharge(amount) >
-                              profileController.userInfo.balance!;
+                              profileController.userInfo!.balance!;
                     } else if (isCheck) {
                       inSufficientBalance =
-                          amount > profileController.userInfo.balance!;
+                          amount > profileController.userInfo!.balance!;
                     }
 
                     if (inSufficientBalance) {
@@ -348,7 +352,7 @@ class _TransactionMoneyBalanceInputState
     } else if (widget.transactionType == TransactionType.WITHDRAW_REQUEST) {
       late String message;
       WithdrawalMethod withdrawMethod = transactionMoneyController
-          .withdrawModel.withdrawalMethods
+          .withdrawModel!.withdrawalMethods
           .firstWhere((method) => _selectedMethodId == method.id.toString());
 
       List<MethodField> list = [];

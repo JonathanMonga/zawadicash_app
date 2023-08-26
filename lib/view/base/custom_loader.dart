@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -10,8 +12,9 @@ class CustomLoader extends StatefulWidget {
     this.itemBuilder,
     this.duration = const Duration(milliseconds: 500),
     this.controller,
-  })  : assert(color is! Color && !(itemBuilder == null && color == null),
-            'You should specify either a itemBuilder or a color'),
+  })  : assert(!(itemBuilder is IndexedWidgetBuilder && color is Color) && !(itemBuilder == null && color == null),
+  'You should specify either a itemBuilder or a color'),
+        assert(size != null),
         super(key: key);
 
   final Color? color;

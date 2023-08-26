@@ -23,8 +23,8 @@ import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_confirmation.dart';
 
 class TransactionMoneyController extends GetxController implements GetxService {
-  final TransactionRepo? transactionRepo;
-  final AuthRepo? authRepo;
+  final TransactionRepo transactionRepo;
+  final AuthRepo authRepo;
 
   TransactionMoneyController(
       {required this.transactionRepo, required this.authRepo});
@@ -41,7 +41,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
   List<ContactModel> _cashOutSuggestList = [];
 
   List<Purpose> _purposeList = [];
-  late Purpose _selectedPurpose;
+  Purpose? _selectedPurpose;
   int _selectItem = 0;
   final double _cashOutCharge = 0;
 
@@ -53,16 +53,16 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   bool _isNextBottomSheet = false;
   bool _includeCharge = false;
-  late PermissionStatus permissionStatus;
+  PermissionStatus? permissionStatus;
   final String _searchControllerValue = '';
-  late double _inputAmountControllerValue;
-  late WithdrawModel _withdrawModel;
+  double? _inputAmountControllerValue;
+  WithdrawModel? _withdrawModel;
 
   List<Purpose> get purposeList => _purposeList;
-  Purpose get selectedPurpose => _selectedPurpose;
+  Purpose? get selectedPurpose => _selectedPurpose;
   int get selectedItem => _selectItem;
   String get searchControllerValue => _searchControllerValue;
-  double get inputAmountControllerValue => _inputAmountControllerValue;
+  double? get inputAmountControllerValue => _inputAmountControllerValue;
 
   bool get isLoading => _isLoading;
   bool get isOtpFieldLoading => _isOtpFieldLoading;
@@ -77,13 +77,13 @@ class TransactionMoneyController extends GetxController implements GetxService {
   bool get isFutureSave => _isFutureSave;
   bool _isPinCompleted = false;
   bool get isPinCompleted => _isPinCompleted;
-  late String _pin;
-  String get pin => _pin;
+  String? _pin;
+  String? get pin => _pin;
   bool _contactIsLoading = false;
   bool get contactIsLoading => _contactIsLoading;
   bool _isButtonClick = false;
   bool get isButtonClick => _isButtonClick;
-  WithdrawModel get withdrawModel => _withdrawModel;
+  WithdrawModel? get withdrawModel => _withdrawModel;
 
   cupertinoSwitchOnChange(bool value) {
     _isFutureSave = value;
@@ -109,7 +109,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   Future<Response> getPurposeList() async {
     _isLoading = true;
-    Response response = await transactionRepo!.getPurposeListApi();
+    Response response = await transactionRepo.getPurposeListApi();
     _purposeList = [];
     if (response.body != null && response.statusCode == 200) {
       var data = response.body.map((a) => Purpose.fromJson(a)).toList();
@@ -128,9 +128,9 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   Future<void> fetchContact() async {
     _contactIsLoading = true;
-    String? _permissionStatus =
-        authRepo!.sharedPreferences.getString(AppConstants.CONTACT_PERMISSION);
-    if (_permissionStatus != PermissionStatus.granted.name) {
+    String? permissionStatus =
+        authRepo.sharedPreferences.getString(AppConstants.CONTACT_PERMISSION);
+    if (permissionStatus != PermissionStatus.granted.name) {
       return Get.dialog(
         CustomDialog(
           description: 'if_you_allow_contact_permission'.tr,
@@ -157,8 +157,8 @@ class TransactionMoneyController extends GetxController implements GetxService {
   void _contactData() async {
     List<Contact> contacts = [];
     permissionStatus = await Permission.contacts.request();
-    authRepo!.sharedPreferences
-        .setString(AppConstants.CONTACT_PERMISSION, permissionStatus.name);
+    authRepo.sharedPreferences
+        .setString(AppConstants.CONTACT_PERMISSION, permissionStatus!.name);
     if (permissionStatus == PermissionStatus.granted || GetPlatform.isIOS) {
       contacts = await FlutterContacts.getContacts(
           withProperties: true, withPhoto: false);
@@ -212,7 +212,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isLoading = true;
     _isNextBottomSheet = false;
     update();
-    Response response = await transactionRepo!.sendMoneyApi(
+    Response response = await transactionRepo.sendMoneyApi(
         phoneNumber: contactModel.phoneNumber!,
         amount: amount,
         purpose: purpose!,
@@ -224,7 +224,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
       _sendMoneySuggestList.removeWhere(
           (element) => element.phoneNumber == contactModel.phoneNumber);
       _sendMoneySuggestList.add(contactModel);
-      transactionRepo!
+      transactionRepo
           .addToSuggestList(_sendMoneySuggestList, type: 'send_money');
       update();
     } else {
@@ -240,7 +240,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isLoading = true;
     _isNextBottomSheet = false;
     update();
-    Response response = await transactionRepo!.requestMoneyApi(
+    Response response = await transactionRepo.requestMoneyApi(
         phoneNumber: contactModel.phoneNumber!, amount: amount);
     if (response.statusCode == 200) {
       _isLoading = false;
@@ -249,7 +249,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
       _requestMoneySuggestList.removeWhere(
           (element) => element.phoneNumber == contactModel.phoneNumber);
       _requestMoneySuggestList.add(contactModel);
-      transactionRepo!
+      transactionRepo
           .addToSuggestList(_requestMoneySuggestList, type: 'request_money');
       update();
     } else {
@@ -267,7 +267,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isLoading = true;
     _isNextBottomSheet = false;
     update();
-    Response response = await transactionRepo!.cashOutApi(
+    Response response = await transactionRepo.cashOutApi(
         phoneNumber: contactModel.phoneNumber!, amount: amount, pin: pinCode!);
     if (response.statusCode == 200) {
       _isLoading = false;
@@ -277,7 +277,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
         _cashOutSuggestList.removeWhere(
             (element) => element.phoneNumber == contactModel.phoneNumber);
         _cashOutSuggestList.add(contactModel);
-        transactionRepo!
+        transactionRepo
             .addToSuggestList(_cashOutSuggestList, type: 'cash_out');
       }
 
@@ -291,15 +291,15 @@ class TransactionMoneyController extends GetxController implements GetxService {
   }
 
   Future<Response> checkCustomerNumber({required String phoneNumber}) async {
-    late Response _response;
-    if (phoneNumber == Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo.phone) {
+    late Response response0;
+    if (phoneNumber == Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone) {
       //todo set message
       showCustomSnackBar('Please_enter_a_different_customer_number'.tr);
     } else {
       _isButtonClick = true;
       update();
       Response response =
-          await transactionRepo!.checkCustomerNumber(phoneNumber: phoneNumber);
+          await transactionRepo.checkCustomerNumber(phoneNumber: phoneNumber);
       if (response.statusCode == 200) {
         _isButtonClick = false;
       } else {
@@ -307,17 +307,17 @@ class TransactionMoneyController extends GetxController implements GetxService {
         ApiChecker.checkApi(response);
       }
       update();
-      _response = response;
+      response0 = response;
     }
 
-    return _response;
+    return response0;
   }
 
   Future<Response> checkAgentNumber({required String phoneNumber}) async {
     _isButtonClick = true;
     update();
     Response response =
-        await transactionRepo!.checkAgentNumber(phoneNumber: phoneNumber);
+        await transactionRepo.checkAgentNumber(phoneNumber: phoneNumber);
     if (response.statusCode == 200) {
       _isButtonClick = false;
     } else {
@@ -365,16 +365,16 @@ class TransactionMoneyController extends GetxController implements GetxService {
           .checkAgentNumber(phoneNumber: phoneNumber)
           .then((value) {
         if (value.isOk) {
-          String _agentName = value.body['data']['name'];
-          String _agentImage = value.body['data']['image'];
+          String agentName = value.body['data']['name'];
+          String agentImage = value.body['data']['image'];
 
           debugPrint('phone number contact ---- $phoneNumber');
           Get.to(() => TransactionMoneyBalanceInput(
               transactionType: transactionType,
               contactModel: ContactModel(
                   phoneNumber: phoneNumber,
-                  name: _agentName,
-                  avatarImage: _agentImage)));
+                  name: agentName,
+                  avatarImage: agentImage)));
         }
       });
     } else {
@@ -383,14 +383,14 @@ class TransactionMoneyController extends GetxController implements GetxService {
           .then((value) {
         debugPrint('phone number contact ---- $phoneNumber');
         if (value.isOk) {
-          String _customerName = value.body['data']['name'];
-          String _customerImage = value.body['data']['image'];
+          String customerName = value.body['data']['name'];
+          String customerImage = value.body['data']['image'];
           Get.to(() => TransactionMoneyBalanceInput(
               transactionType: transactionType,
               contactModel: ContactModel(
                   phoneNumber: phoneNumber,
-                  name: _customerName,
-                  avatarImage: _customerImage)));
+                  name: customerName,
+                  avatarImage: customerImage)));
         }
       });
     }
@@ -437,12 +437,12 @@ class TransactionMoneyController extends GetxController implements GetxService {
     try {
       if (type == AppConstants.SEND_MONEY) {
         _sendMoneySuggestList
-            .addAll(transactionRepo!.getRecentList(type: type)!);
+            .addAll(transactionRepo.getRecentList(type: type)!);
       } else if (type == AppConstants.CASH_OUT) {
-        _cashOutSuggestList.addAll(transactionRepo!.getRecentList(type: type)!);
+        _cashOutSuggestList.addAll(transactionRepo.getRecentList(type: type)!);
       } else {
         _requestMoneySuggestList
-            .addAll(transactionRepo!.getRecentList(type: type)!);
+            .addAll(transactionRepo.getRecentList(type: type)!);
       }
     } catch (error) {
       _cashOutSuggestList = [];
@@ -456,12 +456,12 @@ class TransactionMoneyController extends GetxController implements GetxService {
   }
 
   Future<bool> pinVerify({required String pin}) async {
-    bool _isVerify = false;
+    bool isVerify = false;
     _isLoading = true;
     update();
-    final Response response = await authRepo!.pinVerifyApi(pin: pin);
+    final Response response = await authRepo.pinVerifyApi(pin: pin);
     if (response.statusCode == 200) {
-      _isVerify = true;
+      isVerify = true;
       _isLoading = false;
     } else {
       debugPrint('call else blcok');
@@ -469,7 +469,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     }
     _isLoading = false;
     update();
-    return _isVerify;
+    return isVerify;
   }
 
   Future<bool> getBackScreen() async {
@@ -479,7 +479,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   Future<void> getWithdrawMethods({bool isReload = false}) async {
     if (isReload) {
-      Response response = await transactionRepo!.getWithdrawMethods();
+      Response response = await transactionRepo.getWithdrawMethods();
 
       if (response.body['response_code'] == 'default_200' &&
           response.body['content'] != null) {
@@ -499,7 +499,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isLoading = true;
 
     Response response =
-        await transactionRepo!.withdrawRequest(placeBody: placeBody!);
+        await transactionRepo.withdrawRequest(placeBody: placeBody!);
 
     if (response.statusCode == 200 &&
         response.body['response_code'] == 'default_store_200') {

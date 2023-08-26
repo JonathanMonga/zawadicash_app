@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:flutter/material.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
 class CustomCard3 extends StatelessWidget {
@@ -15,7 +15,7 @@ class CustomCard3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomInkWell(
-      onTap: onTap,
+      onTap: onTap!,
       child: Container(
         decoration: BoxDecoration(
             borderRadius:

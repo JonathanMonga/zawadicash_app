@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
+import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/controller/theme_controller.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
@@ -12,10 +13,8 @@ import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
 
-import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
-
 class ProfileController extends GetxController implements GetxService {
-  final ProfileRepo? profileRepo;
+  final ProfileRepo profileRepo;
 
   ProfileController({required this.profileRepo});
 
@@ -24,7 +23,7 @@ class ProfileController extends GetxController implements GetxService {
   UserInfo? _userInfo;
   bool _isLoading = false;
 
-  UserInfo get userInfo => _userInfo!;
+  UserInfo? get userInfo => _userInfo;
   bool get isLoading => _isLoading;
   String _gender = 'Male';
   String get gender => _gender;
@@ -46,7 +45,7 @@ class ProfileController extends GetxController implements GetxService {
     }
 
     if (_userInfo == null) {
-      Response response = await profileRepo!.getProfileDataApi();
+      Response response = await profileRepo.getProfileDataApi();
       if (response.statusCode == 200) {
         _userInfo = UserInfo.fromJson(response.body);
         Get.find<AuthController>(tag: getClassName<AuthController>())
@@ -73,7 +72,7 @@ class ProfileController extends GetxController implements GetxService {
     } else {
       _isLoading = true;
       update();
-      Response response = await profileRepo!.changePinApi(
+      Response response = await profileRepo.changePinApi(
           oldPin: oldPassword,
           newPin: newPassword,
           confirmPin: confirmPassword);
@@ -95,7 +94,7 @@ class ProfileController extends GetxController implements GetxService {
   Future<Response> pinVerify(
       {required String getPin, bool isUpdateTwoFactor = true}) async {
     bottomSliderController.setIsLoading = true;
-    final Response response = await profileRepo!.pinVerifyApi(pin: getPin);
+    final Response response = await profileRepo.pinVerifyApi(pin: getPin);
 
     if (response.statusCode == 200) {
       bottomSliderController.isPinVerified = true;
@@ -119,7 +118,7 @@ class ProfileController extends GetxController implements GetxService {
   Future<void> updateTwoFactor() async {
     _isLoading = true;
     update();
-    Response response = await profileRepo!.updateTwoFactorApi();
+    Response response = await profileRepo.updateTwoFactorApi();
     await profileData(reload: true);
     if (response.statusCode == 200) {
       showCustomSnackBar(response.body['message'], isError: false);
@@ -145,7 +144,7 @@ class ProfileController extends GetxController implements GetxService {
   }
 
   ///Change theme..
-  bool _isSwitched = Get.find<ThemeController>().darkTheme;
+  bool _isSwitched = Get.find<ThemeController>(tag: getClassName<ThemeController>()).darkTheme;
   var textValue = 'Switch is OFF';
 
   bool get isSwitched => _isSwitched;
@@ -155,13 +154,13 @@ class ProfileController extends GetxController implements GetxService {
       _isSwitched = true;
       textValue = 'Switch Button is ON';
       debugPrint('Switch Button is ON');
-      Get.find<ThemeController>().toggleTheme();
+      Get.find<ThemeController>(tag: getClassName<ThemeController>()).toggleTheme();
       update();
     } else {
       _isSwitched = false;
       textValue = 'Switch Button is OFF';
       debugPrint('Switch Button is OFF');
-      Get.find<ThemeController>().toggleTheme();
+      Get.find<ThemeController>(tag: getClassName<ThemeController>()).toggleTheme();
       update();
     }
   }

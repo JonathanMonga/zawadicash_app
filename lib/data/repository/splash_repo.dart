@@ -10,8 +10,8 @@ class SplashRepo {
 
   Future<Response> getConfigData() async {
     // Response _response = await apiClient.postData(AppConstants.CONFIG_URI, {'email': 'ashek@gmail.com', 'password': '0123456'});
-    Response _response = await apiClient.getData(AppConstants.CONFIG_URI);
-    return _response;
+    Response response = await apiClient.getData(AppConstants.CONFIG_URI);
+    return response;
   }
 
   Future<bool> initSharedData() {

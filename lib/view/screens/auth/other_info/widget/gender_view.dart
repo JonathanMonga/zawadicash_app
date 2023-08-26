@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/edit_profile_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:zawadicash_app/view/screens/auth/other_info/widget/custom_gender_card.dart';
 
 class GenderView extends StatelessWidget {
@@ -18,10 +18,15 @@ class GenderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(builder: (profileController) {
+    return GetBuilder<ProfileController>(
+        init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+        tag: getClassName<ProfileController>(),
+        builder: (profileController) {
       return GetBuilder<EditProfileController>(
+          init: Get.find<EditProfileController>(tag: getClassName<EditProfileController>()),
+          tag: getClassName<EditProfileController>(),
           builder: (editProfileController) {
-        String _gender = fromEditProfile
+        String gender = fromEditProfile
             ? editProfileController.gender
             : profileController.gender;
         return Container(
@@ -59,7 +64,7 @@ class GenderView extends StatelessWidget {
                     CustomGenderCard(
                       icon: Images.male,
                       text: 'male'.tr,
-                      color: _gender == 'Male'
+                      color: gender == 'Male'
                           ? Theme.of(context).secondaryHeaderColor
                           : ColorResources.genderDefaultColor.withOpacity(0.5),
                       onTap: () => fromEditProfile
@@ -72,7 +77,7 @@ class GenderView extends StatelessWidget {
                     CustomGenderCard(
                       icon: Images.female,
                       text: 'female'.tr,
-                      color: _gender == 'Female'
+                      color: gender == 'Female'
                           ? Theme.of(context).secondaryHeaderColor
                           : ColorResources.genderDefaultColor.withOpacity(0.5),
                       onTap: () => fromEditProfile
@@ -85,7 +90,7 @@ class GenderView extends StatelessWidget {
                     CustomGenderCard(
                       icon: Images.other,
                       text: 'other'.tr,
-                      color: _gender == 'Other'
+                      color: gender == 'Other'
                           ? Theme.of(context).secondaryHeaderColor
                           : ColorResources.genderDefaultColor.withOpacity(0.5),
                       onTap: () => fromEditProfile

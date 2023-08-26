@@ -14,7 +14,6 @@ import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 import 'package:zawadicash_app/view/screens/requested_money/requested_money_list_screen.dart';
-
 import 'package:zawadicash_app/view/screens/requested_money/widget/confirmation_dialog.dart';
 
 class RequestedMoneyCard extends StatefulWidget {
@@ -208,7 +207,7 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                                                       '${'are_you_sure_want_to_accept'.tr} \n ${widget.requestedMoney!.sender!.name} \n ${widget.requestedMoney!.sender!.phone}',
                                                   onYesPressed: () {
                                                     Get.find<
-                                                            RequestedMoneyController>()
+                                                            RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                                                         .acceptRequest(
                                                             context,
                                                             widget
@@ -218,7 +217,7 @@ class _RequestedMoneyCardState extends State<RequestedMoneyCard> {
                                                                 .text
                                                                 .trim())
                                                         .then((value) => Get.find<
-                                                                RequestedMoneyController>()
+                                                                RequestedMoneyController>(tag: getClassName<RequestedMoneyController>())
                                                             .getRequestedMoneyList(
                                                                 1));
                                                   }),

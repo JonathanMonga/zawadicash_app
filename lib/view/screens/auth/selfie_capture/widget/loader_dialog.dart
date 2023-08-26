@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
+import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
 
 class LoaderDialog extends StatelessWidget {
@@ -10,6 +11,8 @@ class LoaderDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CameraScreenController>(
+        init: Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()),
+        tag: getClassName<CameraScreenController>(),
         builder: (cameraScreenController) {
       return cameraScreenController.isSuccess == 0
           ? const Center(child: CircularProgressIndicator())

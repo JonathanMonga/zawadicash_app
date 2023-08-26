@@ -291,6 +291,7 @@ class ApiClient extends GetxService {
     } catch (e) {
       debugPrint(e.toString());
     }
+
     Response response0 = Response(
       body: body ?? response.body,
       bodyString: response.body.toString(),
@@ -302,6 +303,7 @@ class ApiClient extends GetxService {
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
     );
+
     if (response0.statusCode != 200 &&
         response0.body != null &&
         response0.body is! String) {
@@ -322,6 +324,7 @@ class ApiClient extends GetxService {
     }
     debugPrint(
         '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
+
     return response0;
   }
 }

@@ -1,5 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/data/model/response/user_info.dart';
@@ -11,10 +14,6 @@ import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 import 'package:zawadicash_app/view/screens/kyc_verify/kyc_verify_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/bootom_sheet.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-
 import 'package:zawadicash_app/view/screens/profile/widget/profile_shimmer.dart';
 
 class UserInfo extends StatelessWidget {
@@ -23,6 +22,8 @@ class UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
+      init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+      tag: getClassName<ProfileController>(),
       builder: (profileController) => profileController.isLoading
           ? const ProfileShimmer()
           : Container(
@@ -58,7 +59,7 @@ class UserInfo extends StatelessWidget {
                                     child: CustomImage(
                                       fit: BoxFit.cover,
                                       image:
-                                          "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${profileController.userInfo.image}",
+                                          "${Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.baseUrls!.customerImageUrl}/${profileController.userInfo!.image}",
                                       placeholder: Images.avatar,
                                     ),
                                   ),
@@ -73,7 +74,7 @@ class UserInfo extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
                                       child: Text(
-                                        '${profileController.userInfo.fName} ${profileController.userInfo.lName}',
+                                        '${profileController.userInfo!.fName} ${profileController.userInfo!.lName}',
                                         style: rubikMedium.copyWith(
                                           color: Theme.of(context)
                                               .textTheme
@@ -90,7 +91,7 @@ class UserInfo extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
                                       child: Text(
-                                        profileController.userInfo.phone!,
+                                        profileController.userInfo!.phone!,
                                         style: rubikMedium.copyWith(
                                           color: Theme.of(context)
                                               .textTheme
@@ -124,6 +125,8 @@ class UserInfo extends StatelessWidget {
                               const ProfileQRCodeBottomSheet(),
                         ),
                         child: GetBuilder<ProfileController>(
+                            init: Get.find<ProfileController>(tag: getClassName<ProfileController>()),
+                            tag: getClassName<ProfileController>(),
                             builder: (controller) {
                           return Container(
                             decoration: BoxDecoration(
@@ -131,7 +134,7 @@ class UserInfo extends StatelessWidget {
                                 color: Theme.of(context).secondaryHeaderColor),
                             padding: const EdgeInsets.all(10.0),
                             child: SvgPicture.string(
-                              controller.userInfo.qrCode!,
+                              controller.userInfo!.qrCode!,
                               height: 24,
                               width: 24,
                             ),
@@ -141,17 +144,17 @@ class UserInfo extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  if (profileController.userInfo.kycStatus !=
+                  if (profileController.userInfo!.kycStatus !=
                       KycVerification.approve)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flexible(
                           child: Text(
-                            profileController.userInfo.kycStatus ==
+                            profileController.userInfo!.kycStatus ==
                                     KycVerification.needApply
                                 ? 'kyc_verification_is_not'.tr
-                                : profileController.userInfo.kycStatus ==
+                                : profileController.userInfo!.kycStatus ==
                                         KycVerification.pending
                                     ? 'your_verification_request_is'.tr
                                     : 'your_verification_is_denied'.tr,
@@ -180,10 +183,10 @@ class UserInfo extends StatelessWidget {
                                   .withOpacity(0.8),
                             ),
                             child: Text(
-                              profileController.userInfo.kycStatus ==
+                              profileController.userInfo!.kycStatus ==
                                       KycVerification.needApply
                                   ? 'click_to_verify'.tr
-                                  : profileController.userInfo.kycStatus ==
+                                  : profileController.userInfo!.kycStatus ==
                                           KycVerification.pending
                                       ? 'edit'.tr
                                       : 're_apply'.tr,

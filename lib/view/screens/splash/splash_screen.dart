@@ -36,9 +36,10 @@ class _SplashScreenState extends State<SplashScreen>
             isVpn: true, duration: const Duration(minutes: 10));
       }
 
+      // Todo make this with SharePreferences...
       bool firstTime = true;
 
-      if (!firstTime) {
+      if (firstTime) {
         debugPrint('connection state : $result');
         bool isNotConnected = result != ConnectivityResult.wifi &&
             result != ConnectivityResult.mobile;

@@ -5,8 +5,8 @@ import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
+import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
-
 import 'package:zawadicash_app/view/base/rounded_button.dart';
 
 class AppbarView extends StatelessWidget {
@@ -23,9 +23,10 @@ class AppbarView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CustomLogo(
+          CustomLogo(
             height: Dimensions.SMALL_LOGO,
             width: Dimensions.SMALL_LOGO,
+            logo: Image.asset(Images.logo_white),
           ),
           isLogin
               ? RoundedButton(

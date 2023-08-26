@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zawadicash_app/helper/functions.dart';
-
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
@@ -21,7 +20,7 @@ class RoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE),
       ),
       child: CustomInkWell(
-        onTap: onTap,
+        onTap: onTap!,
         radius: Dimensions.RADIUS_SIZE_EXTRA_LARGE,
         child: Padding(
           padding: EdgeInsets.symmetric(
