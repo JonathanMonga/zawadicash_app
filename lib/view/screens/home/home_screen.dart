@@ -29,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isFirst = true;
+
   Future<void> _loadData(BuildContext context, bool reload) async {
     Get.find<ProfileController>(tag: getClassName<ProfileController>())
         .profileData(reload: reload);
@@ -64,7 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _loadData(context, false);
+    if (isFirst) {
+      _loadData(context, true);
+    }
+
     isFirst = false;
     super.initState();
   }

@@ -119,8 +119,8 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                           createRectTween: (begin, end) =>
                               CustomRectTween(begin: begin!, end: end!),
                           child: Container(
-                            width: Get.width * 0.11,
-                            height: Get.width * 0.11,
+                            width: Get.width * 0.10,
+                            height: Get.width * 0.10,
                             padding: EdgeInsets.all(Get.width * 0.025),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,

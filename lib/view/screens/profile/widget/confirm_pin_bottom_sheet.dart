@@ -66,24 +66,33 @@ class ConfirmPinBottomSheet extends StatelessWidget {
         ),
         InkWell(onTap: () {
           if (Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).isPinCompleted) {
-            if (isAuth!) {
-              callBack!(!Get.find<AuthController>(tag: getClassName<AuthController>()).biometric);
-            } else {
-              callBack!();
-            }
-          } else {
-            Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>()).changePinComleted('');
-            Get.back(closeOverlays: true);
-            showCustomSnackBar('please_input_4_digit_pin'.tr);
-          }
-        }, child: GetBuilder<BottomSliderController>(builder: (controller) {
-          return controller.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                  color: Theme.of(context).textTheme.titleLarge!.color,
-                ))
-              : NextButton(isSubmittable: controller.isPinCompleted);
-        }))
+                if (isAuth!) {
+                  callBack!(!Get.find<AuthController>(
+                          tag: getClassName<AuthController>())
+                      .biometric);
+                } else {
+                  callBack!();
+                }
+              } else {
+                Get.find<BottomSliderController>(
+                        tag: getClassName<BottomSliderController>())
+                    .changePinComleted('');
+                Get.back(closeOverlays: true);
+                showCustomSnackBar('please_input_4_digit_pin'.tr);
+              }
+            },
+            child: GetBuilder<BottomSliderController>(
+                init: Get.find<BottomSliderController>(
+                    tag: getClassName<BottomSliderController>()),
+                tag: getClassName<BottomSliderController>(),
+                builder: (controller) {
+                  return controller.isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                          color: Theme.of(context).textTheme.titleLarge!.color,
+                        ))
+                      : NextButton(isSubmittable: controller.isPinCompleted);
+                }))
       ],
     );
   }

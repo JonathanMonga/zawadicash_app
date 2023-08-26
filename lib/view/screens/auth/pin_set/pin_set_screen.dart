@@ -1,10 +1,11 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
+import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/controller/create_account_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
-import 'package:zawadicash_app/controller/camera_screen_controller.dart';
 import 'package:zawadicash_app/controller/verification_controller.dart';
 import 'package:zawadicash_app/data/api/api_client.dart';
 import 'package:zawadicash_app/data/model/body/signup_body.dart';
@@ -82,14 +83,23 @@ class PinSetScreen extends StatelessWidget {
                   } else {
                     if (passController.text == confirmPassController.text) {
                       String password = passController.text;
-                      String gender = Get.find<ProfileController>(tag: getClassName<ProfileController>()).gender;
+                      String gender = Get.find<ProfileController>(
+                              tag: getClassName<ProfileController>())
+                          .gender;
                       String countryCode = getCountryCode(
-                          Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>()).phoneNumber);
-                      String phoneNumber = Get.find<CreateAccountController>(tag: getClassName<CreateAccountController>())
+                          Get.find<CreateAccountController>(
+                                  tag: getClassName<CreateAccountController>())
+                              .phoneNumber);
+                      String phoneNumber = Get.find<CreateAccountController>(
+                              tag: getClassName<CreateAccountController>())
                           .phoneNumber
                           .replaceAll(countryCode, '');
-                      File image = Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).getImage;
-                      String otp = Get.find<VerificationController>(tag: getClassName<VerificationController>()).otp;
+                      File? image = Get.find<CameraScreenController>(
+                              tag: getClassName<CameraScreenController>())
+                          .getImage;
+                      String otp = Get.find<VerificationController>(
+                              tag: getClassName<VerificationController>())
+                          .otp;
 
                       SignUpBody signUpBody = SignUpBody(
                           fName: fName,
@@ -102,10 +112,16 @@ class PinSetScreen extends StatelessWidget {
                           password: password,
                           dialCountryCode: countryCode);
 
-                      MultipartBody multipartBody =
-                          MultipartBody('image', image);
-                      Get.find<AuthController>(tag: getClassName<AuthController>())
-                          .registration(signUpBody, [multipartBody]);
+                      List<MultipartBody> multipartBody;
+                      if (image != null) {
+                        multipartBody = [MultipartBody('image', image)];
+                      } else {
+                        multipartBody = [];
+                      }
+
+                      Get.find<AuthController>(
+                              tag: getClassName<AuthController>())
+                          .registration(signUpBody, multipartBody);
                     } else {
                       showCustomSnackBar('pin_not_matched'.tr, isError: true);
                     }

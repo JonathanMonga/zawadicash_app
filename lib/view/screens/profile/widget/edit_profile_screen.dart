@@ -128,8 +128,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               fit: BoxFit.cover,
                                               image: FileImage(
                                                 File(imageController
-                                                    .getImage.path),
-                                              ),
+                                                        .getImage!.path),
+                                                  ),
                                             )),
                                       );
                               },
@@ -229,7 +229,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     String email = emailController.text;
     String gender = controller.gender;
     String occupation = occupationTextController.text;
-    File image = Get.find<CameraScreenController>(tag: getClassName<CameraScreenController>()).getImage;
+    File? image = Get.find<CameraScreenController>(
+            tag: getClassName<CameraScreenController>())
+        .getImage;
 
     List<MultipartBody> multipartBody;
     if (image != null) {

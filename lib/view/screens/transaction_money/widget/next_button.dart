@@ -12,7 +12,7 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomInkWell(
-      onTap: onTap ?? (){},
+      onTap: onTap ?? () {},
       radius: Dimensions.RADIUS_PROFILE_AVATAR,
       child: CircleAvatar(
           maxRadius: Dimensions.RADIUS_PROFILE_AVATAR,

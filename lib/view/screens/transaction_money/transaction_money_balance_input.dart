@@ -13,6 +13,7 @@ import 'package:zawadicash_app/data/model/withdraw_model.dart';
 import 'package:zawadicash_app/helper/email_checker.dart';
 import 'package:zawadicash_app/helper/price_converter.dart';
 import 'package:zawadicash_app/helper/transaction_type.dart';
+import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
@@ -23,7 +24,6 @@ import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_
 import 'package:zawadicash_app/view/screens/transaction_money/widget/field_item_view.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/for_person_widget.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/input_box_view.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/widget/next_button.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/purpose_widget.dart';
 
 class TransactionMoneyBalanceInput extends StatefulWidget {
@@ -192,18 +192,20 @@ class _TransactionMoneyBalanceInputState
                                 textControllers: _textControllers,
                               ),
                             ),
-                          if (_gridFieldList!.isNotEmpty)
-                            GridView.builder(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                                horizontal: 10,
-                              ),
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 2,
+                          if (_gridFieldList != null &&
+                                  _gridFieldList!.isNotEmpty)
+                                GridView.builder(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical:
+                                        Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                                    horizontal: 10,
+                                  ),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 2,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
                               ),
@@ -329,18 +331,19 @@ class _TransactionMoneyBalanceInputState
                           amount > profileController.userInfo!.balance!;
                     }
 
-                    if (inSufficientBalance) {
-                      showCustomSnackBar('insufficient_balance'.tr,
-                          isError: true);
-                    } else {
-                      _confirmationRoute(amount);
+                        if (inSufficientBalance) {
+                          showCustomSnackBar('insufficient_balance'.tr,
+                              isError: true);
+                        } else {
+                          _confirmationRoute(amount);
+                        }
+                      }
                     }
-                  }
-                }
-              },
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              child: const NextButton(isSubmittable: true),
-            );
+                  },
+                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                  child: Icon(Icons.arrow_forward,
+                      color: ColorResources.blackColor),
+                );
           })),
     );
   }
