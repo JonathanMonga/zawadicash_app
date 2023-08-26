@@ -135,7 +135,7 @@ class CameraScreenController extends GetxController implements GetxService {
     ),
   );
 
-  File get getImage => _imageFile;
+  File? get getImage => _imageFile;
   //MLKit
   Future<void> processImage(InputImage inputImage) async {
     if (_isBusy) return;
@@ -169,8 +169,7 @@ class CameraScreenController extends GetxController implements GetxService {
       } catch (e) {
         debugPrint('error is $e');
       }
-      final inputImage =
-          InputImage.fromFilePath(_imageFile.path);
+      final inputImage = InputImage.fromFilePath(_imageFile!.path);
       processPicture(inputImage);
     }
     update();
@@ -217,7 +216,7 @@ class CameraScreenController extends GetxController implements GetxService {
   }
 
   // camera
-  late File _imageFile;
+  File? _imageFile;
 
   void removeImage() {
     update();

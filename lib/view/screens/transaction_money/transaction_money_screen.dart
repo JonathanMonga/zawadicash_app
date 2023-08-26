@@ -11,16 +11,15 @@ import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/base/contact_view.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_country_code_picker.dart';
+import 'package:zawadicash_app/view/base/custom_image.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/widget/scan_button.dart';
-import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
-
 import 'package:zawadicash_app/view/screens/auth/selfie_capture/camera_screen.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
+import 'package:zawadicash_app/view/screens/transaction_money/widget/scan_button.dart';
 
 class TransactionMoneyScreen extends StatefulWidget {
   final bool? fromEdit;
@@ -176,18 +175,24 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                             }
                           },
                           child: GetBuilder<TransactionMoneyController>(
+                              init: Get.find<TransactionMoneyController>(
+                                  tag: getClassName<
+                                      TransactionMoneyController>()),
+                              tag: getClassName<TransactionMoneyController>(),
                               builder: (checkController) {
-                            return checkController.isButtonClick
-                                ? SizedBox(
-                                    width: Dimensions.RADIUS_SIZE_OVER_LARGE,
-                                    height: Dimensions.RADIUS_SIZE_OVER_LARGE,
-                                    child: Center(
-                                        child: CircularProgressIndicator(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .color)))
-                                : Container(
+                                return checkController.isButtonClick
+                                    ? SizedBox(
+                                        width:
+                                            Dimensions.RADIUS_SIZE_OVER_LARGE,
+                                        height:
+                                            Dimensions.RADIUS_SIZE_OVER_LARGE,
+                                        child: Center(
+                                            child: CircularProgressIndicator(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .color)))
+                                    : Container(
                                     width: Dimensions.RADIUS_SIZE_OVER_LARGE,
                                     height: Dimensions.RADIUS_SIZE_OVER_LARGE,
                                     decoration: BoxDecoration(
@@ -196,7 +201,7 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                             .secondaryHeaderColor),
                                     child: Icon(Icons.arrow_forward,
                                         color: ColorResources.blackColor));
-                          }),
+                              }),
                         ),
                       ],
                     ),
@@ -211,360 +216,377 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                 transactionMoneyController.sendMoneySuggestList.isNotEmpty &&
                         widget.transactionType == 'send_money'
                     ? GetBuilder<TransactionMoneyController>(
+                        init: Get.find<TransactionMoneyController>(
+                            tag: getClassName<TransactionMoneyController>()),
+                        tag: getClassName<TransactionMoneyController>(),
                         builder: (sendMoneyController) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: Dimensions.PADDING_SIZE_SMALL,
-                              horizontal: Dimensions.PADDING_SIZE_LARGE),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: Dimensions.PADDING_SIZE_SMALL),
-                                child: Text('suggested'.tr,
-                                    style: rubikMedium.copyWith(
-                                        fontSize: Dimensions.FONT_SIZE_LARGE)),
-                              ),
-                              SizedBox(
-                                height: 80.0,
-                                child: ListView.builder(
-                                    itemCount: sendMoneyController
-                                        .sendMoneySuggestList.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) =>
-                                        CustomInkWell(
-                                          radius:
-                                              Dimensions.RADIUS_SIZE_VERY_SMALL,
-                                          highlightColor: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .color!
-                                              .withOpacity(0.3),
-                                          onTap: () {
-                                            sendMoneyController.suggestOnTap(
-                                                index, widget.transactionType!);
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                right: Dimensions
-                                                    .PADDING_SIZE_SMALL),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: Dimensions
-                                                      .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
-                                                  width: Dimensions
-                                                      .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius
-                                                        .circular(Dimensions
-                                                            .RADIUS_SIZE_OVER_LARGE),
-                                                    child: CustomImage(
-                                                      fit: BoxFit.cover,
-                                                      image:
-                                                          "$customerImageBaseUrl/${sendMoneyController.sendMoneySuggestList[index].avatarImage.toString()}",
-                                                      placeholder:
-                                                          Images.avatar,
-                                                    ),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: Dimensions.PADDING_SIZE_SMALL,
+                                horizontal: Dimensions.PADDING_SIZE_LARGE),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                  bottom: Dimensions.PADDING_SIZE_SMALL),
+                              child: Text('suggested'.tr,
+                                  style: rubikMedium.copyWith(
+                                      fontSize: Dimensions.FONT_SIZE_LARGE)),
+                            ),
+                            SizedBox(
+                              height: 80.0,
+                              child: ListView.builder(
+                                  itemCount: sendMoneyController
+                                      .sendMoneySuggestList.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) =>
+                                      CustomInkWell(
+                                        radius:
+                                        Dimensions.RADIUS_SIZE_VERY_SMALL,
+                                        highlightColor: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .color!
+                                            .withOpacity(0.3),
+                                        onTap: () {
+                                          sendMoneyController.suggestOnTap(
+                                              index, widget.transactionType!);
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              right: Dimensions
+                                                  .PADDING_SIZE_SMALL),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: Dimensions
+                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
+                                                width: Dimensions
+                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimensions
+                                                      .RADIUS_SIZE_OVER_LARGE),
+                                                  child: CustomImage(
+                                                    fit: BoxFit.cover,
+                                                    image:
+                                                    "$customerImageBaseUrl/${sendMoneyController.sendMoneySuggestList[index].avatarImage.toString()}",
+                                                    placeholder:
+                                                    Images.avatar,
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .only(
-                                                      top: Dimensions
-                                                          .PADDING_SIZE_SMALL),
-                                                  child: Text(
-                                                      sendMoneyController
-                                                              .sendMoneySuggestList[index]
-                                                              .name ??
-                                                          sendMoneyController
-                                                              .sendMoneySuggestList[index]
-                                                              .phoneNumber!,
-                                                      style: sendMoneyController
-                                                                  .sendMoneySuggestList[index]
-                                                                  .name ==
-                                                              null
-                                                          ? rubikLight.copyWith(
-                                                              fontSize: Dimensions
-                                                                  .FONT_SIZE_SMALL)
-                                                          : rubikRegular.copyWith(
-                                                              fontSize: Dimensions
-                                                                  .FONT_SIZE_DEFAULT)),
-                                                )
-                                              ],
-                                            ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets
+                                                    .only(
+                                                    top: Dimensions
+                                                        .PADDING_SIZE_SMALL),
+                                                child: Text(
+                                                    sendMoneyController
+                                                        .sendMoneySuggestList[index]
+                                                        .name ??
+                                                        sendMoneyController
+                                                            .sendMoneySuggestList[index]
+                                                            .phoneNumber!,
+                                                    style: sendMoneyController
+                                                        .sendMoneySuggestList[index]
+                                                        .name ==
+                                                        null
+                                                        ? rubikLight.copyWith(
+                                                        fontSize: Dimensions
+                                                            .FONT_SIZE_SMALL)
+                                                        : rubikRegular.copyWith(
+                                                        fontSize: Dimensions
+                                                            .FONT_SIZE_DEFAULT)),
+                                              )
+                                            ],
                                           ),
-                                        )),
-                              ),
-                            ],
-                          ),
-                        );
-                      })
+                                        ),
+                                      )),
+                            ),
+                          ],
+                        ),
+                      );
+                    })
                     : ((transactionMoneyController
                                 .requestMoneySuggestList.isNotEmpty) &&
                             widget.transactionType == 'request_money')
                         ? GetBuilder<TransactionMoneyController>(
+                            init: Get.find<TransactionMoneyController>(
+                                tag:
+                                    getClassName<TransactionMoneyController>()),
+                            tag: getClassName<TransactionMoneyController>(),
                             builder: (requestMoneyController) {
-                            return requestMoneyController.isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator())
-                                : Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: Dimensions.PADDING_SIZE_SMALL,
-                                        horizontal:
-                                            Dimensions.PADDING_SIZE_LARGE),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: Dimensions
+                              return requestMoneyController.isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical:
+                                              Dimensions.PADDING_SIZE_SMALL,
+                                          horizontal:
+                                              Dimensions.PADDING_SIZE_LARGE),
+                                      child: Column(
+                                        mainAxisAlignment:
+                          MainAxisAlignment.start,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: Dimensions
+                                      .PADDING_SIZE_SMALL),
+                              child: Text('suggested'.tr,
+                                  style: rubikMedium.copyWith(
+                                      fontSize: Dimensions
+                                          .FONT_SIZE_LARGE)),
+                            ),
+                            SizedBox(
+                              height: 80.0,
+                              child: ListView.builder(
+                                  itemCount: requestMoneyController
+                                      .requestMoneySuggestList
+                                      .length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder:
+                                      (context, index) =>
+                                      CustomInkWell(
+                                        radius: Dimensions
+                                            .RADIUS_SIZE_VERY_SMALL,
+                                        highlightColor:
+                                        Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .color!
+                                            .withOpacity(
+                                            0.3),
+                                        onTap: () {
+                                          requestMoneyController
+                                              .suggestOnTap(
+                                              index,
+                                              widget
+                                                  .transactionType!);
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets
+                                              .only(
+                                              right: Dimensions
                                                   .PADDING_SIZE_SMALL),
-                                          child: Text('suggested'.tr,
-                                              style: rubikMedium.copyWith(
-                                                  fontSize: Dimensions
-                                                      .FONT_SIZE_LARGE)),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: Dimensions
+                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
+                                                width: Dimensions
+                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
+                                                child:
+                                                ClipRRect(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimensions
+                                                          .RADIUS_SIZE_OVER_LARGE),
+                                                  child: CustomImage(
+                                                      image:
+                                                      "$customerImageBaseUrl/${requestMoneyController.requestMoneySuggestList[index].avatarImage.toString()}",
+                                                      fit: BoxFit
+                                                          .cover,
+                                                      placeholder:
+                                                      Images
+                                                          .avatar),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets
+                                                    .only(
+                                                    top: Dimensions
+                                                        .PADDING_SIZE_SMALL),
+                                                child: Text(
+                                                    requestMoneyController
+                                                        .requestMoneySuggestList[index]
+                                                        .name ??
+                                                        requestMoneyController
+                                                            .requestMoneySuggestList[index]
+                                                            .phoneNumber!,
+                                                    style: requestMoneyController.requestMoneySuggestList[index].name ==
+                                                        null
+                                                        ? rubikLight.copyWith(
+                                                        fontSize: Dimensions
+                                                            .FONT_SIZE_LARGE)
+                                                        : rubikRegular.copyWith(
+                                                        fontSize:
+                                                        Dimensions.FONT_SIZE_LARGE)),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                        SizedBox(
-                                          height: 80.0,
-                                          child: ListView.builder(
-                                              itemCount: requestMoneyController
-                                                  .requestMoneySuggestList
-                                                  .length,
-                                              scrollDirection: Axis.horizontal,
-                                              itemBuilder:
-                                                  (context, index) =>
-                                                      CustomInkWell(
-                                                        radius: Dimensions
-                                                            .RADIUS_SIZE_VERY_SMALL,
-                                                        highlightColor:
-                                                            Theme.of(context)
-                                                                .textTheme
-                                                                .titleLarge!
-                                                                .color!
-                                                                .withOpacity(
-                                                                    0.3),
-                                                        onTap: () {
-                                                          requestMoneyController
-                                                              .suggestOnTap(
-                                                                  index,
-                                                                  widget
-                                                                      .transactionType!);
-                                                        },
-                                                        child: Container(
-                                                          margin: const EdgeInsets
-                                                                  .only(
-                                                              right: Dimensions
-                                                                  .PADDING_SIZE_SMALL),
-                                                          child: Column(
-                                                            children: [
-                                                              SizedBox(
-                                                                height: Dimensions
-                                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
-                                                                width: Dimensions
-                                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          Dimensions
-                                                                              .RADIUS_SIZE_OVER_LARGE),
-                                                                  child: CustomImage(
-                                                                      image:
-                                                                          "$customerImageBaseUrl/${requestMoneyController.requestMoneySuggestList[index].avatarImage.toString()}",
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      placeholder:
-                                                                          Images
-                                                                              .avatar),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                        .only(
-                                                                    top: Dimensions
-                                                                        .PADDING_SIZE_SMALL),
-                                                                child: Text(
-                                                                    requestMoneyController
-                                                                            .requestMoneySuggestList[index]
-                                                                            .name ??
-                                                                        requestMoneyController
-                                                                            .requestMoneySuggestList[index]
-                                                                            .phoneNumber!,
-                                                                    style: requestMoneyController.requestMoneySuggestList[index].name ==
-                                                                            null
-                                                                        ? rubikLight.copyWith(
-                                                                            fontSize: Dimensions
-                                                                                .FONT_SIZE_LARGE)
-                                                                        : rubikRegular.copyWith(
-                                                                            fontSize:
-                                                                                Dimensions.FONT_SIZE_LARGE)),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                          })
+                                      )),
+                            ),
+                          ],
+                        ),
+                      );
+                    })
                         : ((transactionMoneyController
                                     .cashOutSuggestList.isNotEmpty) &&
                                 widget.transactionType ==
                                     TransactionType.CASH_OUT)
                             ? GetBuilder<TransactionMoneyController>(
+                                init: Get.find<TransactionMoneyController>(
+                                    tag: getClassName<
+                                        TransactionMoneyController>()),
+                                tag: getClassName<TransactionMoneyController>(),
                                 builder: (cashOutController) {
-                                return cashOutController.isLoading
-                                    ? const Center(
-                                        child: CircularProgressIndicator())
-                                    : Column(
+                                  return cashOutController.isLoading
+                                      ? const Center(
+                                          child: CircularProgressIndicator())
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: Dimensions
+                                    .PADDING_SIZE_SMALL,
+                                horizontal: Dimensions
+                                    .PADDING_SIZE_LARGE),
+                            child: Text('recent_agent'.tr,
+                                style: rubikMedium.copyWith(
+                                    fontSize: Dimensions
+                                        .FONT_SIZE_LARGE)),
+                          ),
+                          ListView.builder(
+                              itemCount: cashOutController
+                                  .cashOutSuggestList.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics:
+                              const NeverScrollableScrollPhysics(),
+                              itemBuilder:
+                                  (context, index) =>
+                                  CustomInkWell(
+                                    highlightColor:
+                                    Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .color!
+                                        .withOpacity(
+                                        0.3),
+                                    onTap: () =>
+                                        cashOutController
+                                            .suggestOnTap(
+                                            index,
+                                            widget
+                                                .transactionType!),
+                                    child: Container(
+                                      padding: const EdgeInsets
+                                          .symmetric(
+                                          horizontal: Dimensions
+                                              .PADDING_SIZE_LARGE,
+                                          vertical: Dimensions
+                                              .PADDING_SIZE_SMALL),
+                                      child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment
+                                            .start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment
+                                            .center,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: Dimensions
-                                                    .PADDING_SIZE_SMALL,
-                                                horizontal: Dimensions
-                                                    .PADDING_SIZE_LARGE),
-                                            child: Text('recent_agent'.tr,
-                                                style: rubikMedium.copyWith(
-                                                    fontSize: Dimensions
-                                                        .FONT_SIZE_LARGE)),
+                                          SizedBox(
+                                            height: Dimensions
+                                                .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
+                                            width: Dimensions
+                                                .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
+                                            child:
+                                            ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  Dimensions
+                                                      .RADIUS_SIZE_OVER_LARGE),
+                                              child:
+                                              CustomImage(
+                                                fit: BoxFit
+                                                    .cover,
+                                                image:
+                                                "$agentImageBaseUrl/${cashOutController.cashOutSuggestList[index].avatarImage.toString()}",
+                                                placeholder:
+                                                Images
+                                                    .avatar,
+                                              ),
+                                            ),
                                           ),
-                                          ListView.builder(
-                                              itemCount: cashOutController
-                                                  .cashOutSuggestList.length,
-                                              scrollDirection: Axis.vertical,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemBuilder:
-                                                  (context, index) =>
-                                                      CustomInkWell(
-                                                        highlightColor:
-                                                            Theme.of(context)
-                                                                .textTheme
-                                                                .titleLarge!
-                                                                .color!
-                                                                .withOpacity(
-                                                                    0.3),
-                                                        onTap: () =>
-                                                            cashOutController
-                                                                .suggestOnTap(
-                                                                    index,
-                                                                    widget
-                                                                        .transactionType!),
-                                                        child: Container(
-                                                          padding: const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: Dimensions
-                                                                  .PADDING_SIZE_LARGE,
-                                                              vertical: Dimensions
-                                                                  .PADDING_SIZE_SMALL),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SizedBox(
-                                                                height: Dimensions
-                                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
-                                                                width: Dimensions
-                                                                    .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          Dimensions
-                                                                              .RADIUS_SIZE_OVER_LARGE),
-                                                                  child:
-                                                                      CustomImage(
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    image:
-                                                                        "$agentImageBaseUrl/${cashOutController.cashOutSuggestList[index].avatarImage.toString()}",
-                                                                    placeholder:
-                                                                        Images
-                                                                            .avatar,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: Dimensions
-                                                                    .PADDING_SIZE_SMALL,
-                                                              ),
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                      cashOutController
-                                                                              .cashOutSuggestList[
-                                                                                  index]
-                                                                              .name ??
-                                                                          'Unknown',
-                                                                      style: rubikRegular.copyWith(
-                                                                          fontSize: Dimensions
-                                                                              .FONT_SIZE_LARGE,
-                                                                          color: Theme.of(context)
-                                                                              .textTheme
-                                                                              .bodyLarge!
-                                                                              .color)),
-                                                                  Text(
-                                                                    cashOutController
-                                                                            .cashOutSuggestList[index]
-                                                                            .phoneNumber ??
-                                                                        'No Number',
-                                                                    style: rubikLight.copyWith(
-                                                                        fontSize:
-                                                                            Dimensions
-                                                                                .FONT_SIZE_DEFAULT,
-                                                                        color: ColorResources
-                                                                            .getGreyBaseGray1()),
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )),
+                                          const SizedBox(
+                                            width: Dimensions
+                                                .PADDING_SIZE_SMALL,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment
+                                                .start,
+                                            children: [
+                                              Text(
+                                                  cashOutController
+                                                      .cashOutSuggestList[
+                                                  index]
+                                                      .name ??
+                                                      'Unknown',
+                                                  style: rubikRegular.copyWith(
+                                                      fontSize: Dimensions
+                                                          .FONT_SIZE_LARGE,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge!
+                                                          .color)),
+                                              Text(
+                                                cashOutController
+                                                    .cashOutSuggestList[index]
+                                                    .phoneNumber ??
+                                                    'No Number',
+                                                style: rubikLight.copyWith(
+                                                    fontSize:
+                                                    Dimensions
+                                                        .FONT_SIZE_DEFAULT,
+                                                    color: ColorResources
+                                                        .getGreyBaseGray1()),
+                                              ),
+                                            ],
+                                          )
                                         ],
-                                      );
-                              })
+                                      ),
+                                    ),
+                                  )),
+                        ],
+                      );
+                    })
                             : const SizedBox(),
                 if (widget.transactionType != AppConstants.CASH_OUT)
                   GetBuilder<TransactionMoneyController>(
+                      init: Get.find<TransactionMoneyController>(
+                          tag: getClassName<TransactionMoneyController>()),
+                      tag: getClassName<TransactionMoneyController>(),
                       builder: (contactController) {
-                    return ConstrainedBox(
-                        constraints: contactController
-                                .filterdContacts.isNotEmpty
-                            ? BoxConstraints(
-                                maxHeight:
-                                    Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
+                        return ConstrainedBox(
+                            constraints: contactController
+                                    .filterdContacts.isNotEmpty
+                                ? BoxConstraints(
+                                    maxHeight: Get.find<
+                                                    TransactionMoneyController>(
+                                                tag: getClassName<
+                                                    TransactionMoneyController>())
                                             .filterdContacts
                                             .length
                                             .toDouble() *
                                         100)
-                            : BoxConstraints(
+                                : BoxConstraints(
                                 maxHeight:
-                                    MediaQuery.of(context).size.height * 0.6),
-                        child: ContactView(
-                            transactionType: widget.transactionType!,
-                            contactController: contactController));
-                  }),
+                                MediaQuery.of(context).size.height * 0.6),
+                            child: ContactView(
+                                transactionType: widget.transactionType!,
+                                contactController: contactController));
+                      }),
               ],
             ),
           ),
