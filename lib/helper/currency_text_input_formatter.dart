@@ -1,5 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'dart:math';
 
 import 'package:flutter/services.dart';
@@ -19,7 +17,7 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
   final String? symbol;
   final int? decimalDigits;
   final String? customPattern;
-  final bool? turnOffGrouping;
+  final bool turnOffGrouping;
 
   num _newNum = 0;
   String _newString = '';
@@ -33,7 +31,7 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
       decimalDigits: decimalDigits,
       customPattern: customPattern,
     );
-    if (turnOffGrouping!) {
+    if (turnOffGrouping) {
       format.turnOffGrouping();
     }
 

@@ -5,21 +5,16 @@ import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class DemoOtpHint extends StatelessWidget {
-  const DemoOtpHint({super.key});
+  const DemoOtpHint({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppConstants.DEMO
-        ? Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: Dimensions.PADDING_SIZE_SMALL),
-            child: Text(
-              'for_demo_1234'.tr,
-              style: rubikMedium.copyWith(
-                  fontSize: Dimensions.FONT_SIZE_SMALL,
-                  color: Theme.of(context).highlightColor),
-            ),
-          )
-        : const SizedBox();
+    return AppConstants.demo ? Padding(
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
+      child: Text(
+        'for_demo_1234'.tr,
+        style: rubikMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).highlightColor),
+      ),
+    ) : const SizedBox();
   }
 }

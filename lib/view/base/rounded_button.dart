@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
 
 class RoundedButton extends StatelessWidget {
-  final String buttonText;
-  final OnTapFunction? onTap;
+  final String? buttonText;
+  final Function? onTap;
   final bool isSkip;
   const RoundedButton(
       {Key? key, this.buttonText = '', this.onTap, this.isSkip = false})
@@ -17,22 +16,22 @@ class RoundedButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).secondaryHeaderColor,
-        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE),
+        borderRadius: BorderRadius.circular(Dimensions.radiusSizeExtraLarge),
       ),
       child: CustomInkWell(
-        onTap: onTap!,
-        radius: Dimensions.RADIUS_SIZE_EXTRA_LARGE,
+        onTap: onTap as void Function()?,
+        radius: Dimensions.radiusSizeExtraLarge,
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: Dimensions.PADDING_SIZE_DEFAULT,
+              horizontal: Dimensions.paddingSizeDefault,
               vertical: isSkip
-                  ? Dimensions.PADDING_SIZE_EXTRA_SMALL
-                  : Dimensions.PADDING_SIZE_SMALL),
+                  ? Dimensions.paddingSizeExtraSmall
+                  : Dimensions.paddingSizeSmall),
           child: Text(
-            buttonText,
+            buttonText!,
             style: rubikRegular.copyWith(
               color: Theme.of(context).primaryColor,
-              fontSize: Dimensions.FONT_SIZE_DEFAULT,
+              fontSize: Dimensions.fontSizeDefault,
             ),
           ),
         ),

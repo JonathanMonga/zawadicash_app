@@ -1,8 +1,1 @@
-enum RequestedMoneyStatusType {
-  pending,
-  approved,
-  // ignore: constant_identifier_names
-  SELLER_PRODUCT,
-  denied,
-  all
-}
+enum RequestedMoneyStatusType { pending, approved, sellerProduct, denied, all }

@@ -1,10 +1,8 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
-
-import 'package:zawadicash_app/data/model/response/language_model.dart';
-import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zawadicash_app/data/model/response/language_model.dart';
+import 'package:zawadicash_app/util/app_constants.dart';
 
 class LocalizationController extends GetxController {
   final SharedPreferences sharedPreferences;
@@ -34,11 +32,11 @@ class LocalizationController extends GetxController {
     update();
   }
 
-  void loadCurrentLanguage() async {
+  Future<int> loadCurrentLanguage() async {
     _locale = Locale(
-        sharedPreferences.getString(AppConstants.LANGUAGE_CODE) ??
+        sharedPreferences.getString(AppConstants.languageCode) ??
             AppConstants.languages[0].languageCode!,
-        sharedPreferences.getString(AppConstants.CUSTOMER_COUNTRY_CODE) ??
+        sharedPreferences.getString(AppConstants.customerCountryCode) ??
             AppConstants.languages[0].countryCode);
     _isLtr = _locale.languageCode != 'ar';
 
@@ -52,22 +50,25 @@ class LocalizationController extends GetxController {
     _languages.addAll(AppConstants.languages);
 
     update();
+
+    return _selectedIndex;
   }
 
   void saveLanguage(Locale locale) async {
+    sharedPreferences.setString(AppConstants.languageCode, locale.languageCode);
     sharedPreferences.setString(
-        AppConstants.LANGUAGE_CODE, locale.languageCode);
-    sharedPreferences.setString(
-        AppConstants.CUSTOMER_COUNTRY_CODE, locale.countryCode!);
+        AppConstants.customerCountryCode, locale.countryCode!);
   }
 
   int _selectedIndex = 0;
 
   int get selectedIndex => _selectedIndex;
 
-  void setSelectIndex(int index) {
+  void setSelectIndex(int index, {isUpdate = true}) {
     _selectedIndex = index;
-    update();
+    if (isUpdate) {
+      update();
+    }
   }
 
   void searchLanguage(String query) {
@@ -77,11 +78,13 @@ class LocalizationController extends GetxController {
     } else {
       _selectedIndex = -1;
       _languages = [];
-      AppConstants.languages.forEach((language) async {
-        if (language.languageName!.toLowerCase().contains(query.toLowerCase())) {
+      for (var language in AppConstants.languages) {
+        if (language.languageName!
+            .toLowerCase()
+            .contains(query.toLowerCase())) {
           _languages.add(language);
         }
-      });
+      }
     }
     update();
   }

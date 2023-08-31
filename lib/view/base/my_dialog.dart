@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'custom_button.dart';
+import 'package:zawadicash_app/view/base/custom_button.dart';
 
 class MyDialog extends StatelessWidget {
   final bool isFailed;
@@ -13,23 +12,24 @@ class MyDialog extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
-  final OnTapFunction? onTap;
+  final Function? onTap;
   const MyDialog(
-      {super.key,
+      {Key? key,
       this.isFailed = false,
       this.rotateAngle = 0,
       required this.icon,
       required this.title,
       required this.description,
       this.showTwoBtn = false,
-      this.onTap});
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
-        padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
         child: Stack(clipBehavior: Clip.none, children: [
           Positioned(
             left: 0,
@@ -41,7 +41,7 @@ class MyDialog extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: isFailed
-                      ? ColorResources.getRedColor()
+                      ? Theme.of(context).colorScheme.error.withOpacity(0.7)
                       : Theme.of(context).primaryColor,
                   shape: BoxShape.circle),
               child: Transform.rotate(
@@ -54,16 +54,16 @@ class MyDialog extends StatelessWidget {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Text(title,
                   style: rubikRegular.copyWith(
-                      fontSize: Dimensions.FONT_SIZE_LARGE)),
-              const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                      fontSize: Dimensions.fontSizeLarge)),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
               Text(description,
                   textAlign: TextAlign.center, style: rubikRegular),
-              const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
               Visibility(
                 visible: !showTwoBtn,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: Dimensions.PADDING_SIZE_LARGE),
+                      horizontal: Dimensions.paddingSizeLarge),
                   child: CustomButton(
                     buttonText: 'ok'.tr,
                     onTap: () => Navigator.pop(context),
@@ -80,7 +80,10 @@ class MyDialog extends StatelessWidget {
                       Expanded(
                           child: CustomButton(
                               buttonText: 'no'.tr,
-                              color: ColorResources.getRedColor(),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .error
+                                  .withOpacity(0.7),
                               onTap: () => Navigator.pop(context))),
                       const SizedBox(
                         width: 10,

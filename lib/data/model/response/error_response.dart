@@ -11,7 +11,7 @@ class ResponseModel {
   String? responseCode;
   String? message;
   String? content;
-  ErrorResponse? errorResponse;
+  ErrorResponse errorResponse;
 
   factory ResponseModel.fromRawJson(String str) =>
       ResponseModel.fromJson(json.decode(str));
@@ -35,7 +35,7 @@ class ResponseModel {
 class ErrorResponse {
   List<Errors>? _errors;
 
-  List<Errors> get errors => _errors!;
+  List<Errors>? get errors => _errors;
 
   ErrorResponse({List<Errors>? errors}) {
     _errors = errors;
@@ -52,7 +52,9 @@ class ErrorResponse {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["errors"] = _errors!.map((v) => v.toJson()).toList();
+    if (_errors != null) {
+      map["errors"] = _errors!.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 }
@@ -64,8 +66,8 @@ class Errors {
   String? _code;
   String? _message;
 
-  String get code => _code!;
-  String get message => _message!;
+  String? get code => _code;
+  String? get message => _message;
 
   Errors({String? code, String? message}) {
     _code = code;

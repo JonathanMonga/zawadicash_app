@@ -1,4 +1,4 @@
-class OnboardModel{
+class OnboardModel {
   final String image;
   final String backgroundImage;
   final String title;

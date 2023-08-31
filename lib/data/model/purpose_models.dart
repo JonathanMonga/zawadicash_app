@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-List<Purpose> purposeFromJson(String str) => List<Purpose>.from(json.decode(str).map((x) => Purpose.fromJson(x)));
+List<Purpose> purposeFromJson(String str) =>
+    List<Purpose>.from(json.decode(str).map((x) => Purpose.fromJson(x)));
 
 // String purposeToJson(List<Purpose> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
@@ -19,20 +20,20 @@ class Purpose {
   });
 
   //int id;
-  String title;
-  String logo;
-  String color;
+  String? title;
+  String? logo;
+  String? color;
   // DateTime createdAt;
   // DateTime updatedAt;
 
   factory Purpose.fromJson(Map<String, dynamic> json) => Purpose(
-     //id: json["id"],
-    title: json["title"],
-    logo: json["logo"],
-    color: json["color"],
-    // createdAt: DateTime.parse(json["created_at"]),
-    // updatedAt: DateTime.parse(json["updated_at"]),
-  );
+        //id: json["id"],
+        title: json["title"],
+        logo: json["logo"],
+        color: json["color"],
+        // createdAt: DateTime.parse(json["created_at"]),
+        // updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
   // Map<String, dynamic> toJson() => {
   //   "id": id,

@@ -6,9 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawadicash_app/data/api/api_client.dart';
+import 'package:zawadicash_app/data/model/response/user_data.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
-
-import '../../view/base/custom_country_code_picker.dart';
 
 class AuthRepo extends GetxService {
   final ApiClient apiClient;
@@ -16,37 +15,31 @@ class AuthRepo extends GetxService {
   AuthRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response> checkPhoneNumber({String? phoneNumber}) async {
-    return apiClient.postData(
-        AppConstants.CUSTOMER_PHONE_CHECK_URI, {"phone": phoneNumber});
-  }
-
-  Future<Response> resendOtp({String? phoneNumber}) async {
-    return apiClient.postData(
-        AppConstants.CUSTOMER_PHONE_RESEND_OTP_URI, {"phone": phoneNumber});
+    return apiClient
+        .postData(AppConstants.customerPhoneCheckUri, {"phone": phoneNumber});
   }
 
   Future<Response> verifyPhoneNumber({String? phoneNumber, String? otp}) async {
-    return apiClient.postData(AppConstants.CUSTOMER_PHONE_VERIFY_URI,
+    return apiClient.postData(AppConstants.customerPhoneVerifyUri,
         {"phone": phoneNumber, "otp": otp});
   }
 
   Future<Response> registration(Map<String, String> customerInfo,
       List<MultipartBody> multipartBody) async {
     return await apiClient.postMultipartData(
-        AppConstants.CUSTOMER_REGISTRATION_URI, customerInfo, multipartBody);
+        AppConstants.customerRegistrationUri, customerInfo, multipartBody);
   }
 
-  Future<Response> login({String? phone, String? password}) async {
-    String countryCode = getCountryCode(phone!);
-    return await apiClient.postData(AppConstants.CUSTOMER_LOGIN_URI, {
-      "phone": phone.replaceAll(countryCode, ''),
-      "password": password,
-      "dial_country_code": getCountryCode(phone)
-    });
+  Future<Response> login(
+      {String? dialCode, String? phone, String? password}) async {
+    return await apiClient.postData(
+      AppConstants.customerLoginUri,
+      {"phone": phone, "password": password, "dial_country_code": dialCode},
+    );
   }
 
   Future<Response> deleteUser() async {
-    return await apiClient.deleteData(AppConstants.CUSTOMER_REMOVE);
+    return await apiClient.deleteData(AppConstants.customerRemove);
   }
 
   Future<Response> updateToken() async {
@@ -64,153 +57,88 @@ class AuthRepo extends GetxService {
       );
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
         deviceToken = await _saveDeviceToken();
-        FirebaseMessaging.instance.subscribeToTopic(AppConstants.ALL);
-        FirebaseMessaging.instance.subscribeToTopic(AppConstants.USERS);
+        FirebaseMessaging.instance.subscribeToTopic(AppConstants.all);
+        FirebaseMessaging.instance.subscribeToTopic(AppConstants.users);
         debugPrint('=========>Device Token ======$deviceToken');
       }
     } else {
       deviceToken = await _saveDeviceToken();
-      FirebaseMessaging.instance.subscribeToTopic(AppConstants.ALL);
-      FirebaseMessaging.instance.subscribeToTopic(AppConstants.USERS);
+      FirebaseMessaging.instance.subscribeToTopic(AppConstants.all);
+      FirebaseMessaging.instance.subscribeToTopic(AppConstants.users);
       debugPrint('=========>Device Token ======$deviceToken');
     }
     if (!GetPlatform.isWeb) {
       // FirebaseMessaging.instance.subscribeToTopic('zawadicash_app');
-      FirebaseMessaging.instance.subscribeToTopic(AppConstants.ALL);
-      FirebaseMessaging.instance.subscribeToTopic(AppConstants.USERS);
+      FirebaseMessaging.instance.subscribeToTopic(AppConstants.all);
+      FirebaseMessaging.instance.subscribeToTopic(AppConstants.users);
     }
     return await apiClient.postData(
-        AppConstants.TOKEN_URI, {"_method": "put", "token": deviceToken});
+        AppConstants.tokenUri, {"_method": "put", "token": deviceToken});
   }
 
-  Future<String> _saveDeviceToken() async {
+  Future<String?> _saveDeviceToken() async {
     String? deviceToken = '';
     if (!GetPlatform.isWeb) {
-      deviceToken = await FirebaseMessaging.instance.getToken();
+      deviceToken = (await FirebaseMessaging.instance.getToken())!;
     }
-
-    return deviceToken!;
+    return deviceToken;
   }
 
   Future<Response> checkOtpApi() async {
-    return await apiClient.postData(AppConstants.CUSTOMER_CHECK_OTP, {});
+    return await apiClient.postData(AppConstants.customerCheckOtp, {});
   }
 
   Future<Response> verifyOtpApi({required String otp}) async {
     return await apiClient
-        .postData(AppConstants.CUSTOMER_VERIFY_OTP, {'otp': otp});
+        .postData(AppConstants.customerVerifyOtp, {'otp': otp});
   }
 
   Future<Response> logout() async {
-    return await apiClient.postData(AppConstants.CUSTOMER_LOGOUT_URI, {});
+    return await apiClient.postData(AppConstants.customerLogoutUri, {});
   }
 
   Future<Response> updateProfile(Map<String, String> profileInfo,
       List<MultipartBody> multipartBody) async {
     return await apiClient.postMultipartData(
-        AppConstants.CUSTOMER_UPDATE_PROFILE, profileInfo, multipartBody);
+        AppConstants.customerUpdateProfile, profileInfo, multipartBody);
   }
 
   Future<Response> pinVerifyApi({required String pin}) async {
     return await apiClient
-        .postData(AppConstants.CUSTOMER_PIN_VERIFY, {'pin': pin});
+        .postData(AppConstants.customerPinVerify, {'pin': pin});
   }
 
   Future<bool> saveUserToken(String token) async {
     apiClient.token = token;
     apiClient.updateHeader(token);
-    return await sharedPreferences.setString(AppConstants.TOKEN, token);
+    return await sharedPreferences.setString(AppConstants.token, token);
   }
 
-  Future<void> saveCustomerName(String name) async {
-    try {
-      await sharedPreferences.setString(AppConstants.CUSTOMER_NAME, name);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> saveCustomerCountryCode(String code) async {
-    try {
-      await sharedPreferences.setString(AppConstants.COUNTRY_CODE, code);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> saveCustomerNumber(String number) async {
-    try {
-      await sharedPreferences.setString(AppConstants.CUSTOMER_NUMBER, number);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> saveCustomerQrCode(String qrCode) async {
-    try {
-      await sharedPreferences.setString(AppConstants.CUSTOMER_QR_CODE, qrCode);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  String getUserToken() {
-    return sharedPreferences.getString(AppConstants.TOKEN)!;
+  String? getUserToken() {
+    return sharedPreferences.getString(AppConstants.token);
   }
 
   bool isLoggedIn() {
-    return sharedPreferences.containsKey(AppConstants.TOKEN);
+    return sharedPreferences.containsKey(AppConstants.token);
   }
 
   void removeUserToken() async {
-    await sharedPreferences.remove(AppConstants.TOKEN);
-  }
-
-  String getCustomerName() {
-    return sharedPreferences.getString(AppConstants.CUSTOMER_NAME) ?? '';
-  }
-
-  void removeCustomerName() async {
-    await sharedPreferences.remove(AppConstants.CUSTOMER_NAME);
-  }
-
-  String getCustomerCountryCode() {
-    return sharedPreferences.getString(AppConstants.COUNTRY_CODE) ?? '';
-  }
-
-  void removeCustomerCountryCode() async {
-    await sharedPreferences.remove(AppConstants.COUNTRY_CODE);
-  }
-
-  String getCustomerNumber() {
-    return sharedPreferences.getString(AppConstants.CUSTOMER_NUMBER) ?? '';
-  }
-
-  void removeCustomerNumber() async {
-    await sharedPreferences.remove(AppConstants.CUSTOMER_NUMBER);
-  }
-
-  String getCustomerQrCode() {
-    return sharedPreferences.getString(AppConstants.CUSTOMER_QR_CODE) ?? '';
-  }
-
-  void removeCustomerQrCode() async {
-    await sharedPreferences.remove(AppConstants.CUSTOMER_QR_CODE);
+    await sharedPreferences.remove(AppConstants.token);
   }
 
   void removeCustomerToken() async {
-    await sharedPreferences.remove(AppConstants.TOKEN);
+    await sharedPreferences.remove(AppConstants.token);
   }
 
   // for Forget password
   Future<Response> forgetPassOtp({String? phoneNumber}) async {
     return apiClient.postData(
-        AppConstants.CUSTOMER_FORGET_PASS_OTP_URI, {"phone": phoneNumber});
+        AppConstants.customerForgetPassOtpUri, {"phone": phoneNumber});
   }
 
   Future<Response> forgetPassVerification(
       {String? phoneNumber, String? otp}) async {
-    return apiClient.postData(AppConstants.CUSTOMER_FORGET_PASS_VERIFICATION,
+    return apiClient.postData(AppConstants.customerForgetPassVerification,
         {"phone": phoneNumber, "otp": otp});
   }
 
@@ -219,7 +147,7 @@ class AuthRepo extends GetxService {
       String? otp,
       String? password,
       String? confirmPass}) async {
-    return apiClient.putData(AppConstants.CUSTOMER_FORGET_PASS_RESET, {
+    return apiClient.putData(AppConstants.customerForgetPassReset, {
       "phone": phoneNumber,
       "otp": otp,
       "password": password,
@@ -229,13 +157,13 @@ class AuthRepo extends GetxService {
 
   Future<void> setBiometric(bool isActive) async {
     if (!isActive) {
-      await deleteSecureData(AppConstants.BIOMETRIC_PIN);
+      await deleteSecureData(AppConstants.biometricPin);
     }
-    sharedPreferences.setBool(AppConstants.BIOMETRIC_AUTH, isActive);
+    sharedPreferences.setBool(AppConstants.biometricAuth, isActive);
   }
 
   bool isBiometricEnabled() {
-    return sharedPreferences.getBool(AppConstants.BIOMETRIC_AUTH) ?? true;
+    return sharedPreferences.getBool(AppConstants.biometricAuth) ?? true;
   }
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
@@ -259,7 +187,7 @@ class AuthRepo extends GetxService {
       String decodeValue = utf8.decode(base64Url.decode(value0));
       value = decodeValue.replaceRange(4, decodeValue.length, '');
     } catch (e) {
-      debugPrint('error read data : $e');
+      debugPrint('error ===> $e');
     }
     return value;
   }
@@ -269,11 +197,11 @@ class AuthRepo extends GetxService {
       await _storage.delete(
           key: key, iOptions: _getIOSOptions(), aOptions: _getAndroidOptions());
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('error ===> $e');
     }
   }
 
-  Future<void> writeSecureData(String key, String value) async {
+  Future<void> writeSecureData(String key, String? value) async {
     String uniqueKey = base64Encode(
         utf8.encode('${UniqueKey().toString()}${UniqueKey().toString()}'));
     String storeValue = base64Encode(utf8.encode('$value $uniqueKey'));
@@ -293,5 +221,20 @@ class AuthRepo extends GetxService {
     var containsKey = await _storage.containsKey(
         key: key, aOptions: _getAndroidOptions(), iOptions: _getIOSOptions());
     return containsKey;
+  }
+
+  Future<void> setUserData(UserData userData) async {
+    try {
+      await sharedPreferences.setString(
+          AppConstants.userData, jsonEncode(userData.toJson()));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void removeUserData() => sharedPreferences.remove(AppConstants.userData);
+
+  String getUserData() {
+    return sharedPreferences.getString(AppConstants.userData) ?? '';
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-
 class AppBarShimmer extends StatelessWidget {
   const AppBarShimmer({Key? key}) : super(key: key);
 
@@ -13,45 +12,43 @@ class AppBarShimmer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.only(
             top: 54,
-            left: Dimensions.PADDING_SIZE_LARGE,
-            right: Dimensions.PADDING_SIZE_LARGE,
-            bottom: Dimensions.PADDING_SIZE_SMALL),
+            left: Dimensions.paddingSizeLarge,
+            right: Dimensions.paddingSizeLarge,
+            bottom: Dimensions.paddingSizeSmall),
         decoration: const BoxDecoration(
           color: Colors.black38,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE),
+            bottomLeft: Radius.circular(Dimensions.radiusSizeExtraLarge),
           ),
         ),
         child: Row(
           children: [
             Container(
-              height: Dimensions.RADIUS_SIZE_OVER_LARGE,
-              width: Dimensions.RADIUS_SIZE_OVER_LARGE,
+              height: Dimensions.radiusSizeOverLarge,
+              width: Dimensions.radiusSizeOverLarge,
               decoration: BoxDecoration(
                 color: Colors.black54,
                 borderRadius:
-                    BorderRadius.circular(Dimensions.RADIUS_SIZE_DEFAULT),
+                BorderRadius.circular(Dimensions.radiusSizeDefault),
               ),
             ),
             const SizedBox(
-              width: Dimensions.PADDING_SIZE_SMALL,
+              width: Dimensions.paddingSizeSmall,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: Dimensions.FONT_SIZE_DEFAULT,
+                  height: Dimensions.fontSizeDefault,
                   width: 70,
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                const SizedBox(height: 5,),
                 Container(
-                  height: Dimensions.FONT_SIZE_OVER_LARGE,
+                  height: Dimensions.fontSizeExtraLarge,
                   width: 100,
                   decoration: BoxDecoration(
                     color: Colors.black54,
@@ -62,8 +59,7 @@ class AppBarShimmer extends StatelessWidget {
             ),
             const Spacer(),
             Container(
-              height: 45,
-              width: 45,
+              height: 45,width: 45,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black54,

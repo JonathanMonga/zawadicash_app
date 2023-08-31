@@ -1,17 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/view/screens/history/history_screen.dart';
 import 'package:zawadicash_app/view/screens/home/home_screen.dart';
 import 'package:zawadicash_app/view/screens/notification/notification_screen.dart';
 import 'package:zawadicash_app/view/screens/profile/profile_screen.dart';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-class MenusController extends GetxController implements GetxService {
+class MenuItemController extends GetxController implements GetxService {
   int _currentTab = 0;
   int get currentTab => _currentTab;
   final List<Widget> screen = [
     const HomeScreen(),
-    const HistoryScreen(),
+    HistoryScreen(),
     const NotificationScreen(),
     const ProfileScreen()
   ];
@@ -32,7 +31,7 @@ class MenusController extends GetxController implements GetxService {
   }
 
   selectHistoryPage() {
-    _currentScreen = const HistoryScreen();
+    _currentScreen = HistoryScreen();
     _currentTab = 1;
     update();
   }

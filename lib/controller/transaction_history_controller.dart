@@ -1,17 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/transaction_model.dart';
 import 'package:zawadicash_app/data/repository/transaction_history_repo.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 
 class TransactionHistoryController extends GetxController
     implements GetxService {
-  late final TransactionHistoryRepo transactionHistoryRepo;
+  final TransactionHistoryRepo transactionHistoryRepo;
   TransactionHistoryController({required this.transactionHistoryRepo});
 
   final bool _isSearching = false;
-  late int _pageSize;
+  int? _pageSize;
   bool _isLoading = false;
   bool _firstLoading = true;
   bool get firstLoading => _firstLoading;
@@ -46,7 +46,7 @@ class TransactionHistoryController extends GetxController
   List<Transactions> get paymentList => _paymentList;
 
   bool get isSearching => _isSearching;
-  int get pageSize => _pageSize;
+  int? get pageSize => _pageSize;
   bool get isLoading => _isLoading;
   ScrollController scrollController = ScrollController();
   bool isMoreDataAvailable = true;
@@ -87,24 +87,24 @@ class TransactionHistoryController extends GetxController
         _paymentList = [];
         response.body['transactions'].forEach((transactionHistory) {
           Transactions history = Transactions.fromJson(transactionHistory);
-          if (history.transactionType == AppConstants.SEND_MONEY) {
+          if (history.transactionType == AppConstants.sendMoney) {
             _sendMoneyList.add(history);
-          } else if (history.transactionType == AppConstants.CASH_IN) {
+          } else if (history.transactionType == AppConstants.cashIn) {
             _cashInMoneyList.add(history);
-          } else if (history.transactionType == AppConstants.ADD_MONEY) {
+          } else if (history.transactionType == AppConstants.addMoney) {
             _addMoneyList.add(history);
-          } else if (history.transactionType == AppConstants.RECEIVED_MONEY) {
+          } else if (history.transactionType == AppConstants.receivedMoney) {
             _receivedMoneyList.add(history);
-          } else if (history.transactionType == AppConstants.WITHDRAW) {
+          } else if (history.transactionType == AppConstants.withdraw) {
             _withdrawList.add(history);
-          } else if (history.transactionType == AppConstants.PAYMENT) {
+          } else if (history.transactionType == AppConstants.payment) {
             _paymentList.add(history);
-          } else if (history.transactionType == AppConstants.CASH_OUT) {
+          } else if (history.transactionType == AppConstants.cashOut) {
             _cashOutList.add(history);
           }
           _transactionList.add(history);
         });
-        _pageSize = TransactionModel.fromJson(response.body).totalSize!;
+        _pageSize = TransactionModel.fromJson(response.body).totalSize;
       } else {
         ApiChecker.checkApi(response);
       }

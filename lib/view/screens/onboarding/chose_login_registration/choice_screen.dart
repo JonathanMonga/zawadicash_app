@@ -6,13 +6,13 @@ import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_small_button.dart';
 import 'package:zawadicash_app/view/screens/onboarding/chose_login_registration/widget/indicator_section.dart';
 
 class ChoiceScreen extends StatelessWidget {
   const ChoiceScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,88 +31,61 @@ class ChoiceScreen extends StatelessWidget {
                       itemCount: AppConstants.onboardList.length,
                       scrollDirection: Axis.horizontal,
                       onPageChanged: (page) {
-                        Get.find<AuthController>(tag: getClassName<AuthController>()).change(page);
+                        Get.find<AuthController>().change(page);
                       },
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            SizedBox(
-                              height: size.width,
-                              width: size.width,
-                              child: Stack(
-                                children: [
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: Image.asset(
-                                      AppConstants
-                                          .onboardList[index].backgroundImage,
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                          SizedBox(
+                            height: size.width,
+                            width: size.width,
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Image.asset(
+                                    AppConstants.onboardList[index].backgroundImage,
+                                    fit: BoxFit.fitWidth,
                                   ),
-                                  Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
-                                          child: Image.asset(
-                                              AppConstants
-                                                  .onboardList[index].image,
-                                              fit: BoxFit.fitHeight)))
-                                ],
-                              ),
+                                ),
+
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizedBox(
+                                      height: MediaQuery.of(context).size.width * 0.6,
+                                      child: Image.asset(AppConstants.onboardList[index].image, fit: BoxFit.fitHeight))
+                                )
+                              ],
                             ),
+                          ),
                             const Spacer(),
+
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                               child: Column(
                                 children: [
-                                  Text(
-                                    AppConstants.onboardList[index].title,
-                                    style: rubikSemiBold.copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color!,
-                                      fontSize:
-                                          Dimensions.FONT_SIZE_EXTRA_LARGE,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    height: Dimensions.PADDING_SIZE_DEFAULT,
-                                  ),
+                                  Text(AppConstants.onboardList[index].title, style: rubikSemiBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeExtraLarge,), textAlign: TextAlign.center,),
+                                  const SizedBox(height: Dimensions.paddingSizeDefault,),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            Dimensions.RADIUS_SIZE_SMALL),
-                                    child: Text(
-                                      AppConstants.onboardList[index].subtitle,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: rubikMedium.copyWith(
-                                        color: ColorResources
-                                            .getOnboardGreyColor(),
-                                        fontSize: Dimensions.FONT_SIZE_LARGE,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.radiusSizeSmall),
+                                    child: Text(AppConstants.onboardList[index].subtitle, maxLines: 2,overflow: TextOverflow.ellipsis, style: rubikMedium.copyWith(color: ColorResources.getOnboardGreyColor(), fontSize: Dimensions.fontSizeLarge,), textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                                height: Dimensions.PADDING_SIZE_OVER_LARGE),
+                            const SizedBox(height: Dimensions.paddingSizeOverLarge),
                           ],
                         );
                       }),
                 ),
+
                 const IndicatorSection(),
-                const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                const SizedBox(height: Dimensions.paddingSizeDefault),
+
               ],
             ),
+
           ),
           Column(
             children: [
@@ -124,41 +97,40 @@ class ChoiceScreen extends StatelessWidget {
                     TextSpan(
                       style: rubikRegular.copyWith(
                         color: Theme.of(context).textTheme.bodyLarge!.color,
-                        fontSize: Dimensions.FONT_SIZE_SMALL,
+                        fontSize: Dimensions.fontSizeSmall,
                       ),
                       text: 'by_proceeding_you'.tr,
                     ),
                     TextSpan(
                       style: rubikRegular.copyWith(
                         color: Theme.of(context).primaryColor,
-                        fontSize: Dimensions.FONT_SIZE_SMALL,
+                        fontSize: Dimensions.fontSizeSmall,
                         decoration: TextDecoration.underline,
+
                       ),
                       text: 'privacy_policy'.tr,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async => Get.toNamed(RouteHelper.privacy),
                     ),
+
                   ],
                 ),
               ),
-              const SizedBox(
-                height: Dimensions.PADDING_SIZE_SMALL,
-              ),
+              const SizedBox(height: Dimensions.paddingSizeSmall,),
+
               Container(
                 width: context.width * 0.7,
-                padding: const EdgeInsets.only(
-                    left: Dimensions.PADDING_SIZE_DEFAULT,
-                    right: Dimensions.PADDING_SIZE_DEFAULT,
-                    bottom: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
+                padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeExtraExtraLarge),
                 child: CustomSmallButton(
                   onTap: () => Get.toNamed(RouteHelper.getRegistrationRoute()),
                   backgroundColor: Theme.of(context).secondaryHeaderColor,
                   text: 'login_registration'.tr,
-                  textColor: Theme.of(context).textTheme.bodyLarge!.color!,
+                  textColor:Theme.of(context).textTheme.bodyLarge!.color,
                 ),
               ),
             ],
           )
+
         ],
       ),
     );

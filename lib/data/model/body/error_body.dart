@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final errorBody = errorBodyFromJson(jsonString);
+
 import 'dart:convert';
 
 ErrorBody errorBodyFromJson(String str) => ErrorBody.fromJson(json.decode(str));

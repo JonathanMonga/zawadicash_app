@@ -4,8 +4,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:zawadicash_app/controller/profile_screen_controller.dart';
+import 'package:zawadicash_app/controller/requested_money_controller.dart';
+import 'package:zawadicash_app/controller/transaction_history_controller.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 
 class NotificationHelper {
@@ -17,10 +20,31 @@ class NotificationHelper {
     var initializationsSettings =
         InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
     flutterLocalNotificationsPlugin.initialize(initializationsSettings);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      showNotification(message, flutterLocalNotificationsPlugin, false);
+
+      Get.find<ProfileController>().profileData(reload: true);
+      Get.find<RequestedMoneyController>().getRequestedMoneyList(true);
+      Get.find<RequestedMoneyController>().getOwnRequestedMoneyList(true);
+      Get.find<TransactionHistoryController>()
+          .getTransactionData(1, reload: true);
+      Get.find<RequestedMoneyController>().getWithdrawHistoryList(reload: true);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      Get.find<ProfileController>().profileData(reload: true);
+      Get.find<RequestedMoneyController>().getRequestedMoneyList(true);
+      Get.find<RequestedMoneyController>()
+          .getOwnRequestedMoneyList(true, isUpdate: false);
+      Get.find<TransactionHistoryController>()
+          .getTransactionData(1, reload: true);
+      Get.find<RequestedMoneyController>().getWithdrawHistoryList(reload: true);
+    });
   }
 
   static Future<void> showNotification(RemoteMessage message,
-      FlutterLocalNotificationsPlugin fln, bool data) async {
+      FlutterLocalNotificationsPlugin? fln, bool data) async {
     String? title;
     String? body;
     String? orderID;
@@ -33,38 +57,38 @@ class NotificationHelper {
               message.data['image'].isNotEmpty)
           ? message.data['image'].startsWith('http')
               ? message.data['image']
-              : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.data['image']}'
+              : '${AppConstants.baseUrl}/storage/app/public/notification/${message.data['image']}'
           : null;
     } else {
-      title = message.notification!.title!;
-      body = message.notification!.body!;
-      orderID = message.notification!.titleLocKey!;
+      title = message.notification!.title;
+      body = message.notification!.body;
+      orderID = message.notification!.titleLocKey;
       if (GetPlatform.isAndroid) {
         image = (message.notification!.android!.imageUrl != null &&
                 message.notification!.android!.imageUrl!.isNotEmpty)
             ? message.notification!.android!.imageUrl!.startsWith('http')
                 ? message.notification!.android!.imageUrl
-                : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.android!.imageUrl}'
+                : '${AppConstants.baseUrl}/storage/app/public/notification/${message.notification!.android!.imageUrl}'
             : null;
       } else if (GetPlatform.isIOS) {
         image = (message.notification!.apple!.imageUrl != null &&
                 message.notification!.apple!.imageUrl!.isNotEmpty)
             ? message.notification!.apple!.imageUrl!.startsWith('http')
                 ? message.notification!.apple!.imageUrl
-                : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.apple!.imageUrl}'
+                : '${AppConstants.baseUrl}/storage/app/public/notification/${message.notification!.apple!.imageUrl}'
             : null;
       }
     }
 
-    if (image!.isNotEmpty) {
+    if (image != null && image.isNotEmpty) {
       try {
         await showBigPictureNotificationHiddenLargeIcon(
-            title!, body!, orderID!, image, fln);
+            title, body, orderID, image, fln!);
       } catch (e) {
-        await showBigTextNotification(title!, body!, orderID!, fln);
+        await showBigTextNotification(title, body!, orderID, fln!);
       }
     } else {
-      await showBigTextNotification(title!, body!, orderID!, fln);
+      await showBigTextNotification(title, body!, orderID, fln!);
     }
   }
 
@@ -72,8 +96,8 @@ class NotificationHelper {
       String orderID, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      '6valley_delivery',
-      '6valley_delivery name',
+      AppConstants.appName,
+      AppConstants.appName,
       playSound: true,
       importance: Importance.max,
       priority: Priority.max,
@@ -84,8 +108,8 @@ class NotificationHelper {
     await fln.show(0, title, body, platformChannelSpecifics, payload: orderID);
   }
 
-  static Future<void> showBigTextNotification(String title, String body,
-      String orderID, FlutterLocalNotificationsPlugin fln) async {
+  static Future<void> showBigTextNotification(String? title, String body,
+      String? orderID, FlutterLocalNotificationsPlugin fln) async {
     BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
       body,
       htmlFormatBigText: true,
@@ -94,8 +118,8 @@ class NotificationHelper {
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      '6valley_delivery channel id',
-      '6valley_delivery name',
+      AppConstants.appName,
+      AppConstants.appName,
       importance: Importance.max,
       styleInformation: bigTextStyleInformation,
       priority: Priority.max,
@@ -108,9 +132,9 @@ class NotificationHelper {
   }
 
   static Future<void> showBigPictureNotificationHiddenLargeIcon(
-      String title,
-      String body,
-      String orderID,
+      String? title,
+      String? body,
+      String? orderID,
       String image,
       FlutterLocalNotificationsPlugin fln) async {
     final String largeIconPath = await _downloadAndSaveFile(image, 'largeIcon');
@@ -127,8 +151,8 @@ class NotificationHelper {
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      '6valley_delivery',
-      '6valley_delivery name',
+      AppConstants.appName,
+      AppConstants.appName,
       largeIcon: FilePathAndroidBitmap(largeIconPath),
       priority: Priority.max,
       playSound: true,

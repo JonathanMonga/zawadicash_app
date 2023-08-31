@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously, no_leading_underscores_for_local_identifiers
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
@@ -11,7 +9,6 @@ import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class RequestedMoneyController extends GetxController implements GetxService {
   final RequestedMoneyRepo requestedMoneyRepo;
-
   RequestedMoneyController({required this.requestedMoneyRepo});
 
   bool _isLoading = false;
@@ -48,108 +45,111 @@ class RequestedMoneyController extends GetxController implements GetxService {
       _ownDeniedRequestedMoneyList;
 
   WithdrawHistoryModel? _withdrawHistoryModel;
-  WithdrawHistoryModel get withdrawHistoryModel => _withdrawHistoryModel!;
+  WithdrawHistoryModel? get withdrawHistoryModel => _withdrawHistoryModel;
 
   List<WithdrawHistory> pendingWithdraw = [];
   List<WithdrawHistory> acceptedWithdraw = [];
   List<WithdrawHistory> deniedWithdraw = [];
   List<WithdrawHistory> allWithdraw = [];
 
-  final int _offset = 1;
   int? _pageSize;
-  List<int> _offsetList = [];
-  int get offset => _offset;
-  List<int> get offsetList => _offsetList;
-  int get pageSize => _pageSize!;
-  Future getRequestedMoneyList(int offset, {bool reload = false}) async {
-    if (reload) {
-      _offsetList = [];
-      _requestedMoneyList = [];
-      _pendingRequestedMoneyList = [];
-      _acceptedRequestedMoneyList = [];
-      _deniedRequestedMoneyList = [];
-    }
-    Response response = await requestedMoneyRepo.getRequestedMoneyList();
-    if (response.body['requested_money'] != null &&
-        response.body['requested_money'] != {} &&
-        response.statusCode == 200) {
-      debugPrint('body req : ${response.body['requested_money']}');
-      _requestedMoneyList = [];
-      _pendingRequestedMoneyList = [];
-      _acceptedRequestedMoneyList = [];
-      _deniedRequestedMoneyList = [];
-      response.body['requested_money'].forEach((requested) {
-        RequestedMoney req = RequestedMoney.fromJson(requested);
-        if (req.type == AppConstants.APPROVED) {
-          _acceptedRequestedMoneyList.add(req);
-        } else if (req.type == AppConstants.PENDING) {
-          _pendingRequestedMoneyList.add(req);
-        } else if (req.type == AppConstants.DENIED) {
-          _deniedRequestedMoneyList.add(req);
-        }
-        _requestedMoneyList.add(req);
-      });
+  int? get pageSize => _pageSize;
 
-      _isLoading = false;
-      update();
-    } else {
-      ApiChecker.checkApi(response);
+  RequestedMoneyModel? _requestedMoneyModel;
+  RequestedMoneyModel? _ownRequestMoneyModel;
+  RequestedMoneyModel? get ownRequestMoneyModel => _ownRequestMoneyModel;
+
+  Future getRequestedMoneyList(bool reload, {bool isUpdate = true}) async {
+    if (reload || _requestedMoneyModel == null) {
+      _requestedMoneyModel = null;
+      _isLoading = true;
+
+      if (isUpdate) {
+        update();
+      }
+    }
+
+    if (_requestedMoneyModel == null) {
+      Response response = await requestedMoneyRepo.getRequestedMoneyList();
+      if (response.statusCode == 200) {
+        _requestedMoneyModel = RequestedMoneyModel.fromJson(response.body);
+
+        _requestedMoneyList = [];
+        _pendingRequestedMoneyList = [];
+        _acceptedRequestedMoneyList = [];
+        _deniedRequestedMoneyList = [];
+
+        _requestedMoneyModel?.requestedMoney?.forEach((req) {
+          if (req.sender != null) {
+            if (req.type == AppConstants.approved) {
+              _acceptedRequestedMoneyList.add(req);
+            } else if (req.type == AppConstants.pending) {
+              _pendingRequestedMoneyList.add(req);
+            } else if (req.type == AppConstants.denied) {
+              _deniedRequestedMoneyList.add(req);
+            }
+            _requestedMoneyList.add(req);
+          }
+        });
+      } else {
+        ApiChecker.checkApi(response);
+      }
       _isLoading = false;
       update();
     }
   }
 
-  Future getOwnRequestedMoneyList(int offset, {bool reload = false}) async {
-    debugPrint('own request api call');
-    if (reload) {
-      _offsetList = [];
-      _ownRequestList = [];
-      _ownPendingRequestedMoneyList = [];
-      _ownAcceptedRequestedMoneyList = [];
-      _ownDeniedRequestedMoneyList = [];
+  Future getOwnRequestedMoneyList(bool reload, {bool isUpdate = true}) async {
+    if (reload || _ownRequestMoneyModel == null) {
+      _ownRequestMoneyModel = null;
+      _isLoading = true;
+      if (isUpdate) {
+        update();
+      }
     }
-    Response response = await requestedMoneyRepo.getOwnRequestedMoneyList();
+    if (_ownRequestMoneyModel == null) {
+      Response response = await requestedMoneyRepo.getOwnRequestedMoneyList();
 
-    if (response.body['requested_money'] != null &&
-        response.body['requested_money'] != {} &&
-        response.statusCode == 200) {
-      debugPrint('own request : ${response.body['requested_money']}');
-      _ownRequestList = [];
-      _ownPendingRequestedMoneyList = [];
-      _ownAcceptedRequestedMoneyList = [];
-      _ownDeniedRequestedMoneyList = [];
-      response.body['requested_money'].forEach((requested) {
-        RequestedMoney req = RequestedMoney.fromJson(requested);
-        ownRequestList.add(req);
-        if (req.type == AppConstants.APPROVED) {
-          _ownAcceptedRequestedMoneyList.add(req);
-        } else if (req.type == AppConstants.PENDING) {
-          _ownPendingRequestedMoneyList.add(req);
-        } else if (req.type == AppConstants.DENIED) {
-          _ownDeniedRequestedMoneyList.add(req);
-        }
-      });
-      _isLoading = false;
-      update();
-    } else {
-      ApiChecker.checkApi(response);
+      if (response.statusCode == 200 &&
+          response.body['requested_money'] != null) {
+        _ownRequestMoneyModel = RequestedMoneyModel.fromJson(response.body);
+
+        _ownRequestList = [];
+        _ownPendingRequestedMoneyList = [];
+        _ownAcceptedRequestedMoneyList = [];
+        _ownDeniedRequestedMoneyList = [];
+
+        _ownRequestMoneyModel?.requestedMoney?.forEach((requested) {
+          if (requested.receiver != null) {
+            _ownRequestList.add(requested);
+            if (requested.type == AppConstants.approved) {
+              _ownAcceptedRequestedMoneyList.add(requested);
+            } else if (requested.type == AppConstants.pending) {
+              _ownPendingRequestedMoneyList.add(requested);
+            } else if (requested.type == AppConstants.denied) {
+              _ownDeniedRequestedMoneyList.add(requested);
+            }
+          }
+        });
+      } else {
+        ApiChecker.checkApi(response);
+      }
       _isLoading = false;
       update();
     }
   }
 
   Future<void> acceptRequest(
-      BuildContext context, int requestId, String pin) async {
+      BuildContext context, int? requestId, String pin) async {
     _isLoading = true;
     update();
     Response response =
         await requestedMoneyRepo.approveRequestedMoney(requestId, pin);
-    debugPrint(response.status.toString());
 
     if (response.statusCode == 200) {
-      getRequestedMoneyList(offset);
+      await getRequestedMoneyList(true);
       Get.back();
-      Navigator.pop(context);
+      Get.back();
       _isLoading = false;
     } else {
       _isLoading = false;
@@ -159,16 +159,15 @@ class RequestedMoneyController extends GetxController implements GetxService {
   }
 
   Future<void> denyRequest(
-      BuildContext context, int requestId, String pin) async {
+      BuildContext context, int? requestId, String pin) async {
     _isLoading = true;
     update();
     Response response =
         await requestedMoneyRepo.denyRequestedMoney(requestId, pin);
     if (response.statusCode == 200) {
-      getRequestedMoneyList(offset);
-      showCustomSnackBar('request_denied_successfully'.tr, isError: false);
+      await getRequestedMoneyList(true);
       Get.back();
-      Navigator.pop(context);
+      showCustomSnackBar('request_denied_successfully'.tr, isError: false);
       _isLoading = false;
     } else {
       _isLoading = false;
@@ -192,14 +191,18 @@ class RequestedMoneyController extends GetxController implements GetxService {
     update();
   }
 
-  Future getWithdrawHistoryList({bool reload = false}) async {
-    if (reload) {
+  Future getWithdrawHistoryList(
+      {bool reload = false, bool isUpdate = true}) async {
+    if (reload || _withdrawHistoryModel == null) {
       _withdrawHistoryModel = null;
+      _isLoading = true;
+      if (isUpdate) {
+        update();
+      }
     }
 
     if (_withdrawHistoryModel == null) {
       Response response = await requestedMoneyRepo.getWithdrawRequest();
-      debugPrint('withdraw data : ${response.body}');
       if (response.body['response_code'] == 'default_200' &&
           response.body['content'] != null) {
         pendingWithdraw = [];
@@ -208,22 +211,20 @@ class RequestedMoneyController extends GetxController implements GetxService {
         allWithdraw = [];
 
         _withdrawHistoryModel = WithdrawHistoryModel.fromJson(response.body);
-        debugPrint(
-            'withdraw list : ${_withdrawHistoryModel!.withdrawHistoryList.length}');
-        for (var _withdrawHistory
+
+        for (var withdrawHistory
             in _withdrawHistoryModel!.withdrawHistoryList) {
           pendingWithdraw.addIf(
-              _withdrawHistory.requestStatus == AppConstants.PENDING,
-              _withdrawHistory);
+              withdrawHistory.requestStatus == AppConstants.pending,
+              withdrawHistory);
           acceptedWithdraw.addIf(
-              _withdrawHistory.requestStatus == AppConstants.APPROVED,
-              _withdrawHistory);
+              withdrawHistory.requestStatus == AppConstants.approved,
+              withdrawHistory);
           deniedWithdraw.addIf(
-              _withdrawHistory.requestStatus == AppConstants.DENIED,
-              _withdrawHistory);
-          allWithdraw.add(_withdrawHistory);
+              withdrawHistory.requestStatus == AppConstants.denied,
+              withdrawHistory);
+          allWithdraw.add(withdrawHistory);
         }
-        debugPrint('${pendingWithdraw.length}');
       } else {
         ApiChecker.checkApi(response);
       }

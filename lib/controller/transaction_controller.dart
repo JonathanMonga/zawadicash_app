@@ -16,7 +16,6 @@ import 'package:zawadicash_app/data/repository/auth_repo.dart';
 import 'package:zawadicash_app/data/repository/transaction_repo.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/transaction_money_balance_input.dart';
@@ -28,11 +27,10 @@ class TransactionMoneyController extends GetxController implements GetxService {
 
   TransactionMoneyController(
       {required this.transactionRepo, required this.authRepo});
-
   BottomSliderController bottomSliderController =
-      Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>());
-  SplashController splashController = Get.find<SplashController>(tag: getClassName<SplashController>());
-  ProfileController profileController = Get.find<ProfileController>(tag: getClassName<ProfileController>());
+      Get.find<BottomSliderController>();
+  SplashController splashController = Get.find<SplashController>();
+  ProfileController profileController = Get.find<ProfileController>();
   List<Contact> contactList = [];
   List<AzItem> filterdContacts = [];
   List<AzItem> azItemList = [];
@@ -40,7 +38,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
   List<ContactModel> _requestMoneySuggestList = [];
   List<ContactModel> _cashOutSuggestList = [];
 
-  List<Purpose> _purposeList = [];
+  List<Purpose>? _purposeList;
   Purpose? _selectedPurpose;
   int _selectItem = 0;
   final double _cashOutCharge = 0;
@@ -58,7 +56,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
   double? _inputAmountControllerValue;
   WithdrawModel? _withdrawModel;
 
-  List<Purpose> get purposeList => _purposeList;
+  List<Purpose>? get purposeList => _purposeList;
   Purpose? get selectedPurpose => _selectedPurpose;
   int get selectedItem => _selectItem;
   String get searchControllerValue => _searchControllerValue;
@@ -84,15 +82,18 @@ class TransactionMoneyController extends GetxController implements GetxService {
   bool _isButtonClick = false;
   bool get isButtonClick => _isButtonClick;
   WithdrawModel? get withdrawModel => _withdrawModel;
+  bool get getContactPermissionStatus =>
+      authRepo.sharedPreferences.getString(AppConstants.contactPermission) !=
+      PermissionStatus.granted.name;
 
   cupertinoSwitchOnChange(bool value) {
     _isFutureSave = value;
     update();
   }
 
-  void setIsPinCompleted({required bool isCompleted, bool? isNotify}) {
+  void setIsPinCompleted({required bool isCompleted, required bool isNotify}) {
     _isPinCompleted = isCompleted;
-    if (isNotify!) {
+    if (isNotify) {
       update();
     }
   }
@@ -107,40 +108,49 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
   }
 
-  Future<Response> getPurposeList() async {
-    _isLoading = true;
-    Response response = await transactionRepo.getPurposeListApi();
-    _purposeList = [];
-    if (response.body != null && response.statusCode == 200) {
-      var data = response.body.map((a) => Purpose.fromJson(a)).toList();
-      for (var purpose in data) {
-        _purposeList.add(Purpose(
-            title: purpose.title, logo: purpose.logo, color: purpose.color));
+  Future<void> getPurposeList(bool reload, {bool isUpdate = true}) async {
+    if (_purposeList == null || reload) {
+      _purposeList = null;
+      _isLoading = true;
+      if (isUpdate) {
+        update();
       }
-      _selectedPurpose = _purposeList.isEmpty ? Purpose() : _purposeList[0];
-    } else {
-      ApiChecker.checkApi(response);
     }
-    _isLoading = false;
-    update();
-    return response;
+
+    if (_purposeList == null) {
+      Response response = await transactionRepo.getPurposeListApi();
+
+      if (response.body != null && response.statusCode == 200) {
+        _purposeList = [];
+        var data = response.body.map((a) => Purpose.fromJson(a)).toList();
+        for (var purpose in data) {
+          _purposeList?.add(Purpose(
+              title: purpose.title, logo: purpose.logo, color: purpose.color));
+        }
+        _selectedPurpose = _purposeList!.isEmpty ? Purpose() : _purposeList![0];
+      } else {
+        ApiChecker.checkApi(response);
+      }
+      _isLoading = false;
+      update();
+    }
   }
 
   Future<void> fetchContact() async {
     _contactIsLoading = true;
-    String? permissionStatus =
-        authRepo.sharedPreferences.getString(AppConstants.CONTACT_PERMISSION);
-    if (permissionStatus != PermissionStatus.granted.name) {
+    update();
+    if (getContactPermissionStatus && !GetPlatform.isIOS) {
       return Get.dialog(
         CustomDialog(
-          description: 'if_you_allow_contact_permission'.tr,
+          description:
+              '${AppConstants.appName} ${'use_the_information_you'.tr}',
           icon: Icons.question_mark,
           onTapFalse: () {
             _contactIsLoading = false;
             Get.back();
           },
           onTapTrueText: 'accept'.tr,
-          onTapFalseText: 'deny'.tr,
+          onTapFalseText: 'denied'.tr,
           onTapTrue: () {
             Get.back();
             _contactData();
@@ -150,30 +160,29 @@ class TransactionMoneyController extends GetxController implements GetxService {
         barrierDismissible: false,
       ).then((value) => _contactIsLoading = false);
     } else {
-      _contactData();
+      await _contactData();
     }
+    update();
   }
 
-  void _contactData() async {
+  Future<void> _contactData() async {
     List<Contact> contacts = [];
     permissionStatus = await Permission.contacts.request();
     authRepo.sharedPreferences
-        .setString(AppConstants.CONTACT_PERMISSION, permissionStatus!.name);
+        .setString(AppConstants.contactPermission, permissionStatus!.name);
     if (permissionStatus == PermissionStatus.granted || GetPlatform.isIOS) {
       contacts = await FlutterContacts.getContacts(
           withProperties: true, withPhoto: false);
-      update();
+    }
+    azItemList = [];
+    for (int i = 0; i < contacts.length; i++) {
+      if (contacts[i].phones.isNotEmpty && contacts[i].displayName.isNotEmpty) {
+        azItemList.add(AzItem(
+            contact: contacts[i],
+            tag: contacts[i].displayName[0].toUpperCase()));
+      }
     }
 
-    azItemList = contacts.map((contact) {
-      if (contact.phones.isNotEmpty && contact.displayName.isNotEmpty) {
-        return AzItem(
-            contact: contact, tag: contact.displayName[0].toUpperCase());
-      }
-      return AzItem(contact: Contact(), tag: '');
-    }).toList();
-
-    azItemList.removeWhere((element) => element.contact == Contact());
     filterdContacts = azItemList;
     SuspensionUtil.setShowSuspensionStatus(azItemList);
     SuspensionUtil.setShowSuspensionStatus(filterdContacts);
@@ -184,9 +193,9 @@ class TransactionMoneyController extends GetxController implements GetxService {
   void searchContact({required String searchTerm}) {
     if (searchTerm.isNotEmpty) {
       filterdContacts = azItemList.where((element) {
-        if (element.contact.phones.isNotEmpty) {
-          if (element.contact.displayName.toLowerCase().contains(searchTerm) ||
-              element.contact.phones.first.number
+        if (element.contact!.phones.isNotEmpty) {
+          if (element.contact!.displayName.toLowerCase().contains(searchTerm) ||
+              element.contact!.phones.first.number
                   .replaceAll('-', '')
                   .toLowerCase()
                   .contains(searchTerm)) {
@@ -213,10 +222,10 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isNextBottomSheet = false;
     update();
     Response response = await transactionRepo.sendMoneyApi(
-        phoneNumber: contactModel.phoneNumber!,
+        phoneNumber: contactModel.phoneNumber,
         amount: amount,
-        purpose: purpose!,
-        pin: pinCode!);
+        purpose: purpose,
+        pin: pinCode);
     if (response.statusCode == 200) {
       _isLoading = false;
       _isNextBottomSheet = true;
@@ -224,8 +233,8 @@ class TransactionMoneyController extends GetxController implements GetxService {
       _sendMoneySuggestList.removeWhere(
           (element) => element.phoneNumber == contactModel.phoneNumber);
       _sendMoneySuggestList.add(contactModel);
-      transactionRepo
-          .addToSuggestList(_sendMoneySuggestList, type: 'send_money');
+      transactionRepo.addToSuggestList(_sendMoneySuggestList,
+          type: 'send_money');
       update();
     } else {
       _isLoading = false;
@@ -241,7 +250,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isNextBottomSheet = false;
     update();
     Response response = await transactionRepo.requestMoneyApi(
-        phoneNumber: contactModel.phoneNumber!, amount: amount);
+        phoneNumber: contactModel.phoneNumber, amount: amount);
     if (response.statusCode == 200) {
       _isLoading = false;
       _isNextBottomSheet = true;
@@ -249,8 +258,8 @@ class TransactionMoneyController extends GetxController implements GetxService {
       _requestMoneySuggestList.removeWhere(
           (element) => element.phoneNumber == contactModel.phoneNumber);
       _requestMoneySuggestList.add(contactModel);
-      transactionRepo
-          .addToSuggestList(_requestMoneySuggestList, type: 'request_money');
+      transactionRepo.addToSuggestList(_requestMoneySuggestList,
+          type: 'request_money');
       update();
     } else {
       _isLoading = false;
@@ -268,7 +277,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     _isNextBottomSheet = false;
     update();
     Response response = await transactionRepo.cashOutApi(
-        phoneNumber: contactModel.phoneNumber!, amount: amount, pin: pinCode!);
+        phoneNumber: contactModel.phoneNumber, amount: amount, pin: pinCode);
     if (response.statusCode == 200) {
       _isLoading = false;
       _isNextBottomSheet = true;
@@ -277,8 +286,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
         _cashOutSuggestList.removeWhere(
             (element) => element.phoneNumber == contactModel.phoneNumber);
         _cashOutSuggestList.add(contactModel);
-        transactionRepo
-            .addToSuggestList(_cashOutSuggestList, type: 'cash_out');
+        transactionRepo.addToSuggestList(_cashOutSuggestList, type: 'cash_out');
       }
 
       update();
@@ -290,9 +298,9 @@ class TransactionMoneyController extends GetxController implements GetxService {
     return response;
   }
 
-  Future<Response> checkCustomerNumber({required String phoneNumber}) async {
-    late Response response0;
-    if (phoneNumber == Get.find<ProfileController>(tag: getClassName<ProfileController>()).userInfo!.phone) {
+  Future<Response?> checkCustomerNumber({required String phoneNumber}) async {
+    Response? response0;
+    if (phoneNumber == Get.find<ProfileController>().userInfo!.phone) {
       //todo set message
       showCustomSnackBar('Please_enter_a_different_customer_number'.tr);
     } else {
@@ -309,7 +317,6 @@ class TransactionMoneyController extends GetxController implements GetxService {
       update();
       response0 = response;
     }
-
     return response0;
   }
 
@@ -333,42 +340,41 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
   }
 
-  itemSelect({int? index}) {
-    _selectItem = index!;
-    _selectedPurpose = purposeList[index];
+  itemSelect({required int index}) {
+    _selectItem = index;
+    _selectedPurpose = purposeList![index];
 
     update();
   }
 
-  late ContactModel _contact;
-  ContactModel get contact => _contact;
+  ContactModel? _contact;
+  ContactModel? get contact => _contact;
   void setContactModel(ContactModel contactModel) {
     _contact = contactModel;
   }
 
-  void contactOnTap(int index, String transactionType) {
+  void contactOnTap(int index, String? transactionType) {
     String phoneNumber =
-        filterdContacts[index].contact.phones.first.number.trim();
-    debugPrint(filterdContacts[index].contact.name.first);
+        filterdContacts[index].contact!.phones.first.number.trim();
     if (phoneNumber.contains('-')) {
       phoneNumber = phoneNumber.replaceAll('-', '');
     }
     if (!phoneNumber.contains('+')) {
-      phoneNumber = Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerCountryCode() +
-          phoneNumber.substring(1).trim();
+      //todo need check country code
+      phoneNumber = (Get.find<AuthController>().getUserData()!.countryCode! +
+          phoneNumber.substring(1).trim());
     }
     if (phoneNumber.contains(' ')) {
       phoneNumber = phoneNumber.replaceAll(' ', '');
     }
     if (transactionType == "cash_out") {
-      Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
+      Get.find<TransactionMoneyController>()
           .checkAgentNumber(phoneNumber: phoneNumber)
           .then((value) {
         if (value.isOk) {
-          String agentName = value.body['data']['name'];
-          String agentImage = value.body['data']['image'];
+          String? agentName = value.body['data']['name'];
+          String? agentImage = value.body['data']['image'];
 
-          debugPrint('phone number contact ---- $phoneNumber');
           Get.to(() => TransactionMoneyBalanceInput(
               transactionType: transactionType,
               contactModel: ContactModel(
@@ -378,13 +384,12 @@ class TransactionMoneyController extends GetxController implements GetxService {
         }
       });
     } else {
-      Get.find<TransactionMoneyController>(tag: getClassName<TransactionMoneyController>())
+      Get.find<TransactionMoneyController>()
           .checkCustomerNumber(phoneNumber: phoneNumber)
           .then((value) {
-        debugPrint('phone number contact ---- $phoneNumber');
-        if (value.isOk) {
-          String customerName = value.body['data']['name'];
-          String customerImage = value.body['data']['image'];
+        if (value!.isOk) {
+          String? customerName = value.body['data']['name'];
+          String? customerImage = value.body['data']['image'];
           Get.to(() => TransactionMoneyBalanceInput(
               transactionType: transactionType,
               contactModel: ContactModel(
@@ -396,7 +401,7 @@ class TransactionMoneyController extends GetxController implements GetxService {
     }
   }
 
-  void suggestOnTap(int index, String transactionType) {
+  void suggestOnTap(int index, String? transactionType) {
     if (transactionType == 'send_money') {
       setContactModel(ContactModel(
           phoneNumber: _sendMoneySuggestList[index].phoneNumber,
@@ -424,21 +429,21 @@ class TransactionMoneyController extends GetxController implements GetxService {
       String? purpose,
       ContactModel? contactModel}) {
     Get.to(() => TransactionMoneyConfirmation(
-        inputBalance: amount!,
-        transactionType: transactionType!,
-        purpose: purpose!,
-        contactModel: contactModel!));
+        inputBalance: amount,
+        transactionType: transactionType,
+        purpose: purpose,
+        contactModel: contactModel));
   }
 
-  void getSuggestList({required String type}) async {
+  void getSuggestList({required String? type}) async {
     _cashOutSuggestList = [];
     _sendMoneySuggestList = [];
     _requestMoneySuggestList = [];
     try {
-      if (type == AppConstants.SEND_MONEY) {
+      if (type == AppConstants.sendMoney) {
         _sendMoneySuggestList
             .addAll(transactionRepo.getRecentList(type: type)!);
-      } else if (type == AppConstants.CASH_OUT) {
+      } else if (type == AppConstants.cashOut) {
         _cashOutSuggestList.addAll(transactionRepo.getRecentList(type: type)!);
       } else {
         _requestMoneySuggestList
@@ -464,7 +469,6 @@ class TransactionMoneyController extends GetxController implements GetxService {
       isVerify = true;
       _isLoading = false;
     } else {
-      debugPrint('call else blcok');
       ApiChecker.checkApi(response);
     }
     _isLoading = false;
@@ -472,13 +476,13 @@ class TransactionMoneyController extends GetxController implements GetxService {
     return isVerify;
   }
 
-  Future<bool> getBackScreen() async {
+  Future<bool?> getBackScreen() async {
     Get.offAndToNamed(RouteHelper.navbar, arguments: false);
-    return true;
+    return null;
   }
 
   Future<void> getWithdrawMethods({bool isReload = false}) async {
-    if (isReload) {
+    if (_withdrawModel == null || isReload) {
       Response response = await transactionRepo.getWithdrawMethods();
 
       if (response.body['response_code'] == 'default_200' &&
@@ -495,11 +499,11 @@ class TransactionMoneyController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> withDrawRequest({Map<String, String>? placeBody}) async {
+  Future<void> withDrawRequest({Map<String, String?>? placeBody}) async {
     _isLoading = true;
 
     Response response =
-        await transactionRepo.withdrawRequest(placeBody: placeBody!);
+        await transactionRepo.withdrawRequest(placeBody: placeBody);
 
     if (response.statusCode == 200 &&
         response.body['response_code'] == 'default_store_200') {

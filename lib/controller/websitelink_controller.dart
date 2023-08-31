@@ -9,13 +9,17 @@ class WebsiteLinkController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   List<WebsiteLinkModel>? _websiteList;
-  List<WebsiteLinkModel> get websiteList => _websiteList!;
-  Future getWebsiteList({bool reload = false}) async {
-    if (reload) {
+  List<WebsiteLinkModel>? get websiteList => _websiteList;
+
+  Future getWebsiteList(bool reload, {bool isUpdate = true}) async {
+    if (_websiteList == null || reload) {
       _websiteList = null;
+      _isLoading = true;
+      if (isUpdate) {
+        update();
+      }
     }
     if (_websiteList == null) {
-      _isLoading = true;
       _websiteList = [];
       Response response = await websiteLinkRepo.getWebsiteListApi();
       if (response.body != null &&
@@ -26,8 +30,10 @@ class WebsiteLinkController extends GetxController implements GetxService {
           _websiteList!.add(WebsiteLinkModel.fromJson(website));
         });
       } else {
+        _websiteList = [];
         ApiChecker.checkApi(response);
       }
+
       _isLoading = false;
       update();
     }

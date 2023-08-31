@@ -1,6 +1,6 @@
+import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/response/faq_model.dart';
 import 'package:zawadicash_app/data/repository/faq_repo.dart';
-import 'package:get/get.dart';
 
 class FaqController extends GetxController implements GetxService {
   final FaqRepo faqrepo;
@@ -9,8 +9,8 @@ class FaqController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  late List<HelpTopic> _helpTopics;
-  List<HelpTopic> get helpTopics => _helpTopics;
+  List<HelpTopic>? _helpTopics;
+  List<HelpTopic>? get helpTopics => _helpTopics;
 
   Future getFaqList() async {
     _isLoading = true;
@@ -19,7 +19,7 @@ class FaqController extends GetxController implements GetxService {
     if (response.body != null &&
         response.body != {} &&
         response.statusCode == 200) {
-      _helpTopics = FaqModel.fromJson(response.body).helpTopics!;
+      _helpTopics = FaqModel.fromJson(response.body).helpTopics;
       _isLoading = false;
       update();
     }

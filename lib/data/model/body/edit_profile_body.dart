@@ -1,9 +1,9 @@
 class EditProfileBody {
-  late String fName;
-  late String lName;
-  late String email;
-  late String gender;
-  late String occupation;
+  String? fName;
+  String? lName;
+  String? email;
+  String? gender;
+  String? occupation;
 
   EditProfileBody(
       {required this.fName,

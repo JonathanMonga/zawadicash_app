@@ -10,15 +10,15 @@ class SignUpBody {
   String? dialCountryCode;
 
   SignUpBody({
-    required this.fName,
-    required this.lName,
-    required this.phone,
+    this.fName,
+    this.lName,
+    this.phone,
     this.email,
-    required this.password,
+    this.password,
     this.otp,
-    required this.gender,
-    required this.occupation,
-    required this.dialCountryCode,
+    this.gender,
+    this.occupation,
+    this.dialCountryCode,
   });
 
   SignUpBody.fromJson(Map<String, dynamic> json) {

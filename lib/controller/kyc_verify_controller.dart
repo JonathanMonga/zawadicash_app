@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
@@ -11,11 +10,11 @@ import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 class KycVerifyController extends GetxController implements GetxService {
   final KycVerifyRepo kycVerifyRepo;
   KycVerifyController({required this.kycVerifyRepo});
-  late List<XFile> _imageFile;
-  late List<XFile> _identityImage = [];
+  List<XFile>? _imageFile;
+  List<XFile> _identityImage = [];
   List<XFile> get identityImage => _identityImage;
 
-  late bool _isLoading = false;
+  bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   final List<String> _dropList = [
@@ -30,8 +29,8 @@ class KycVerifyController extends GetxController implements GetxService {
   String _dropDownSelectedValue = 'select_identity_type'.tr;
   String get dropDownSelectedValue => _dropDownSelectedValue;
 
-  void dropDownChange(String? value) {
-    _dropDownSelectedValue = value!;
+  void dropDownChange(String value) {
+    _dropDownSelectedValue = value;
     update();
   }
 
@@ -47,7 +46,9 @@ class KycVerifyController extends GetxController implements GetxService {
       _imageFile = [];
     } else {
       _imageFile = await picker.pickMultiImage(imageQuality: 30);
-      _identityImage.addAll(_imageFile);
+      if (_imageFile != null) {
+        _identityImage.addAll(_imageFile!);
+      }
     }
     update();
   }
@@ -57,7 +58,7 @@ class KycVerifyController extends GetxController implements GetxService {
     update();
   }
 
-  late List<MultipartBody> _multipartBody;
+  List<MultipartBody>? _multipartBody;
 
   Future<void> kycVerify(String idNumber) async {
     Map<String, String> field = {
@@ -79,15 +80,13 @@ class KycVerifyController extends GetxController implements GetxService {
         .toList();
     _isLoading = true;
     update();
-    Response response =
-        await kycVerifyRepo.kycVerifyApi(field, _multipartBody);
+    Response response = await kycVerifyRepo.kycVerifyApi(field, _multipartBody);
     if (response.body['response_code'] == 'default_update_200') {
       Get.back();
       showCustomSnackBar(response.body['message'], isError: false);
     } else {
       ApiChecker.checkApi(response);
     }
-    debugPrint('body is : ${response.body}');
     _isLoading = false;
     update();
   }

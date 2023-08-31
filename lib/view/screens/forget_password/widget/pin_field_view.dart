@@ -1,18 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/forget_password_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_password_field.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 class PinFieldView extends StatefulWidget {
   final TextEditingController newPassController, confirmPassController;
 
-  const PinFieldView(
-      {Key? key,
-      required this.newPassController,
-      required this.confirmPassController})
-      : super(key: key);
+  const PinFieldView({Key? key,required this.newPassController,required this.confirmPassController}) : super(key: key);
 
   @override
   State<PinFieldView> createState() => _PinFieldViewState();
@@ -21,21 +16,22 @@ class PinFieldView extends StatefulWidget {
 class _PinFieldViewState extends State<PinFieldView> {
   final FocusNode confirmFocus = FocusNode();
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ForgetPassController>(builder: (controller) {
+    return GetBuilder<ForgetPassController>(builder: (controller){
       return Container(
-        margin: const EdgeInsets.only(),
+        margin: const EdgeInsets.only(
+        ),
         padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
-          vertical: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
+          horizontal: Dimensions.paddingSizeExtraExtraLarge,
+          vertical: Dimensions.paddingSizeExtraExtraLarge,
         ),
         width: double.infinity,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_EXTRA_LARGE),
-            topRight: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_EXTRA_LARGE),
+            topLeft: Radius.circular(Dimensions.radiusSizeExtraExtraLarge),
+            topRight: Radius.circular(Dimensions.radiusSizeExtraExtraLarge),
           ),
         ),
         child: SingleChildScrollView(
@@ -43,18 +39,18 @@ class _PinFieldViewState extends State<PinFieldView> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: Dimensions.RADIUS_SIZE_EXTRA_EXTRA_LARGE),
+                    horizontal: Dimensions.radiusSizeExtraExtraLarge),
                 child: Text(
                   'Set_new_4_digit_pin'.tr,
                   textAlign: TextAlign.center,
                   style: rubikMedium.copyWith(
                     color: Theme.of(context).textTheme.titleLarge!.color,
-                    fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
+                    fontSize: Dimensions.fontSizeExtraOverLarge,
                   ),
                 ),
               ),
               const SizedBox(
-                height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE,
+                height: Dimensions.paddingSizeExtraOverLarge,
               ),
               CustomPasswordField(
                 controller: widget.newPassController,
@@ -62,12 +58,13 @@ class _PinFieldViewState extends State<PinFieldView> {
                 isPassword: true,
                 isShowSuffixIcon: true,
                 isIcon: false,
-                hint: '＊＊＊＊',
+                hint: 'pin'.tr,
+
                 letterSpacing: 10.0,
                 fontSize: 24.0,
               ),
               const SizedBox(
-                height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                height: Dimensions.paddingSizeExtraLarge,
               ),
               CustomPasswordField(
                 controller: widget.confirmPassController,
@@ -78,7 +75,8 @@ class _PinFieldViewState extends State<PinFieldView> {
                 isIcon: false,
                 textAlign: TextAlign.start,
               ),
-              const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE),
+              const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
+
             ],
           ),
         ),

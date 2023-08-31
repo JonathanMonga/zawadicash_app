@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class AnimatedButtonView extends StatefulWidget {
-  final OnTapFunction onTap;
+  final Function onTap;
   const AnimatedButtonView({Key? key,required this.onTap}) : super(key: key);
 
   @override
@@ -47,7 +46,7 @@ class _AnimatedButtonViewState extends State<AnimatedButtonView> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.onTap,
+      onTap: widget.onTap as void Function()?,
       child: AnimatedContainer(
         width: _width,
         height: _height,
@@ -69,7 +68,7 @@ class _AnimatedButtonViewState extends State<AnimatedButtonView> {
             child: Text(
               'withdraw_request'.tr, maxLines: 2,
               textAlign: TextAlign.center,
-              style: rubikLight.copyWith(fontSize: Dimensions.FONT_SIZE_SMALL),
+              style: rubikLight.copyWith(fontSize: Dimensions.fontSizeSmall),
             ),
           ),
 

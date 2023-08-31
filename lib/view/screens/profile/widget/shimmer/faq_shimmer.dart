@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-
 class FaqShimmer extends StatelessWidget {
   const FaqShimmer({Key? key}) : super(key: key);
 
@@ -31,7 +30,7 @@ class FaqShimmer extends StatelessWidget {
                     ),
                     Container(
                       height: 30,
-                      width: size.width * 0.5,
+                      width: size.width*0.5,
                       decoration: BoxDecoration(
                         color: Colors.black38,
                         borderRadius: BorderRadius.circular(10),

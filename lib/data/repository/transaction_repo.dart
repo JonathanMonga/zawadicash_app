@@ -13,15 +13,15 @@ class TransactionRepo {
   TransactionRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response> getPurposeListApi() async {
-    return await apiClient.getData(AppConstants.CUSTOMER_PURPOSE_URL);
+    return await apiClient.getData(AppConstants.customerPurposeUrl);
   }
 
   Future<Response> sendMoneyApi(
-      {required String phoneNumber,
+      {required String? phoneNumber,
       required double amount,
-      required String purpose,
-      required String pin}) async {
-    return await apiClient.postData(AppConstants.CUSTOMER_SEND_MONEY, {
+      required String? purpose,
+      required String? pin}) async {
+    return await apiClient.postData(AppConstants.customerSendMoney, {
       'phone': phoneNumber,
       'amount': amount,
       'purpose': purpose,
@@ -30,45 +30,45 @@ class TransactionRepo {
   }
 
   Future<Response> requestMoneyApi(
-      {required String phoneNumber, required double amount}) async {
-    return await apiClient.postData(AppConstants.CUSTOMER_REQUEST_MONEY,
+      {required String? phoneNumber, required double amount}) async {
+    return await apiClient.postData(AppConstants.customerRequestMoney,
         {'phone': phoneNumber, 'amount': amount});
   }
 
   Future<Response> cashOutApi(
-      {required String phoneNumber,
+      {required String? phoneNumber,
       required double amount,
-      required String pin}) async {
-    return await apiClient.postData(AppConstants.CUSTOMER_CASH_OUT,
+      required String? pin}) async {
+    return await apiClient.postData(AppConstants.customerCashOut,
         {'phone': phoneNumber, 'amount': amount, 'pin': pin});
   }
 
   Future<Response> checkCustomerNumber({required String phoneNumber}) async {
     return await apiClient
-        .postData(AppConstants.CHECK_CUSTOMER_URI, {'phone': phoneNumber});
+        .postData(AppConstants.checkCustomerUri, {'phone': phoneNumber});
   }
 
   Future<Response> checkAgentNumber({required String phoneNumber}) async {
     return await apiClient
-        .postData(AppConstants.CHECK_AGENT_URI, {'phone': phoneNumber});
+        .postData(AppConstants.checkAgentUri, {'phone': phoneNumber});
   }
 
-  List<ContactModel>? getRecentList({required String type}) {
+  List<ContactModel>? getRecentList({required String? type}) {
     String? recent = '';
-    String key = type == AppConstants.SEND_MONEY
-        ? AppConstants.SEND_MONEY_SUGGEST_LIST
-        : type == AppConstants.CASH_OUT
-            ? AppConstants.RECENT_AGENT_LIST
-            : AppConstants.REQUEST_MONEY_SUGGEST_LIST;
+    String key = type == AppConstants.sendMoney
+        ? AppConstants.sendMoneySuggestList
+        : type == AppConstants.cashOut
+            ? AppConstants.recentAgentList
+            : AppConstants.requestMoneySuggestList;
 
     if (sharedPreferences.containsKey(key)) {
       try {
-        recent = sharedPreferences.get(key).toString();
+        recent = sharedPreferences.get(key) as String?;
       } catch (error) {
         recent = '';
       }
     }
-    if (recent != '' && recent != 'null') {
+    if (recent != null && recent != '' && recent != 'null') {
       return contactModelFromJson(
           utf8.decode(base64Url.decode(recent.replaceAll(' ', '+'))));
     }
@@ -81,22 +81,21 @@ class TransactionRepo {
         base64Url.encode(utf8.encode(contactModelToJson(contactModelList)));
     if (type == 'send_money') {
       await sharedPreferences.setString(
-          AppConstants.SEND_MONEY_SUGGEST_LIST, suggests);
+          AppConstants.sendMoneySuggestList, suggests);
     } else if (type == 'request_money') {
       await sharedPreferences.setString(
-          AppConstants.REQUEST_MONEY_SUGGEST_LIST, suggests);
+          AppConstants.requestMoneySuggestList, suggests);
     } else if (type == "cash_out") {
-      await sharedPreferences.setString(
-          AppConstants.RECENT_AGENT_LIST, suggests);
+      await sharedPreferences.setString(AppConstants.recentAgentList, suggests);
     }
   }
 
   Future<Response> getWithdrawMethods() async {
-    return await apiClient.getData(AppConstants.WITHDRAW_METHOD_LIST);
+    return await apiClient.getData(AppConstants.withdrawMethodList);
   }
 
   Future<Response> withdrawRequest(
-      {required Map<String, String> placeBody}) async {
-    return await apiClient.postData(AppConstants.WITHDRAW_REQUEST, placeBody);
+      {required Map<String, String?>? placeBody}) async {
+    return await apiClient.postData(AppConstants.withdrawRequest, placeBody);
   }
 }

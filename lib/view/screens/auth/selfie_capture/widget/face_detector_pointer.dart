@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
@@ -70,6 +71,7 @@ class FaceDetectorPainter extends CustomPainter {
         oldDelegate.faces != faces;
   }
 }
+
 
 double translateX(
     double x, InputImageRotation rotation, Size size, Size absoluteImageSize) {

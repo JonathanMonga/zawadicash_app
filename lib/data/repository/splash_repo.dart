@@ -10,42 +10,37 @@ class SplashRepo {
 
   Future<Response> getConfigData() async {
     // Response _response = await apiClient.postData(AppConstants.CONFIG_URI, {'email': 'ashek@gmail.com', 'password': '0123456'});
-    Response response = await apiClient.getData(AppConstants.CONFIG_URI);
+    Response response = await apiClient.getData(AppConstants.configUri);
     return response;
   }
 
   Future<bool> initSharedData() {
-    if (!sharedPreferences.containsKey(AppConstants.THEME)) {
-      return sharedPreferences.setBool(AppConstants.THEME, false);
+    if (!sharedPreferences.containsKey(AppConstants.theme)) {
+      return sharedPreferences.setBool(AppConstants.theme, false);
     }
-    if (!sharedPreferences.containsKey(AppConstants.CUSTOMER_COUNTRY_CODE)) {
-      return sharedPreferences.setString(AppConstants.CUSTOMER_COUNTRY_CODE,
+    if (!sharedPreferences.containsKey(AppConstants.customerCountryCode)) {
+      return sharedPreferences.setString(AppConstants.customerCountryCode,
           AppConstants.languages[0].countryCode!);
     }
-    if (!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
+    if (!sharedPreferences.containsKey(AppConstants.languageCode)) {
       return sharedPreferences.setString(
-          AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode!);
+          AppConstants.languageCode, AppConstants.languages[0].languageCode!);
     }
-    if (!sharedPreferences.containsKey(AppConstants.CART_LIST)) {
-      return sharedPreferences.setStringList(AppConstants.CART_LIST, []);
+    if (!sharedPreferences.containsKey(AppConstants.sendMoneySuggestList)) {
+      return sharedPreferences.setString(AppConstants.sendMoneySuggestList, '');
     }
-    if (!sharedPreferences.containsKey(AppConstants.SEND_MONEY_SUGGEST_LIST)) {
+    if (!sharedPreferences.containsKey(AppConstants.requestMoneySuggestList)) {
       return sharedPreferences.setString(
-          AppConstants.SEND_MONEY_SUGGEST_LIST, '');
+          AppConstants.requestMoneySuggestList, '');
     }
-    if (!sharedPreferences
-        .containsKey(AppConstants.REQUEST_MONEY_SUGGEST_LIST)) {
-      return sharedPreferences.setString(
-          AppConstants.REQUEST_MONEY_SUGGEST_LIST, '');
+    if (!sharedPreferences.containsKey(AppConstants.recentAgentList)) {
+      return sharedPreferences.setString(AppConstants.recentAgentList, '');
     }
-    if (!sharedPreferences.containsKey(AppConstants.RECENT_AGENT_LIST)) {
-      return sharedPreferences.setString(AppConstants.RECENT_AGENT_LIST, '');
+    if (!sharedPreferences.containsKey(AppConstants.biometricAuth)) {
+      sharedPreferences.setBool(AppConstants.biometricAuth, true);
     }
-    if (!sharedPreferences.containsKey(AppConstants.BIOMETRIC_AUTH)) {
-      sharedPreferences.setBool(AppConstants.BIOMETRIC_AUTH, true);
-    }
-    if (!sharedPreferences.containsKey(AppConstants.CONTACT_PERMISSION)) {
-      sharedPreferences.setString(AppConstants.CONTACT_PERMISSION, '');
+    if (!sharedPreferences.containsKey(AppConstants.contactPermission)) {
+      sharedPreferences.setString(AppConstants.contactPermission, '');
     }
 
     return Future.value(true);

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -6,28 +7,26 @@ import 'package:zawadicash_app/controller/screen_shot_widget_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
-
 class QrCodeDownloadOrShareScreen extends StatelessWidget {
   final String qrCode;
   final String phoneNumber;
-  const QrCodeDownloadOrShareScreen({super.key, required this.qrCode, required this.phoneNumber});
+  const QrCodeDownloadOrShareScreen({Key? key, required this.qrCode, required this.phoneNumber}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Screenshot(
-        controller: Get.find<ScreenShootWidgetController>(tag: getClassName<ScreenShootWidgetController>()).statementController,
+        controller: Get.find<ScreenShootWidgetController>().statementController,
         child: Scaffold(
           backgroundColor: ColorResources.backgroundColor,
           body: Center(
             child: Container(
               height: size.height,
               width: size.width,
-              margin: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [BoxShadow(color: ColorResources.blackColor.withOpacity(0.25), blurRadius: 6)]
@@ -39,31 +38,31 @@ class QrCodeDownloadOrShareScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CustomLogo(height: Dimensions.BIG_LOGO, width: Dimensions.BIG_LOGO),
-                        const SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
+                        const CustomLogo(height: 70.0, width: 70.0),
+                        const SizedBox(width: Dimensions.paddingSizeDefault),
 
                         Text(
-                          Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.companyName!,
+                          Get.find<SplashController>().configModel!.companyName!,
                           style: rubikMedium.copyWith(color: Theme.of(context).primaryColor,
-                          fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE),
+                          fontSize: Dimensions.fontSizeOverOverLarge),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE),
+                    const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
 
                     SvgPicture.string(qrCode,height: size.width*0.6,width: size.width*0.6),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_OVER_LARGE),
+                    const SizedBox(height: Dimensions.paddingSizeOverLarge),
 
                     Text(
                       phoneNumber,
                       style: rubikRegular.copyWith(
                         color: ColorResources.phoneNumberColor,
-                        fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
+                        fontSize: Dimensions.fontSizeExtraOverLarge,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                    const SizedBox(height: Dimensions.paddingSizeDefault),
 
                     Divider(
                       color: ColorResources.phoneNumberColor,
@@ -71,7 +70,7 @@ class QrCodeDownloadOrShareScreen extends StatelessWidget {
                       endIndent: size.width * 0.3,
                       indent: size.width * 0.3,
                     ),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
 
                     Divider(
                       color: ColorResources.phoneNumberColor,
@@ -79,16 +78,16 @@ class QrCodeDownloadOrShareScreen extends StatelessWidget {
                       endIndent: size.width * 0.4,
                       indent: size.width * 0.4,
                     ),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                    const SizedBox(height: Dimensions.paddingSizeDefault),
                     Text(
                       'scan_the_QR_code_to_send_money'.tr,
                       style: rubikSemiBold.copyWith(
                         color: ColorResources.phoneNumberColor,
-                        fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                        fontSize: Dimensions.fontSizeExtraLarge,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
 
                     Container(
                       height: 30,

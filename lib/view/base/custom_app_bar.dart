@@ -3,22 +3,14 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_ink_well.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/view/base/rounded_button.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
-  final String? title;
-  final OnTapFunction? onTap;
-  final bool? isSkip;
-  final OnTapFunction? function;
-
-  const CustomAppbar(
-      {super.key,
-      required this.title,
-      this.onTap,
-      this.isSkip = false,
-      this.function});
-
+  final String title;
+  final Function? onTap;
+  final bool isSkip;
+  final Function? function;
+  const CustomAppbar({Key? key, required this.title, this.onTap,this.isSkip = false, this.function}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,52 +18,38 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       child: SafeArea(
         child: Container(
           color: Theme.of(context).primaryColor,
-          padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomInkWell(
-                  onTap: onTap ??
-                      () {
-                        Get.back();
-                      },
-                  radius: Dimensions.RADIUS_SIZE_SMALL,
+                  onTap: onTap == null ? () {
+                    Get.back();
+                  } : onTap as void Function()?,
+                  radius: Dimensions.radiusSizeSmall,
                   child: Container(
-                    height: 40, width: 40,
+                    height: 40,width: 40,
                     // padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.white.withOpacity(0.7), width: 0.5),
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
+                      border: Border.all(color: Colors.white.withOpacity(0.7), width: 0.5),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
                     ),
                     child: const Center(
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: Dimensions.ARROW_ICON_SIZE,
-                        color: Colors.white,
+                      child: Icon(Icons.arrow_back_ios_new, size: Dimensions.paddingSizeSmall, color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
-                Text(
-                  title!,
-                  style: rubikMedium.copyWith(
-                      fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                      color: Colors.white),
+                const SizedBox(width: Dimensions.paddingSizeDefault),
+
+                Text(title, style: rubikMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.white),
                 ),
-                isSkip! ? const Spacer() : const SizedBox(),
-                isSkip!
-                    ? SizedBox(
-                        child: RoundedButton(
-                        buttonText: 'skip'.tr,
-                        onTap: function,
-                        isSkip: true,
-                      ))
-                    : const SizedBox(),
+
+                isSkip ? const Spacer() : const SizedBox(),
+
+                isSkip ? SizedBox(child: RoundedButton(buttonText: 'skip'.tr, onTap: function, isSkip: true,)) : const SizedBox(),
               ],
             ),
           ),
@@ -81,6 +59,5 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      const Size(double.maxFinite, Dimensions.APPBAR_HIGHT_SIZE);
+  Size get preferredSize => const Size(double.maxFinite, 70);
 }

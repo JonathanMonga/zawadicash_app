@@ -1,45 +1,44 @@
+
 import 'package:flutter/material.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class CustomLargeButton extends StatelessWidget {
   final String? text;
-  final OnTapFunction? onTap;
+  final Function? onTap;
   final Color? backgroundColor;
-  final double? bottomPadding;
-  const CustomLargeButton({
-    super.key,
+  final double bottomPadding;
+  const CustomLargeButton({Key? key, 
     this.backgroundColor,
     this.onTap,
     this.text,
-    this.bottomPadding = Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE,
-  });
+    this.bottomPadding = Dimensions.paddingSizeExtraOverLarge,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
-        right: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
-        bottom: bottomPadding!,
+      padding:  EdgeInsets.only(
+          left: Dimensions.paddingSizeExtraExtraLarge,
+          right: Dimensions.paddingSizeExtraExtraLarge,
+          bottom: bottomPadding,
       ),
       child: TextButton(
-        onPressed: onTap,
+        onPressed: onTap as void Function()?,
         style: TextButton.styleFrom(
           minimumSize: MediaQuery.of(context).size,
           padding: const EdgeInsets.symmetric(
-              vertical: Dimensions.PADDING_SIZE_DEFAULT),
+              vertical: Dimensions.paddingSizeDefault),
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
           ),
         ),
-        child: Text(
+        child:  Text(
           text!,
           style: rubikRegular.copyWith(
             color: Theme.of(context).textTheme.bodyLarge!.color,
-            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+            fontSize: Dimensions.fontSizeExtraLarge,
           ),
         ),
       ),

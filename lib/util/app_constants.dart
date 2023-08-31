@@ -1,131 +1,112 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/response/language_model.dart';
 import 'package:zawadicash_app/data/model/response/on_boarding_model.dart';
-import 'package:zawadicash_app/util/images.dart';
+
+import 'images.dart';
 
 class AppConstants {
-  static const String APP_NAME = 'Zawadicash';
-  // Online
-  // static const String BASE_URL = 'https://zawadicashwallet2-jmonga98.b4a.run/';
+  static const String appName = '6Cash';
+  static const String baseUrl = 'YOUR_BASE_URL_HERE';
 
-  // Offline
-  static const String BASE_URL = 'http://192.168.1.35:8000';
+  static const bool demo = false;
+  static const double appVersion = 4.0;
 
-  static const bool DEMO = false;
-  static const double APP_VERSION = 2.1;
-
-  static const String CUSTOMER_PHONE_CHECK_URI =
+  static const String customerPhoneCheckUri =
       '/api/v1/customer/auth/check-phone';
-  static const String CUSTOMER_PHONE_RESEND_OTP_URI =
-      '/api/v1/customer/auth/resend-otp';
-  static const String CUSTOMER_PHONE_VERIFY_URI =
+  static const String customerPhoneVerifyUri =
       '/api/v1/customer/auth/verify-phone';
-  static const String CUSTOMER_REGISTRATION_URI =
+  static const String customerRegistrationUri =
       '/api/v1/customer/auth/register';
-  static const String CUSTOMER_UPDATE_PROFILE =
-      '/api/v1/customer/update-profile';
-  static const String CUSTOMER_LOGIN_URI = '/api/v1/customer/auth/login';
-  static const String CUSTOMER_LOGOUT_URI = '/api/v1/customer/logout';
-  static const String CUSTOMER_FORGET_PASS_OTP_URI =
+  static const String customerUpdateProfile = '/api/v1/customer/update-profile';
+  static const String customerLoginUri = '/api/v1/customer/auth/login';
+  static const String customerLogoutUri = '/api/v1/customer/logout';
+  static const String customerForgetPassOtpUri =
       '/api/v1/customer/auth/forgot-password';
-  static const String CUSTOMER_FORGET_PASS_VERIFICATION =
+  static const String customerForgetPassVerification =
       '/api/v1/customer/auth/verify-token';
-  static const String CUSTOMER_FORGET_PASS_RESET =
+  static const String customerForgetPassReset =
       '/api/v1/customer/auth/reset-password';
-  static const String CUSTOMER_LINKED_WEBSITE =
-      '/api/v1/customer/linked-website';
-  static const String CUSTOMER_BANNER = '/api/v1/customer/get-banner';
-  static const String CUSTOMER_TRANSACTION_HISTORY =
+  static const String customerLinkedWebsite = '/api/v1/customer/linked-website';
+  static const String customerBanner = '/api/v1/customer/get-banner';
+  static const String customerTransactionHistory =
       '/api/v1/customer/transaction-history';
-  static const String CUSTOMER_PURPOSE_URL = '/api/v1/customer/get-purpose';
-  static const String CONFIG_URI = '/api/v1/config';
-  static const String IMAGE_CONFIG_URL_API_NEED =
-      '/storage/app/public/purpose/';
-  static const String CUSTOMER_PROFILE_INFO = '/api/v1/customer/get-customer';
-  static const String CUSTOMER_CHECK_OTP = '/api/v1/customer/check-otp';
-  static const String CUSTOMER_VERIFY_OTP = '/api/v1/customer/verify-otp';
-  static const String CUSTOMER_CHANGE_PIN = '/api/v1/customer/change-pin';
-  static const String CUSTOMER_UPDATE_TWO_FACTOR =
+  static const String customerPurposeUrl = '/api/v1/customer/get-purpose';
+  static const String configUri = '/api/v1/config';
+  static const String imageConfigUrlApiNeed = '/storage/app/public/purpose/';
+  static const String customerProfileInfo = '/api/v1/customer/get-customer';
+  static const String customerCheckOtp = '/api/v1/customer/check-otp';
+  static const String customerVerifyOtp = '/api/v1/customer/verify-otp';
+  static const String customerChangePin = '/api/v1/customer/change-pin';
+  static const String customerUpdateTwoFactor =
       '/api/v1/customer/update-two-factor';
-  static const String CUSTOMER_SEND_MONEY = '/api/v1/customer/send-money';
-  static const String CUSTOMER_REQUEST_MONEY = '/api/v1/customer/request-money';
-  static const String CUSTOMER_CASH_OUT = '/api/v1/customer/cash-out';
-  static const String CUSTOMER_PIN_VERIFY = '/api/v1/customer/verify-pin';
-  static const String CUSTOMER_ADD_MONEY = '/api/v1/customer/add-money';
-  static const String FAQ_URI = '/api/v1/faq';
-  static const String NOTIFICATION_URI = '/api/v1/customer/get-notification';
-  static const String TRANSACTION_HISTORY_URI =
+  static const String customerSendMoney = '/api/v1/customer/send-money';
+  static const String customerRequestMoney = '/api/v1/customer/request-money';
+  static const String customerCashOut = '/api/v1/customer/cash-out';
+  static const String customerPinVerify = '/api/v1/customer/verify-pin';
+  static const String customerAddMoney = '/api/v1/customer/add-money';
+  static const String faqUri = '/api/v1/faq';
+  static const String notificationUri = '/api/v1/customer/get-notification';
+  static const String transactionHistoryUri =
       '/api/v1/customer/transaction-history';
-  static const String REQUESTED_MONEY_URI =
+  static const String requestedMoneyUri =
       '/api/v1/customer/get-requested-money';
-  static const String ACCEPTED_REQUESTED_MONEY_URI =
+  static const String acceptedRequestedMoneyUri =
       '/api/v1/customer/request-money/approve';
-  static const String DENIED_REQUESTED_MONEY_URI =
+  static const String deniedRequestedMoneyUri =
       '/api/v1/customer/request-money/deny';
-  static const String TOKEN_URI = '/api/v1/customer/update-fcm-token';
-  static const String CHECK_CUSTOMER_URI = '/api/v1/check-customer';
-  static const String CHECK_AGENT_URI = '/api/v1/check-agent';
-  static const String WON_REQUESTED_MONEY =
+  static const String tokenUri = '/api/v1/customer/update-fcm-token';
+  static const String checkCustomerUri = '/api/v1/check-customer';
+  static const String checkAgentUri = '/api/v1/check-agent';
+  static const String wonRequestedMoney =
       '/api/v1/customer/get-own-requested-money';
-  static const String CUSTOMER_REMOVE = '/api/v1/customer/remove-account';
-  static const String UPDATE_KYC_INFORMATION =
+  static const String customerRemove = '/api/v1/customer/remove-account';
+  static const String updateKycInformation =
       '/api/v1/customer/update-kyc-information';
-  static const String WITHDRAW_METHOD_LIST =
+  static const String withdrawMethodList =
       '/api/v1/customer/withdrawal-methods';
-  static const String WITHDRAW_REQUEST = '/api/v1/customer/withdraw';
-  static const String GET_WITHDRAWAL_REQUEST =
+  static const String withdrawRequest = '/api/v1/customer/withdraw';
+  static const String getWithdrawalRequest =
       '/api/v1/customer/withdrawal-requests';
 
   // Shared Key
-  static const String THEME = 'theme';
-  static const String TOKEN = 'token';
-  static const String CUSTOMER_COUNTRY_CODE =
+  static const String theme = 'theme';
+  static const String token = 'token';
+  static const String customerCountryCode =
       'customer_country_code'; //not in project
-  static const String LANGUAGE_CODE = 'language_code';
-  static const String CART_LIST = 'cart_list';
-  static const String USER_PASSWORD = 'user_password';
-  static const String USER_ADDRESS = 'user_address';
-  static const String USER_NUMBER = 'user_number';
-  static const String SEARCH_ADDRESS = 'search_address';
-  static const String TOPIC = 'notify';
-  static const String CONFIG = 'config';
-  static const String CUSTOMER_NAME = 'customer_name';
-  static const String COUNTRY_CODE = 'country_code';
-  static const String CUSTOMER_NUMBER = 'customer_number';
-  static const String CUSTOMER_QR_CODE = 'customer_qr_code';
-  static const String SEND_MONEY_SUGGEST_LIST = 'send_money_suggest';
-  static const String REQUEST_MONEY_SUGGEST_LIST = 'request_money_suggest';
-  static const String RECENT_AGENT_LIST = 'recent_agent_list';
+  static const String languageCode = 'language_code';
+  static const String topic = 'notify';
+  static const String sendMoneySuggestList = 'send_money_suggest';
+  static const String requestMoneySuggestList = 'request_money_suggest';
+  static const String recentAgentList = 'recent_agent_list';
 
-  static const String PENDING = 'pending';
-  static const String APPROVED = 'approved';
-  static const String DENIED = 'denied';
-  static const String CASH_IN = 'cash_in';
-  static const String CASH_OUT = 'cash_out';
-  static const String SEND_MONEY = 'send_money';
-  static const String RECEIVED_MONEY = 'received_money';
-  static const String ADMIN_CHARGE = 'admin_charge';
-  static const String ADD_MONEY = 'add_money';
-  static const String WITHDRAW = 'withdraw';
-  static const String PAYMENT = 'payment';
+  static const String pending = 'pending';
+  static const String approved = 'approved';
+  static const String denied = 'denied';
+  static const String cashIn = 'cash_in';
+  static const String cashOut = 'cash_out';
+  static const String sendMoney = 'send_money';
+  static const String receivedMoney = 'received_money';
+  static const String adminCharge = 'admin_charge';
+  static const String addMoney = 'add_money';
+  static const String withdraw = 'withdraw';
+  static const String payment = 'payment';
 
-  static const String BIOMETRIC_AUTH = 'biometric_auth';
-  static const String BIOMETRIC_PIN = 'biometric';
-  static const String CONTACT_PERMISSION = '';
+  static const String biometricAuth = 'biometric_auth';
+  static const String biometricPin = 'biometric';
+  static const String contactPermission = '';
+  static const String userData = 'user';
 
   //topic
-  static const String ALL = 'all';
-  static const String USERS = 'customers';
+  static const String all = 'all';
+  static const String users = 'customers';
 
   // App Theme
-  static const String THEME_1 = 'theme_1';
-  static const String THEME_2 = 'theme_2';
-  static const String THEME_3 = 'theme_3';
+  static const String theme1 = 'theme_1';
+  static const String theme2 = 'theme_2';
+  static const String theme3 = 'theme_3';
 
   //input balance digit length
-  static const int BALANCE_INPUT_LEN = 10;
+  static const int balanceInputLen = 10;
 
   static List<LanguageModel> languages = [
     LanguageModel(
@@ -141,11 +122,23 @@ class AppConstants {
   ];
 
   static List<OnboardModel> onboardList = [
-    OnboardModel(Images.onboard_image_1, Images.onboard_background_1,
-        'on_boarding_title_1'.tr, 'on_boarding_sub_title_1'.tr),
-    OnboardModel(Images.onboard_image_2, Images.onboard_background_2,
-        'on_boarding_title_2'.tr, 'on_boarding_sub_title_2'.tr),
-    OnboardModel(Images.onboard_image_3, Images.onboard_background_3,
-        'on_boarding_title_3'.tr, 'on_boarding_sub_title_3'.tr),
+    OnboardModel(
+      Images.onboardImage1,
+      Images.onboardBackground1,
+      'on_boarding_title_1'.tr,
+      '${'send_money_from'.tr} $appName ${'easily_at_anytime'.tr}',
+    ),
+    OnboardModel(
+      Images.onboardImage2,
+      Images.onboardBackground2,
+      'on_boarding_title_2'.tr,
+      'withdraw_money_is_even_more'.tr,
+    ),
+    OnboardModel(
+      Images.onboardImage3,
+      Images.onboardBackground3,
+      'on_boarding_title_3'.tr,
+      '${'request_for_money_using'.tr} $appName ${'account_to_any_friend'.tr}',
+    ),
   ];
 }

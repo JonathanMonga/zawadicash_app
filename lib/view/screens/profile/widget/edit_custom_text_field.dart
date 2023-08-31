@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:flutter/material.dart';
-
 class EditCustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? textInputType;
@@ -21,14 +20,14 @@ class _EditCustomTextFieldState extends State<EditCustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+          padding: const EdgeInsets.only(left: Dimensions.paddingSizeExtraSmall),
           child: Text(widget.levelText!,
           style: rubikMedium.copyWith(
-            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+            fontSize: Dimensions.fontSizeExtraLarge,
           ),),
         ),
         const SizedBox(
-          height: Dimensions.PADDING_SIZE_SMALL,
+          height: Dimensions.paddingSizeSmall,
         ),
         TextField(
           controller: widget.controller,
@@ -36,21 +35,21 @@ class _EditCustomTextFieldState extends State<EditCustomTextField> {
           textCapitalization: TextCapitalization.words,
           cursorColor: Theme.of(context).primaryColor,
           style: rubikRegular.copyWith(
-            fontSize: Dimensions.FONT_SIZE_DEFAULT,
+            fontSize: Dimensions.fontSizeDefault,
             // letterSpacing: 1.0,
           ),
           decoration: InputDecoration(
 
             contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 22),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
+              borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
               borderSide: BorderSide(
                 color: Theme.of(context).textTheme.titleLarge!.color!,
                 width: 2,
               ),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
+              borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
               borderSide: BorderSide(
                 color: ColorResources.textFieldBorderColor,
                 width: 1,

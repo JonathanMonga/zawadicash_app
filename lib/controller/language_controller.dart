@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
-
 import 'package:zawadicash_app/data/model/response/language_model.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageController extends GetxController {
-  final SharedPreferences sharedPreferences;
-  LanguageController({required this.sharedPreferences});
+  final SharedPreferences? sharedPreferences;
+  LanguageController({this.sharedPreferences});
 
   int _selectIndex = 0;
   int get selectIndex => _selectIndex;
@@ -29,11 +27,11 @@ class LanguageController extends GetxController {
     } else {
       _selectIndex = -1;
       _languages = [];
-      AppConstants.languages.forEach((product) async {
+      for (var product in AppConstants.languages) {
         if (product.languageName!.toLowerCase().contains(query.toLowerCase())) {
           _languages.add(product);
         }
-      });
+      }
       update();
     }
   }

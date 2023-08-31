@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
-import 'package:flutter/material.dart';
 
 class CustomOccupationCard extends StatelessWidget {
   final String? icon, text;
   final bool? check;
-  const CustomOccupationCard({super.key, this.icon, this.text, this.check});
+  const CustomOccupationCard({Key? key, this.icon, this.text, this.check}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +14,15 @@ class CustomOccupationCard extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(
-            right: Dimensions.PADDING_SIZE_DEFAULT,
-            top: Dimensions.PADDING_SIZE_DEFAULT,
-            bottom: Dimensions.PADDING_SIZE_LARGE,
+            right: Dimensions.paddingSizeDefault,
+            top: Dimensions.paddingSizeDefault,
+            bottom: Dimensions.paddingSizeLarge,
           ),
           height: 75,
           width: 84,
           decoration: BoxDecoration(
             color: ColorResources.getOccupationCardColor(),
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
             boxShadow: [
               BoxShadow(
                 color: ColorResources.getShadowColor().withOpacity(0.1),
@@ -41,14 +41,14 @@ class CustomOccupationCard extends StatelessWidget {
                 child: Image.asset(icon!),
               ),
               const SizedBox(
-                height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                height: Dimensions.paddingSizeExtraSmall,
               ),
               Text(
                 text!,
                 textAlign: TextAlign.center,
                 style: rubikRegular.copyWith(
                   color: Theme.of(context).textTheme.bodyLarge!.color,
-                  fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                  fontSize: Dimensions.fontSizeDefault,
                 ),
               ),
             ],
@@ -60,17 +60,12 @@ class CustomOccupationCard extends StatelessWidget {
           child: Visibility(
             visible: check!,
             child: Container(
-              height: 16,
-              width: 16,
+              height: 16,width: 16,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.check,
-                color: Colors.white,
-                size: 12,
-              ),
+              child: const Icon(Icons.check,color: Colors.white,size: 12,),
             ),
           ),
         ),

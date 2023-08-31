@@ -1,9 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/localization_controller.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/base/custom_app_bar.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
@@ -11,25 +11,35 @@ import 'package:zawadicash_app/view/base/custom_small_button.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/screens/more/widget/language_widget.dart';
 
-class ChooseLanguageScreen extends StatelessWidget {
-  const ChooseLanguageScreen({super.key});
+class ChooseLanguageScreen extends StatefulWidget {
+  const ChooseLanguageScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ChooseLanguageScreen> createState() => _ChooseLanguageScreenState();
+}
+
+class _ChooseLanguageScreenState extends State<ChooseLanguageScreen> {
+  
+  @override
+  void initState() {
+    Get.find<LocalizationController>().loadCurrentLanguage().then((index) =>
+        Get.find<LocalizationController>().setSelectIndex(index, isUpdate: false)
+    );
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: 'language'.tr),
-      body:
-          GetBuilder<LocalizationController>(
-              init: Get.find<LocalizationController>(tag: getClassName<LocalizationController>()),
-              tag: getClassName<LocalizationController>(),
-              builder: (localizationController) {
+      body: GetBuilder<LocalizationController>(
+          builder: (localizationController) {
         return Column(children: [
           Expanded(
-              child: Center(
-            child: Scrollbar(
+              child: Center(child: Scrollbar(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                 child: Center(
                     child: SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -44,22 +54,16 @@ class ChooseLanguageScreen extends StatelessWidget {
                             width: 150,
                           ),
                         ),
-                        const SizedBox(
-                          height: Dimensions.PADDING_SIZE_OVER_LARGE,
-                        ),
+                        const SizedBox(height: Dimensions.paddingSizeOverLarge,),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                          child: Text('select_language'.tr,
-                              style: rubikMedium.copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge!
-                                      .color,
-                                  fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE)),
+                              horizontal:
+                                  Dimensions.paddingSizeExtraSmall),
+                          child:
+                              Text('select_language'.tr, style: rubikMedium.copyWith(color: Theme.of(context).textTheme.titleLarge!.color,fontSize: Dimensions.fontSizeExtraLarge)),
                         ),
-                        const SizedBox(
-                            height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
                         GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -70,16 +74,16 @@ class ChooseLanguageScreen extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) => LanguageWidget(
-                            languageModel:
-                                localizationController.languages[index],
+                            languageModel: localizationController.languages[index],
                             localizationController: localizationController,
                             index: index,
                           ),
                         ),
-                        const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                        const SizedBox(height: Dimensions.paddingSizeLarge),
+
                         Text('* ${'you_can_change_language'.tr}',
                             style: rubikRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_SMALL,
+                              fontSize: Dimensions.fontSizeSmall,
                               color: Theme.of(context).disabledColor,
                             )),
                       ]),
@@ -88,10 +92,7 @@ class ChooseLanguageScreen extends StatelessWidget {
             ),
           )),
           Container(
-            padding: const EdgeInsets.only(
-                left: Dimensions.PADDING_SIZE_DEFAULT,
-                right: Dimensions.PADDING_SIZE_DEFAULT,
-                bottom: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
+            padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeExtraExtraLarge),
             child: Row(
               children: [
                 Expanded(
@@ -100,22 +101,19 @@ class ChooseLanguageScreen extends StatelessWidget {
                       if (localizationController.languages.isNotEmpty &&
                           localizationController.selectedIndex != -1) {
                         localizationController.setLanguage(Locale(
-                          AppConstants
-                              .languages[localizationController.selectedIndex]
+                          AppConstants.languages[localizationController.selectedIndex]
                               .languageCode!,
-                          AppConstants
-                              .languages[localizationController.selectedIndex]
+                          AppConstants.languages[localizationController.selectedIndex]
                               .countryCode,
                         ));
                         Get.back();
                       } else {
-                        showCustomSnackBar('select_a_language'.tr,
-                            isError: false);
+                        showCustomSnackBar('select_a_language'.tr,isError: false);
                       }
                     },
                     backgroundColor: Theme.of(context).secondaryHeaderColor,
                     text: 'save'.tr,
-                    textColor: Theme.of(context).textTheme.bodyLarge!.color!,
+                    textColor: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
               ],

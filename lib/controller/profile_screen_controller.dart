@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
-import 'package:zawadicash_app/controller/bootom_slider_controller.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
 import 'package:zawadicash_app/controller/theme_controller.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
+import 'package:zawadicash_app/data/model/response/user_data.dart';
 import 'package:zawadicash_app/data/model/response/user_info.dart';
 import 'package:zawadicash_app/data/repository/profile_repo.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
+import 'package:zawadicash_app/view/base/custom_country_code_picker.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/base/logout_dialog.dart';
 
+import 'bootom_slider_controller.dart';
+
 class ProfileController extends GetxController implements GetxService {
   final ProfileRepo profileRepo;
-
   ProfileController({required this.profileRepo});
-
   final BottomSliderController bottomSliderController =
-      Get.find<BottomSliderController>(tag: getClassName<BottomSliderController>());
+      Get.find<BottomSliderController>();
   UserInfo? _userInfo;
   bool _isLoading = false;
 
@@ -36,7 +36,7 @@ class ProfileController extends GetxController implements GetxService {
   }
 
   Future<void> profileData({bool reload = false, bool isUpdate = false}) async {
-    if (reload) {
+    if (reload || _userInfo == null) {
       _userInfo = null;
       _isLoading = true;
       if (isUpdate) {
@@ -48,15 +48,20 @@ class ProfileController extends GetxController implements GetxService {
       Response response = await profileRepo.getProfileDataApi();
       if (response.statusCode == 200) {
         _userInfo = UserInfo.fromJson(response.body);
-        Get.find<AuthController>(tag: getClassName<AuthController>())
-            .setCustomerName('${_userInfo!.fName} ${_userInfo!.lName}');
-        Get.find<AuthController>(tag: getClassName<AuthController>()).setCustomerQrCode(_userInfo!.qrCode!);
-        _isLoading = false;
+
+        Get.find<AuthController>().setUserData(UserData(
+          name: '${_userInfo!.fName} ${_userInfo!.lName}',
+          phone: userInfo?.phone?.replaceAll(
+              '${CustomCountryCodePiker.getCountryCode(userInfo?.phone)}', ''),
+          countryCode: CustomCountryCodePiker.getCountryCode(userInfo?.phone),
+          qrCode: _userInfo?.qrCode,
+        ));
       } else {
         ApiChecker.checkApi(response);
       }
+      _isLoading = false;
+      update();
     }
-    update();
   }
 
   Future<void> changePin(
@@ -73,17 +78,20 @@ class ProfileController extends GetxController implements GetxService {
       _isLoading = true;
       update();
       Response response = await profileRepo.changePinApi(
-          oldPin: oldPassword,
-          newPin: newPassword,
-          confirmPin: confirmPassword);
+        oldPin: oldPassword,
+        newPin: newPassword,
+        confirmPin: confirmPassword,
+      );
+
       if (response.statusCode == 200) {
-        await Get.find<AuthController>(tag: getClassName<AuthController>()).updatePin(newPassword);
+        await Get.find<AuthController>().updatePin(newPassword);
+        UserData? userData = Get.find<AuthController>().getUserData();
 
         Get.offAllNamed(RouteHelper.getLoginRoute(
-            countryCode: Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerCountryCode(),
-            phoneNumber: Get.find<AuthController>(tag: getClassName<AuthController>()).getCustomerNumber()));
+          countryCode: userData?.countryCode,
+          phoneNumber: userData?.phone,
+        ));
       } else {
-        // Get.back();
         ApiChecker.checkApi(response);
       }
       _isLoading = false;
@@ -92,7 +100,7 @@ class ProfileController extends GetxController implements GetxService {
   }
 
   Future<Response> pinVerify(
-      {required String getPin, bool isUpdateTwoFactor = true}) async {
+      {required String? getPin, bool isUpdateTwoFactor = true}) async {
     bottomSliderController.setIsLoading = true;
     final Response response = await profileRepo.pinVerifyApi(pin: getPin);
 
@@ -144,7 +152,7 @@ class ProfileController extends GetxController implements GetxService {
   }
 
   ///Change theme..
-  bool _isSwitched = Get.find<ThemeController>(tag: getClassName<ThemeController>()).darkTheme;
+  bool _isSwitched = Get.find<ThemeController>().darkTheme;
   var textValue = 'Switch is OFF';
 
   bool get isSwitched => _isSwitched;
@@ -153,14 +161,12 @@ class ProfileController extends GetxController implements GetxService {
     if (_isSwitched == false) {
       _isSwitched = true;
       textValue = 'Switch Button is ON';
-      debugPrint('Switch Button is ON');
-      Get.find<ThemeController>(tag: getClassName<ThemeController>()).toggleTheme();
+      Get.find<ThemeController>().toggleTheme();
       update();
     } else {
       _isSwitched = false;
       textValue = 'Switch Button is OFF';
-      debugPrint('Switch Button is OFF');
-      Get.find<ThemeController>(tag: getClassName<ThemeController>()).toggleTheme();
+      Get.find<ThemeController>().toggleTheme();
       update();
     }
   }
@@ -176,15 +182,15 @@ class ProfileController extends GetxController implements GetxService {
           onTapTrueText: 'logout'.tr,
           isFailed: true,
           onTapFalse: () {
-            Get.find<AuthController>(tag: getClassName<AuthController>()).removeBiometricPin().then((value) {
-              Get.find<AuthController>(tag: getClassName<AuthController>()).change(0);
-              Get.find<AuthController>(tag: getClassName<AuthController>()).logout();
-              Get.find<SplashController>(tag: getClassName<SplashController>()).removeSharedData();
+            Get.find<AuthController>().removeBiometricPin().then((value) {
+              Get.find<AuthController>().change(0);
+              Get.find<AuthController>().logout();
+              Get.find<SplashController>().removeSharedData();
               Navigator.pop(context);
             });
           },
           onTapTrue: () {
-            Get.find<AuthController>(tag: getClassName<AuthController>()).logout();
+            Get.find<AuthController>().logout();
             Navigator.of(context).pop(true);
           },
         ),

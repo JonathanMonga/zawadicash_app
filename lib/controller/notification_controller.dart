@@ -11,22 +11,30 @@ class NotificationController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
 
   List<Notifications>? _notificationList;
-  List<Notifications> get notificationList => _notificationList!;
+  List<Notifications>? get notificationList => _notificationList;
 
-  Future getNotificationList() async {
-    _notificationList = [];
-    Response response = await notificationRepo.getNotificationList();
-    if (response.body != null &&
-        response.body != {} &&
-        response.statusCode == 200) {
-      response.body['notifications'].forEach((notify) {
-        _notificationList!.add(Notifications.fromJson(notify));
-      });
+  Future getNotificationList(bool reload, {bool isUpdate = true}) async {
+    if (reload || _notificationList == null) {
+      _notificationList = null;
+      _isLoading = true;
+      if (isUpdate) {
+        update();
+      }
+    }
+    if (_notificationList == null) {
+      Response response = await notificationRepo.getNotificationList();
+      if (response.body != null &&
+          response.body != {} &&
+          response.statusCode == 200) {
+        _notificationList = [];
+        response.body['notifications'].forEach((notify) {
+          _notificationList!.add(Notifications.fromJson(notify));
+        });
+      } else {
+        ApiChecker.checkApi(response);
+      }
       _isLoading = false;
       update();
-    } else {
-      ApiChecker.checkApi(response);
-      _isLoading = false;
     }
   }
 }

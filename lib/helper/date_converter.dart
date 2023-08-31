@@ -1,5 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:intl/intl.dart';
 
 class DateConverter {
@@ -14,17 +12,21 @@ class DateConverter {
   static DateTime convertStringToDatetime(String dateTime) {
     return DateFormat("yyyy-MM-ddTHH:mm:ss.SSS").parse(dateTime);
   }
+
   static String localDateToIsoStringAMPM(DateTime dateTime) {
     return DateFormat('h:mm a | d-MMM-yyyy ').format(dateTime.toLocal());
   }
 
   static DateTime isoStringToLocalDate(String dateTime) {
-    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime, true).toLocal();
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS')
+        .parse(dateTime, true)
+        .toLocal();
   }
 
   static String isoStringToLocalTimeOnly(String dateTime) {
     return DateFormat('hh:mm aa').format(isoStringToLocalDate(dateTime));
   }
+
   static String isoStringToLocalAMPM(String dateTime) {
     return DateFormat('a').format(isoStringToLocalDate(dateTime));
   }

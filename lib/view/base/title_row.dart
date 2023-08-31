@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class TitleRow extends StatelessWidget {
-  final String? title;
+  final String title;
   final Function? icon;
-  final OnTapFunction? onTap;
+  final Function? onTap;
   final Duration? eventDuration;
   final bool? isDetailsPage;
-
   const TitleRow(
-      {super.key,
+      {Key? key,
       required this.title,
       this.icon,
       this.onTap,
       this.eventDuration,
-      this.isDetailsPage});
+      this.isDetailsPage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int days, hours, minutes, seconds;
-    days = eventDuration!.inDays;
-    hours = eventDuration!.inHours - days * 24;
-    minutes = eventDuration!.inMinutes - (24 * days * 60) - (hours * 60);
-    seconds = eventDuration!.inSeconds -
-        (24 * days * 60 * 60) -
-        (hours * 60 * 60) -
-        (minutes * 60);
+    int? days, hours, minutes, seconds;
+    if (eventDuration != null) {
+      days = eventDuration!.inDays;
+      hours = eventDuration!.inHours - days * 24;
+      minutes = eventDuration!.inMinutes - (24 * days * 60) - (hours * 60);
+      seconds = eventDuration!.inSeconds -
+          (24 * days * 60 * 60) -
+          (hours * 60 * 60) -
+          (minutes * 60);
+    }
 
     return Row(children: [
-      Text(title!,
+      Text(title,
           style: rubikRegular.copyWith(
-              fontSize: Dimensions.FONT_SIZE_DEFAULT,
+              fontSize: Dimensions.fontSizeDefault,
               color: Theme.of(context).textTheme.titleLarge!.color)),
       eventDuration == null
           ? const Expanded(child: SizedBox.shrink())
@@ -53,26 +54,26 @@ class TitleRow extends StatelessWidget {
             ])),
       onTap != null
           ? InkWell(
-              onTap: onTap,
+              onTap: onTap as void Function()?,
               child: Row(children: [
                 isDetailsPage == null
                     ? Text('view_all'.tr,
                         style: rubikRegular.copyWith(
                           color: Theme.of(context).textTheme.titleLarge!.color,
-                          fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                          fontSize: Dimensions.fontSizeDefault,
                         ))
                     : const SizedBox.shrink(),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: Dimensions.PADDING_SIZE_SMALL,
-                      top: Dimensions.PADDING_SIZE_SMALL,
-                      bottom: Dimensions.PADDING_SIZE_SMALL),
+                      left: Dimensions.paddingSizeSmall,
+                      top: Dimensions.paddingSizeSmall,
+                      bottom: Dimensions.paddingSizeSmall),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: isDetailsPage == null
                         ? Theme.of(context).textTheme.titleLarge!.color
                         : Theme.of(context).hintColor,
-                    size: Dimensions.FONT_SIZE_SMALL,
+                    size: Dimensions.fontSizeSmall,
                   ),
                 ),
               ]),
@@ -83,10 +84,11 @@ class TitleRow extends StatelessWidget {
 }
 
 class TimerBox extends StatelessWidget {
-  final int time;
+  final int? time;
   final bool isBorder;
 
-  const TimerBox({super.key, required this.time, this.isBorder = false});
+  const TimerBox({Key? key, required this.time, this.isBorder = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,12 +104,12 @@ class TimerBox extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          time < 10 ? '0$time' : time.toString(),
+          time! < 10 ? '0$time' : time.toString(),
           style: rubikSemiBold.copyWith(
             color: isBorder
                 ? Theme.of(context).primaryColor
                 : Theme.of(context).highlightColor,
-            fontSize: Dimensions.FONT_SIZE_SMALL,
+            fontSize: Dimensions.fontSizeSmall,
           ),
         ),
       ),

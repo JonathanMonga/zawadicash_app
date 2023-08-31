@@ -24,7 +24,9 @@ class TransactionModel {
     data['total_size'] = totalSize;
     data['limit'] = limit;
     data['offset'] = offset;
-    data['transactions'] = transactions!.map((v) => v.toJson()).toList();
+    if (transactions != null) {
+      data['transactions'] = transactions!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -71,7 +73,9 @@ class Transactions {
     data['transaction_id'] = transactionId;
     data['debit'] = debit;
     data['credit'] = credit;
-    data['user_info'] = userInfo!.toJson();
+    if (userInfo != null) {
+      data['user_info'] = userInfo!.toJson();
+    }
     data['created_at'] = createdAt;
     data['amount'] = amount;
     return data;

@@ -24,7 +24,9 @@ class NotificationModel {
     data['total_size'] = totalSize;
     data['limit'] = limit;
     data['offset'] = offset;
-    data['notifications'] = notifications!.map((v) => v.toJson()).toList();
+    if (notifications != null) {
+      data['notifications'] = notifications!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

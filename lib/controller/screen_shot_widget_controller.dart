@@ -1,16 +1,16 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:zawadicash_app/data/model/response/contact_model.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
-import 'package:get/get.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/share_statement_widget.dart';
 
@@ -20,10 +20,10 @@ class ScreenShootWidgetController extends GetxController
 
   Future statementScreenShootFunction(
       {required String amount,
-      required String transactionType,
-      required ContactModel contactModel,
+      required String? transactionType,
+      required ContactModel? contactModel,
       required String charge,
-      required String trxId}) async {
+      required String? trxId}) async {
     Uint8List? image;
     Get.to(ShareStatementWidget(
         amount: amount,
@@ -38,7 +38,7 @@ class ScreenShootWidgetController extends GetxController
       final directory = await getApplicationDocumentsDirectory();
       final imageFile = File('${directory.path}/share.png');
       imageFile.writeAsBytesSync(image!);
-      await Share.shareFiles([imageFile.path]);
+      await Share.shareXFiles([XFile(imageFile.path)]);
     });
   }
 
@@ -58,16 +58,15 @@ class ScreenShootWidgetController extends GetxController
         final directory = await getApplicationDocumentsDirectory();
         final imageFile = File('${directory.path}/share.png');
         imageFile.writeAsBytesSync(image!);
-        await Share.shareFiles([imageFile.path]);
+        await Share.shareXFiles([XFile(imageFile.path)]);
       } else {
         final directory = await getApplicationDocumentsDirectory();
         final imageFile = File('${directory.path}/qr.png');
         imageFile.writeAsBytesSync(image!);
-        await GallerySaver.saveImage(
-          imageFile.path,
-          albumName: 'Zawadicash',
-        ).then((value) =>
-            showCustomSnackBar('QR code save to your Gallery', isError: false));
+        await GallerySaver.saveImage(imageFile.path,
+                albumName: AppConstants.appName)
+            .then((value) => showCustomSnackBar('QR code save to your Gallery',
+                isError: false));
       }
     });
   }

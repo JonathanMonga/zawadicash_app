@@ -24,7 +24,9 @@ class RequestedMoneyModel {
     data['total_size'] = totalSize;
     data['limit'] = limit;
     data['offset'] = offset;
-    data['requested_money'] = requestedMoney!.map((v) => v.toJson()).toList();
+    if (requestedMoney != null) {
+      data['requested_money'] = requestedMoney!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -64,8 +66,12 @@ class RequestedMoney {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['sender'] = sender!.toJson();
-    data['receiver'] = sender!.toJson();
+    if (sender != null) {
+      data['sender'] = sender!.toJson();
+    }
+    if (sender != null) {
+      data['receiver'] = sender!.toJson();
+    }
     data['type'] = type;
     data['amount'] = amount;
     data['note'] = note;

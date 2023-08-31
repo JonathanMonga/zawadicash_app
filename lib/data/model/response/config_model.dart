@@ -1,7 +1,11 @@
+// To parse this JSON data, do
+//
+//     final configModel = configModelFromJson(jsonString);
+
 import 'dart:convert';
 
-ConfigModel configModelFromJson(String? str) =>
-    ConfigModel.fromJson(json.decode(str!));
+ConfigModel configModelFromJson(String str) =>
+    ConfigModel.fromJson(json.decode(str));
 
 class ConfigModel {
   ConfigModel({
@@ -14,10 +18,8 @@ class ConfigModel {
     this.currencySymbol,
     this.currencyPosition,
     this.cashOutChargePercent,
-    this.addMoneyChargePercent,
     this.sendMoneyChargeFlat,
-    this.agentCommissionPercent,
-    this.adminCommission,
+    this.withdrawChargePercent,
     this.twoFactor,
     this.phoneVerification,
     this.country,
@@ -26,6 +28,14 @@ class ConfigModel {
     this.privacyPolicy,
     this.aboutUs,
     this.themeIndex,
+    this.activePaymentMethodList,
+    this.otpResendTime,
+    this.customerAddMoneyLimit,
+    this.customerCashOutLimit,
+    this.customerSendMoneyLimit,
+    this.customerWithdrawLimit,
+    this.customerRequestMoneyLimit,
+    this.systemFeature,
   });
 
   String? companyName;
@@ -37,10 +47,8 @@ class ConfigModel {
   String? currencySymbol;
   String? currencyPosition;
   double? cashOutChargePercent;
-  double? addMoneyChargePercent;
   double? sendMoneyChargeFlat;
-  double? agentCommissionPercent;
-  double? adminCommission;
+  double? withdrawChargePercent;
   bool? twoFactor;
   bool? phoneVerification;
   String? country;
@@ -48,7 +56,15 @@ class ConfigModel {
   String? termsAndConditions;
   String? privacyPolicy;
   String? aboutUs;
-  String? themeIndex;
+  int? themeIndex;
+  List<String>? activePaymentMethodList;
+  int? otpResendTime;
+  CustomerLimit? customerSendMoneyLimit;
+  CustomerLimit? customerAddMoneyLimit;
+  CustomerLimit? customerRequestMoneyLimit;
+  CustomerLimit? customerWithdrawLimit;
+  CustomerLimit? customerCashOutLimit;
+  SystemFeature? systemFeature;
 
   factory ConfigModel.fromJson(Map<String, dynamic> json) => ConfigModel(
         companyName: json["company_name"],
@@ -61,13 +77,10 @@ class ConfigModel {
         currencyPosition: json["currency_position"] ?? 'left',
         cashOutChargePercent:
             double.tryParse('${json["cashout_charge_percent"]}') ?? 0,
-        addMoneyChargePercent:
-            double.tryParse('${json["addmoney_charge_percent"]}') ?? 0,
         sendMoneyChargeFlat:
             double.tryParse('${json["sendmoney_charge_flat"]}') ?? 0,
-        agentCommissionPercent:
-            double.tryParse('${json["agent_commission_percent"]}') ?? 0,
-        adminCommission: double.tryParse('${json["admin_commission"]}') ?? 0,
+        withdrawChargePercent:
+            double.tryParse('${json["withdraw_charge_percent"]}') ?? 0,
         twoFactor: int.parse(json["two_factor"].toString()) == 1 ? true : false,
         phoneVerification: json["phone_verification"] == 1 ? true : false,
         country: json["country"] ?? 'BD',
@@ -75,7 +88,21 @@ class ConfigModel {
         termsAndConditions: json["terms_and_conditions"],
         privacyPolicy: json["privacy_policy"],
         aboutUs: json["about_us"],
-        themeIndex: json["user_app_theme"],
+        themeIndex: int.tryParse('${json["user_app_theme"]}'),
+        activePaymentMethodList:
+            json['active_payment_method_list'].cast<String>(),
+        otpResendTime: int.tryParse('${json['otp_resend_time']}'),
+        customerSendMoneyLimit:
+            CustomerLimit.fromJson(json['customer_send_money_limit']),
+        customerAddMoneyLimit:
+            CustomerLimit.fromJson(json['customer_add_money_limit']),
+        customerRequestMoneyLimit:
+            CustomerLimit.fromJson(json['customer_send_money_request_limit']),
+        customerWithdrawLimit:
+            CustomerLimit.fromJson(json['customer_withdraw_request_limit']),
+        customerCashOutLimit:
+            CustomerLimit.fromJson(json['customer_cash_out_limit']),
+        systemFeature: SystemFeature.fromJson(json['system_feature']),
       );
 }
 
@@ -106,5 +133,78 @@ class BaseUrls {
         notificationImageUrl: json["notification_image_url"],
         companyImageUrl: json["company_image_url"],
         bannerImageUrl: json["banner_image_url"],
+      );
+}
+
+class CustomerLimit {
+  bool status;
+  int transactionLimitPerDay;
+  double maxAmountPerTransaction;
+  double totalTransactionAmountPerDay;
+  int transactionLimitPerMonth;
+  double totalTransactionAmountPerMonth;
+
+  CustomerLimit({
+    required this.status,
+    required this.transactionLimitPerDay,
+    required this.maxAmountPerTransaction,
+    required this.totalTransactionAmountPerDay,
+    required this.transactionLimitPerMonth,
+    required this.totalTransactionAmountPerMonth,
+  });
+
+  factory CustomerLimit.fromJson(Map<String, dynamic> json) => CustomerLimit(
+        status: '${json["status"]}'.contains('1'),
+        transactionLimitPerDay:
+            int.parse('${json["transaction_limit_per_day"]}'),
+        maxAmountPerTransaction:
+            double.parse('${json["max_amount_per_transaction"]}'),
+        totalTransactionAmountPerDay:
+            double.parse('${json["total_transaction_amount_per_day"]}'),
+        transactionLimitPerMonth:
+            int.parse('${json["transaction_limit_per_month"]}'),
+        totalTransactionAmountPerMonth:
+            double.parse('${json["total_transaction_amount_per_month"]}'),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "transaction_limit_per_day": transactionLimitPerDay,
+        "max_amount_per_transaction": maxAmountPerTransaction,
+        "total_transaction_amount_per_day": totalTransactionAmountPerDay,
+        "transaction_limit_per_month": transactionLimitPerMonth,
+        "total_transaction_amount_per_month": totalTransactionAmountPerMonth,
+      };
+}
+
+class SystemFeature {
+  bool? addMoneyStatus;
+  bool? sendMoneyStatus;
+  bool? cashOutStatus;
+  bool? sendMoneyRequestStatus;
+  bool? withdrawRequestStatus;
+  bool? linkedWebSiteStatus;
+  bool? bannerStatus;
+
+  SystemFeature({
+    required this.addMoneyStatus,
+    required this.sendMoneyStatus,
+    required this.cashOutStatus,
+    required this.sendMoneyRequestStatus,
+    required this.withdrawRequestStatus,
+    required this.linkedWebSiteStatus,
+    required this.bannerStatus,
+  });
+
+  factory SystemFeature.fromJson(Map<String, dynamic> json) => SystemFeature(
+        addMoneyStatus: '${json["add_money_status"]}'.contains('1'),
+        sendMoneyStatus: '${json["send_money_status"]}'.contains('1'),
+        cashOutStatus: '${json["cash_out_status"]}'.contains('1'),
+        sendMoneyRequestStatus:
+            '${json["send_money_request_status"]}'.contains('1'),
+        withdrawRequestStatus:
+            '${json["withdraw_request_status"]}'.contains('1'),
+        bannerStatus: '${json["banner_status"]}'.contains('1'),
+        linkedWebSiteStatus: '${json["linked_website_status"]}'.contains('1'),
       );
 }

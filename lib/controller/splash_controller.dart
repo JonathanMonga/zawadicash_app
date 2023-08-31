@@ -1,20 +1,14 @@
-// ignore_for_file: depend_on_referenced_packages
-
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/config_model.dart';
 import 'package:zawadicash_app/data/repository/splash_repo.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
-import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class SplashController extends GetxController implements GetxService {
-  late final SplashRepo splashRepo;
-
+  final SplashRepo splashRepo;
   SplashController({required this.splashRepo});
 
-  late ConfigModel _configModel;
+  ConfigModel? _configModel;
   bool _isVpn = false;
 
   final DateTime _currentTime = DateTime.now();
@@ -23,7 +17,7 @@ class SplashController extends GetxController implements GetxService {
   bool _firstTimeConnectionCheck = true;
   bool get firstTimeConnectionCheck => _firstTimeConnectionCheck;
 
-  ConfigModel get configModel => _configModel;
+  ConfigModel? get configModel => _configModel;
   bool get isVpn => _isVpn;
 
   Future<Response> getConfigData() async {
@@ -33,7 +27,6 @@ class SplashController extends GetxController implements GetxService {
     } else {
       ApiChecker.checkApi(response);
     }
-
     update();
     return response;
   }
@@ -67,18 +60,11 @@ class SplashController extends GetxController implements GetxService {
     _firstTimeConnectionCheck = isChecked;
   }
 
-  String getCountryCode() {
-    CountryCode countryCode = CountryCode.fromCountryCode(
-        Get.find<SplashController>(tag: getClassName<SplashController>()).configModel.country!);
-    String countryCode0 = countryCode.toString();
-    return countryCode0;
-  }
-
   Future<bool> checkVpn() async {
     _isVpn = await ApiChecker.isVpnActive();
-    if(_isVpn) {
-       showCustomSnackBar('you are using vpn', isVpn: true, duration: const Duration(minutes: 10));
-     }
+    // if(_isVpn) {
+    //   showCustomSnackBar('you are using vpn', isVpn: true, duration: Duration(minutes: 10));
+    // }
     return _isVpn;
   }
 }

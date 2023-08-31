@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
-
 class CustomPinCodeField extends StatelessWidget {
-  final OnCompletedFunction? onCompleted;
+  final Function onCompleted;
   final double padding;
-  const CustomPinCodeField(
-      {Key? key, required this.onCompleted, this.padding = 0.0})
-      : super(key: key);
+  const CustomPinCodeField({Key? key,required this.onCompleted, this.padding = 0.0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +30,15 @@ class CustomPinCodeField extends StatelessWidget {
           inactiveColor: Theme.of(context).primaryColor.withOpacity(0.2),
           activeColor: Theme.of(context).primaryColor.withOpacity(0.4),
           borderWidth: 0.1,
+
         ),
         animationDuration: const Duration(milliseconds: 300),
         backgroundColor: Colors.transparent,
         enableActiveFill: true,
-        onCompleted: onCompleted,
+        onCompleted: onCompleted as void Function(String)?,
         onChanged: (value) {
-          debugPrint(value);
         },
         beforeTextPaste: (text) {
-          debugPrint("Allowing to paste $text");
-          //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-          //but you can show anything you want here, like your pop up saying wrong paste format or etc
           return true;
         },
       ),

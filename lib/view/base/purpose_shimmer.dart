@@ -5,7 +5,6 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zawadicash_app/controller/localization_controller.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
@@ -14,15 +13,15 @@ class PurposeShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizationController = Get.find<LocalizationController>(tag: getClassName<LocalizationController>());
+    final localizationController = Get.find<LocalizationController>();
     return Shimmer.fromColors(
         baseColor: Colors.grey,
         highlightColor: Colors.grey[200]!,
         child: Container(
             height: 150,
             padding: localizationController.isLtr
-                ? const EdgeInsets.only(left: Dimensions.PADDING_SIZE_DEFAULT)
-                : const EdgeInsets.only(right: Dimensions.PADDING_SIZE_DEFAULT),
+                ? const EdgeInsets.only(left: Dimensions.paddingSizeDefault)
+                : const EdgeInsets.only(right: Dimensions.paddingSizeDefault),
             child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: 6,
@@ -41,16 +40,16 @@ class PurposeShimmer extends StatelessWidget {
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(
-                                    Dimensions.RADIUS_SIZE_VERY_SMALL),
+                                    Dimensions.radiusSizeVerySmall),
                                 topRight: Radius.circular(
-                                    Dimensions.RADIUS_SIZE_VERY_SMALL),
+                                    Dimensions.radiusSizeVerySmall),
                               ),
                             ),
                             child: Center(
                               child: Padding(
                                   //height: 36,width: 36,
                                   padding: const EdgeInsets.all(
-                                      Dimensions.PADDING_SIZE_LARGE),
+                                      Dimensions.paddingSizeLarge),
                                   child: ClipOval(
                                       child: Image.asset(Images.placeholder))),
                               // ),
@@ -64,7 +63,7 @@ class PurposeShimmer extends StatelessWidget {
                               'title'.tr,
                               textAlign: TextAlign.center,
                               style: rubikRegular.copyWith(
-                                  fontSize: Dimensions.FONT_SIZE_DEFAULT),
+                                  fontSize: Dimensions.fontSizeDefault),
                             ),
                           ),
                         )

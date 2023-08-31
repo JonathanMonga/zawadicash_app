@@ -1,8 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/view/screens/transaction_money/widget/field_item_view.dart';
 
@@ -11,29 +9,28 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final FocusNode? nextFocus;
-  final TextInputType? inputType;
-  final TextInputAction? inputAction;
+  final TextInputType inputType;
+  final TextInputAction inputAction;
   final Color? fillColor;
-  final int? maxLines;
-  final bool? isPassword;
-  final bool? isCountryPicker;
-  final bool? isShowBorder;
-  final bool? isIcon;
-  final bool? isShowSuffixIcon;
-  final bool? isShowPrefixIcon;
-  final OnTapFunction? onTap;
-  final OnChangedCustomTextFieldFunction? onChanged;
-  final OnPressedFunction? onSuffixTap;
+  final int maxLines;
+  final bool isPassword;
+  final bool isCountryPicker;
+  final bool isShowBorder;
+  final bool isIcon;
+  final bool isShowSuffixIcon;
+  final bool isShowPrefixIcon;
+  final Function? onTap;
+  final Function? onChanged;
+  final Function? onSuffixTap;
   final String? suffixIconUrl;
   final String? prefixIconUrl;
-  final bool? isSearch;
+  final bool isSearch;
   final Function? onSubmit;
-  final bool? isEnabled;
-  final TextCapitalization? capitalization;
+  final bool isEnabled;
+  final TextCapitalization capitalization;
 
   const CustomTextField(
-      {super.key,
-      this.hintText = 'Write something...',
+      {Key? key, this.hintText = 'Write something...',
       this.controller,
       this.focusNode,
       this.nextFocus,
@@ -55,10 +52,10 @@ class CustomTextField extends StatefulWidget {
       this.isPassword = false,
       this.suffixIconUrl,
       this.prefixIconUrl,
-      this.isSearch = false});
+      this.isSearch = false}) : super(key: key);
 
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
@@ -70,27 +67,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
       maxLines: widget.maxLines,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      style: Theme.of(context).textTheme.displayMedium!.copyWith(
-          color: Theme.of(context).textTheme.bodyLarge!.color,
-          fontSize: Dimensions.FONT_SIZE_LARGE),
+      style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeLarge),
       textInputAction: widget.inputAction,
       keyboardType: widget.inputType,
       cursorColor: Theme.of(context).primaryColor,
-      textCapitalization: widget.capitalization!,
+      textCapitalization: widget.capitalization,
       enabled: widget.isEnabled,
       autofocus: false,
       //onChanged: widget.isSearch ? widget.languageProvider.searchLanguage : null,
-      obscureText: widget.isPassword! ? _obscureText : false,
+      obscureText: widget.isPassword ? _obscureText : false,
       inputFormatters: widget.inputType == TextInputType.phone
-          ? <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp('[0-9+]'))
-            ]
+          ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))]
           : widget.inputType == TextInputType.datetime
-              ? [DateInputFormatter()]
-              : null,
+          ? [DateInputFormatter()]: null,
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 22),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 22),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(style: BorderStyle.none, width: 0),
@@ -99,30 +90,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         fillColor: widget.fillColor ?? Theme.of(context).highlightColor,
         hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
-              fontSize: Dimensions.FONT_SIZE_SMALL,
-              color: Theme.of(context).hintColor,
-            ),
+          fontSize: Dimensions.fontSizeSmall,
+          color: Theme.of(context).hintColor,
+        ),
         filled: true,
-        prefixIcon: widget.isShowPrefixIcon!
-            ? Padding(
-                padding: const EdgeInsets.only(
-                    left: Dimensions.PADDING_SIZE_LARGE,
-                    right: Dimensions.PADDING_SIZE_SMALL),
-                child: Image.asset(widget.prefixIconUrl!),
-              )
-            : const SizedBox.shrink(),
-        prefixIconConstraints:
-            const BoxConstraints(minWidth: 23, maxHeight: 20),
-        suffixIcon: widget.isShowSuffixIcon!
-            ? widget.isPassword!
+        prefixIcon: widget.isShowPrefixIcon ? Padding(
+          padding: const EdgeInsets.only(left: Dimensions.paddingSizeLarge, right: Dimensions.paddingSizeSmall),
+          child: Image.asset(widget.prefixIconUrl!),
+        ) : const SizedBox.shrink(),
+        prefixIconConstraints: const BoxConstraints(minWidth: 23, maxHeight: 20),
+        suffixIcon: widget.isShowSuffixIcon
+            ? widget.isPassword
                 ? IconButton(
-                    icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Theme.of(context).hintColor.withOpacity(0.3)),
+                    icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
                     onPressed: _toggle)
-                : widget.isIcon!
+                : widget.isIcon
                     ? IconButton(
-                        onPressed: widget.onSuffixTap,
+                        onPressed: widget.onSuffixTap as void Function()?,
                         icon: Image.asset(
                           widget.suffixIconUrl!,
                           width: 15,
@@ -133,11 +117,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     : null
             : null,
       ),
-      onTap: widget.onTap,
-      onSubmitted: (text) => widget.nextFocus != null
-          ? FocusScope.of(context).requestFocus(widget.nextFocus)
-          : widget.onSubmit!(text),
-      onChanged: widget.onChanged,
+      onTap: widget.onTap as void Function()?,
+      onSubmitted: (text) => widget.nextFocus != null ? FocusScope.of(context).requestFocus(widget.nextFocus) : widget.onSubmit!(text),
+      onChanged: widget.onChanged as void Function(String)?,
     );
   }
 

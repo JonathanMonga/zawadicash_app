@@ -1,6 +1,6 @@
-import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zawadicash_app/util/app_constants.dart';
 
 class ThemeController extends GetxController {
   final SharedPreferences sharedPreferences;
@@ -14,12 +14,12 @@ class ThemeController extends GetxController {
   void toggleTheme() {
     _darkTheme = !_darkTheme;
 
-    sharedPreferences.setBool(AppConstants.THEME, _darkTheme);
+    sharedPreferences.setBool(AppConstants.theme, _darkTheme);
     update();
   }
 
   void _loadCurrentTheme() async {
-    _darkTheme = sharedPreferences.getBool(AppConstants.THEME) ?? false;
+    _darkTheme = sharedPreferences.getBool(AppConstants.theme) ?? false;
     update();
   }
 }

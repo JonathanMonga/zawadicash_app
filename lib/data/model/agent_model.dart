@@ -1,9 +1,8 @@
-
 class AgentModel {
   final String name;
   final String number;
 
-  AgentModel( {required this.name,required this.number});
+  AgentModel({required this.name, required this.number});
 }
 
 List<AgentModel> dummyAgent = [

@@ -9,23 +9,21 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:zawadicash_app/controller/qr_code_scanner_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/main.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/view/base/animated_custom_dialog.dart';
-import 'package:zawadicash_app/view/screens/auth/other_info/other_info_screen.dart';
+import 'package:zawadicash_app/view/screens/auth/other_info/information_screen.dart';
 import 'package:zawadicash_app/view/screens/auth/selfie_capture/widget/loader_dialog.dart';
 import 'package:zawadicash_app/view/screens/profile/widget/edit_profile_screen.dart';
 
 class CameraScreenController extends GetxController implements GetxService {
   bool _isBusy = false;
+  String? _text;
   int _eyeBlink = 0;
   int _isSuccess = 0;
 
-  late String _text;
-  late CameraController controller;
+  CameraController? controller;
   double zoomLevel = 0.0, minZoomLevel = 0.0, maxZoomLevel = 0.0;
 
-  String get text => _text;
-
+  String? get text => _text;
   int get captureLoading => _isSuccess;
   int get eyeBlink => _eyeBlink;
   int get isSuccess => _isSuccess;
@@ -37,28 +35,27 @@ class CameraScreenController extends GetxController implements GetxService {
     _eyeBlink = 0;
     _isSuccess = 0;
     _fromEditProfile = fromEditProfile;
-    debugPrint('from edit profile value : $_fromEditProfile');
   }
 
   Future startLiveFeed(
       {bool isQrCodeScan = false,
       bool isHome = false,
-      String transactionType = ''}) async {
+      String? transactionType = ''}) async {
     final camera = cameras[isQrCodeScan ? 0 : 1];
     controller = CameraController(
       camera,
       ResolutionPreset.high,
       enableAudio: false,
     );
-    controller.initialize().then((_) {
-      controller.getMinZoomLevel().then((value) {
+    controller!.initialize().then((_) {
+      controller!.getMinZoomLevel().then((value) {
         zoomLevel = value;
         minZoomLevel = value;
       });
-      controller.getMaxZoomLevel().then((value) {
+      controller!.getMaxZoomLevel().then((value) {
         maxZoomLevel = value;
       });
-      controller.startImageStream((CameraImage cameraImage) =>
+      controller?.startImageStream((CameraImage cameraImage) =>
           _processCameraImage(
               cameraImage, isQrCodeScan, isHome, transactionType));
       update();
@@ -68,12 +65,12 @@ class CameraScreenController extends GetxController implements GetxService {
   Future stopLiveFeed() async {
     try {
       try {
-        await controller.stopImageStream();
+        await controller?.stopImageStream();
       } catch (e) {
-        debugPrint(e.toString());
+        debugPrint('error ---> $e');
       }
-
-      await controller.dispose();
+      await controller?.dispose();
+      controller = null;
       valueInitialize(_fromEditProfile);
     } catch (e) {
       debugPrint('error is : $e');
@@ -81,7 +78,7 @@ class CameraScreenController extends GetxController implements GetxService {
   }
 
   Future _processCameraImage(CameraImage image, isQrCodeScan, bool isHome,
-      String transactionType) async {
+      String? transactionType) async {
     final WriteBuffer allBytes = WriteBuffer();
     for (final Plane plane in image.planes) {
       allBytes.putUint8List(plane.bytes);
@@ -121,14 +118,14 @@ class CameraScreenController extends GetxController implements GetxService {
         InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
     if (isQrCodeScan) {
-      Get.find<QrCodeScannerController>(tag: getClassName<QrCodeScannerController>())
+      Get.find<QrCodeScannerController>()
           .processImage(inputImage, isHome, transactionType);
     } else {
       processImage(inputImage);
     }
   }
 
-  final _faceDetector = FaceDetector(
+  final FaceDetector _faceDetector = FaceDetector(
     options: FaceDetectorOptions(
       enableContours: true,
       enableClassification: true,
@@ -140,13 +137,9 @@ class CameraScreenController extends GetxController implements GetxService {
   Future<void> processImage(InputImage inputImage) async {
     if (_isBusy) return;
     _isBusy = true;
-    final faces = await _faceDetector
-        .processImage(inputImage);
-    debugPrint('eye Blink count is : $_eyeBlink');
+    final faces = await _faceDetector.processImage(inputImage);
     try {
       if (faces.length < 2) {
-        debugPrint(
-            'face detect eye : ${faces[0].rightEyeOpenProbability} || ${faces[0].leftEyeOpenProbability}');
         if (faces[0].rightEyeOpenProbability! < 0.1 &&
             faces[0].leftEyeOpenProbability! < 0.1 &&
             _eyeBlink < 3) {
@@ -154,23 +147,25 @@ class CameraScreenController extends GetxController implements GetxService {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('error ===> $e');
     }
 
     if (_eyeBlink == 3) {
       try {
-        await controller.stopImageStream().then((value) async {
+        await controller?.stopImageStream().then((value) async {
           showAnimatedDialog(Get.context!, const LoaderDialog(),
               dismissible: false, isFlip: true);
           _faceDetector.close();
-          final XFile file = await controller.takePicture();
+          final XFile file = await controller!.takePicture();
           _imageFile = File(file.path);
         });
       } catch (e) {
         debugPrint('error is $e');
       }
-      final inputImage = InputImage.fromFilePath(_imageFile!.path);
-      processPicture(inputImage);
+      if (_imageFile != null) {
+        final inputImage = InputImage.fromFilePath(_imageFile!.path);
+        processPicture(inputImage);
+      }
     }
     update();
     _isBusy = false;
@@ -178,12 +173,9 @@ class CameraScreenController extends GetxController implements GetxService {
 
   Future<void> processPicture(InputImage inputImage) async {
     bool hasEyeOpen = false;
-    final faces = await _faceDetector
-        .processImage(inputImage);
+    final faces = await _faceDetector.processImage(inputImage);
     try {
       if (faces.length == 1) {
-        debugPrint(
-            'face is ${faces[0].headEulerAngleX} ${faces[0].headEulerAngleY} ${faces[0].headEulerAngleZ}');
         if (faces[0].rightEyeOpenProbability != null &&
             faces[0].leftEyeOpenProbability != null) {
           if (faces[0].rightEyeOpenProbability! > 0.2 &&
@@ -193,7 +185,7 @@ class CameraScreenController extends GetxController implements GetxService {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('error ---> $e');
     }
 
     if (hasEyeOpen || GetPlatform.isIOS) {
@@ -206,7 +198,7 @@ class CameraScreenController extends GetxController implements GetxService {
         if (_fromEditProfile) {
           Get.off(() => const EditProfileScreen());
         } else {
-          Get.off(() => const OtherInfoScreen());
+          Get.off(() => const InformationScreen());
         }
       });
     } else {
@@ -219,6 +211,7 @@ class CameraScreenController extends GetxController implements GetxService {
   File? _imageFile;
 
   void removeImage() {
+    _imageFile = null;
     update();
   }
 

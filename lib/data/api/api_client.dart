@@ -1,29 +1,23 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart' as foundation;
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
-import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zawadicash_app/data/api/api_checker.dart';
 import 'package:zawadicash_app/data/model/response/error_response.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 
 class ApiClient extends GetxService {
-  String appBaseUrl = AppConstants.BASE_URL;
+  String appBaseUrl = AppConstants.baseUrl;
   final SharedPreferences sharedPreferences;
   final String noInternetMessage =
       'Connection to API server failed due to internet connection';
   final int timeoutInSeconds = 30;
-  final BaseDeviceInfo deiceInfo;
+  BaseDeviceInfo deiceInfo;
   final String uniqueId;
   String? token;
   Map<String, String>? _mainHeaders;
@@ -34,21 +28,17 @@ class ApiClient extends GetxService {
     required this.deiceInfo,
     required this.uniqueId,
   }) {
-    debugPrint(" token.............................................$token");
-
     _mainHeaders = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token',
     };
 
     if (('${deiceInfo.data['isPhysicalDevice']}' == 'true') ||
-        AppConstants.DEMO) {
-      debugPrint('=========-----${deiceInfo.data.toString()}------=========');
+        AppConstants.demo) {
       _mainHeaders!.addAll({
         'device-id': uniqueId,
         'os': GetPlatform.isAndroid ? 'android' : 'ios',
-        'device-model':
-            '${deiceInfo.data['brand']} ${deiceInfo.data['model']}'
+        'device-model': '${deiceInfo.data['brand']} ${deiceInfo.data['model']}'
       });
     }
   }
@@ -60,12 +50,13 @@ class ApiClient extends GetxService {
     };
 
     if (('${deiceInfo.data['isPhysicalDevice']}' == 'true') ||
-        AppConstants.DEMO) {
+        AppConstants.demo) {
       _mainHeaders!.addAll({
         'device-id': uniqueId,
         'os': GetPlatform.isAndroid ? 'android' : 'ios',
         'device-model':
             '${GetPlatform.isAndroid ? '${deiceInfo.data['brand']} ${deiceInfo.data['device-model']}' : ''} ${deiceInfo.data['model']}'
+                .replaceAll(' null ', ' ')
       });
     }
   }
@@ -97,12 +88,10 @@ class ApiClient extends GetxService {
     }
     {
       try {
-        if (foundation.kDebugMode) {
-          debugPrint('====> GetX Base URL: $appBaseUrl');
-          debugPrint('====> GetX Call: $uri');
-          debugPrint('====> GetX Body: $body');
-          debugPrint('====> GetX Headers: $_mainHeaders');
-        }
+        debugPrint('====> GetX Base URL: $appBaseUrl');
+        debugPrint('====> GetX Call: $uri');
+        debugPrint('====> GetX Body: $body');
+
         http.Response response0 = await http
             .post(
               Uri.parse(appBaseUrl + uri),
@@ -110,13 +99,7 @@ class ApiClient extends GetxService {
               headers: headers ?? _mainHeaders,
             )
             .timeout(Duration(seconds: timeoutInSeconds));
-        debugPrint("++++++++++++>>>=====");
         Response response = handleResponse(response0, uri);
-
-        if (foundation.kDebugMode) {
-          debugPrint(
-              '====> API Response: [${response.statusCode}] $uri\n${response.body}');
-        }
         return response;
       } catch (e) {
         return Response(statusCode: 1, statusText: noInternetMessage);
@@ -125,51 +108,49 @@ class ApiClient extends GetxService {
   }
 
   Future<Response> postMultipartData(
-      String uri, Map<String, String> body, List<MultipartBody> multipartBody,
+      String uri, Map<String, String> body, List<MultipartBody>? multipartBody,
       {Map<String, String>? headers}) async {
     if (await ApiChecker.isVpnActive()) {
       return const Response(statusCode: -1, statusText: 'you are using vpn');
     }
     {
       try {
-        if (foundation.kDebugMode) {
-          debugPrint('====> API Call: $uri\nToken: $token');
-          debugPrint(
-              '====> API Body: $body with ${multipartBody.length} image ');
-          debugPrint('====> GetX Headers: $_mainHeaders');
-        }
+        debugPrint('====> API Call: $uri\nToken: $token');
+        debugPrint(
+            '====> API Body: $body with ${multipartBody!.length} image ');
         http.MultipartRequest request =
             http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
         request.headers.addAll(headers ?? _mainHeaders!);
         for (MultipartBody multipart in multipartBody) {
-          if (foundation.kIsWeb) {
-            Uint8List list = await multipart.file.readAsBytes();
-            http.MultipartFile part = http.MultipartFile(
-              multipart.key,
-              multipart.file.readAsBytes().asStream(),
-              list.length,
-              filename: basename(multipart.file.path),
-              contentType: MediaType('image', 'jpg'),
-            );
-            request.files.add(part);
-          } else {
-            File file = File(multipart.file.path);
-            request.files.add(http.MultipartFile(
-              multipart.key,
-              file.readAsBytes().asStream(),
-              file.lengthSync(),
-              filename: file.path.split('/').last,
-            ));
+          if (multipart.file != null) {
+            if (kIsWeb) {
+              Uint8List list = await multipart.file!.readAsBytes();
+              http.MultipartFile part = http.MultipartFile(
+                multipart.key,
+                multipart.file!.readAsBytes().asStream(),
+                list.length,
+                filename: multipart.file!.path,
+              );
+              request.files.add(part);
+            } else {
+              File file = File(multipart.file!.path);
+              request.files.add(http.MultipartFile(
+                multipart.key,
+                file.readAsBytes().asStream(),
+                file.lengthSync(),
+                filename: file.path.split('/').last,
+              ));
+            }
           }
         }
         request.fields.addAll(body);
         http.Response response0 =
             await http.Response.fromStream(await request.send());
         Response response = handleResponse(response0, uri);
-        if (foundation.kDebugMode) {
-          debugPrint(
-              '====> API Response: [${response.statusCode}] $uri\n${response.body}');
-        }
+
+        debugPrint(
+            '====> API Response: [${response.statusCode}] $uri\n${response.body}');
+
         return response;
       } catch (e) {
         return Response(statusCode: 1, statusText: noInternetMessage);
@@ -190,7 +171,6 @@ class ApiClient extends GetxService {
       try {
         debugPrint('====> GetX Call: $uri');
         debugPrint('====> GetX Body: $body');
-        debugPrint('====> GetX Headers: $_mainHeaders');
 
         http.Response response0 = await http
             .put(
@@ -200,10 +180,10 @@ class ApiClient extends GetxService {
             )
             .timeout(Duration(seconds: timeoutInSeconds));
         Response response = handleResponse(response0, uri);
-        if (foundation.kDebugMode) {
-          debugPrint(
-              '====> API Response: [${response.statusCode}] $uri\n${response.body}');
-        }
+
+        debugPrint(
+            '====> API Response: [${response.statusCode}] $uri\n${response.body}');
+
         return response;
       } catch (e) {
         return Response(statusCode: 1, statusText: noInternetMessage);
@@ -219,43 +199,42 @@ class ApiClient extends GetxService {
     }
     {
       try {
-        if (foundation.kDebugMode) {
-          debugPrint('====> API Call: $uri\nToken: $token');
-          debugPrint('====> API Body: $body');
-          debugPrint('====> GetX Headers: $_mainHeaders');
-        }
+        debugPrint('====> API Call: $uri\nToken: $token');
+        debugPrint('====> API Body: $body');
+
         http.MultipartRequest request =
             http.MultipartRequest('PUT', Uri.parse(appBaseUrl + uri));
         request.headers.addAll(headers ?? _mainHeaders!);
         for (MultipartBody multipart in multipartBody) {
-          if (foundation.kIsWeb) {
-            Uint8List list = await multipart.file.readAsBytes();
-            http.MultipartFile part = http.MultipartFile(
-              multipart.key,
-              multipart.file.readAsBytes().asStream(),
-              list.length,
-              filename: basename(multipart.file.path),
-              contentType: MediaType('image', 'jpg'),
-            );
-            request.files.add(part);
-          } else {
-            File file = File(multipart.file.path);
-            request.files.add(http.MultipartFile(
-              multipart.key,
-              file.readAsBytes().asStream(),
-              file.lengthSync(),
-              filename: file.path.split('/').last,
-            ));
+          if (multipart.file != null) {
+            if (kIsWeb) {
+              Uint8List list = await multipart.file!.readAsBytes();
+              http.MultipartFile part = http.MultipartFile(
+                multipart.key,
+                multipart.file!.readAsBytes().asStream(),
+                list.length,
+                filename: multipart.file!.path,
+              );
+              request.files.add(part);
+            } else {
+              File file = File(multipart.file!.path);
+              request.files.add(http.MultipartFile(
+                multipart.key,
+                file.readAsBytes().asStream(),
+                file.lengthSync(),
+                filename: file.path.split('/').last,
+              ));
+            }
           }
         }
         request.fields.addAll(body);
         http.Response response0 =
             await http.Response.fromStream(await request.send());
         Response response = handleResponse(response0, uri);
-        if (foundation.kDebugMode) {
-          debugPrint(
-              '====> API Response: [${response.statusCode}] $uri\n${response.body}');
-        }
+
+        debugPrint(
+            '====> API Response: [${response.statusCode}] $uri\n${response.body}');
+
         return response;
       } catch (e) {
         return Response(statusCode: 1, statusText: noInternetMessage);
@@ -289,9 +268,8 @@ class ApiClient extends GetxService {
     try {
       body = jsonDecode(response.body);
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('error ---> $e');
     }
-
     Response response0 = Response(
       body: body ?? response.body,
       bodyString: response.body.toString(),
@@ -303,7 +281,6 @@ class ApiClient extends GetxService {
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
     );
-
     if (response0.statusCode != 200 &&
         response0.body != null &&
         response0.body is! String) {
@@ -312,7 +289,7 @@ class ApiClient extends GetxService {
         response0 = Response(
             statusCode: response0.statusCode,
             body: response0.body,
-            statusText: errorResponse.errors[0].message);
+            statusText: errorResponse.errors![0].message);
       } else if (response0.body.toString().startsWith('{message')) {
         response0 = Response(
             statusCode: response0.statusCode,
@@ -324,14 +301,13 @@ class ApiClient extends GetxService {
     }
     debugPrint(
         '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
-
     return response0;
   }
 }
 
 class MultipartBody {
   String key;
-  File file;
+  File? file;
 
   MultipartBody(this.key, this.file);
 }

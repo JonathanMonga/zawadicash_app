@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/auth_controller.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 import 'package:zawadicash_app/util/styles.dart';
-
 import 'package:zawadicash_app/view/base/custom_button.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -15,13 +12,13 @@ class CustomDialog extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
-  final OnTapFunction? onTapTrue;
+  final Function onTapTrue;
   final String? onTapTrueText;
-  final OnTapFunction? onTapFalse;
+  final Function onTapFalse;
   final String? onTapFalseText;
   final bool bigTitle;
   const CustomDialog({
-    super.key,
+    Key? key,
     this.isFailed = false,
     this.rotateAngle = 0,
     required this.icon,
@@ -32,14 +29,14 @@ class CustomDialog extends StatelessWidget {
     this.onTapTrueText,
     this.onTapFalseText,
     this.bigTitle = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
-        padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
         child: Stack(clipBehavior: Clip.none, children: [
           Positioned(
             left: 0,
@@ -51,7 +48,7 @@ class CustomDialog extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: isFailed
-                      ? ColorResources.getRedColor()
+                      ? Theme.of(context).colorScheme.error.withOpacity(0.7)
                       : Theme.of(context).primaryColor,
                   shape: BoxShape.circle),
               child: Transform.rotate(
@@ -66,27 +63,24 @@ class CustomDialog extends StatelessWidget {
                   ? FittedBox(
                       child: Text(title,
                           style: rubikRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_LARGE),
+                              fontSize: Dimensions.fontSizeLarge),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start))
                   : Text(title,
                       style: rubikRegular.copyWith(
                           fontSize: bigTitle
-                              ? Dimensions.PADDING_SIZE_SMALL
-                              : Dimensions.FONT_SIZE_LARGE),
+                              ? Dimensions.paddingSizeSmall
+                              : Dimensions.fontSizeLarge),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.start),
-              const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
               Text(description,
                   textAlign: TextAlign.center, style: rubikRegular),
-              const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-              onTapFalseText != null
-                  ? GetBuilder<AuthController>(
-                  init: Get.find<AuthController>(tag: getClassName<AuthController>()),
-                  tag: getClassName<AuthController>(),
-                  builder: (authController) {
+              const SizedBox(height: Dimensions.paddingSizeLarge),
+              onTapFalseText != null && onTapFalseText != null
+                  ? GetBuilder<AuthController>(builder: (authController) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: Row(
@@ -94,7 +88,10 @@ class CustomDialog extends StatelessWidget {
                             Expanded(
                                 child: CustomButton(
                                     buttonText: onTapFalseText,
-                                    color: ColorResources.getRedColor(),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .error
+                                        .withOpacity(0.7),
                                     onTap: onTapFalse)),
                             const SizedBox(
                               width: 10,

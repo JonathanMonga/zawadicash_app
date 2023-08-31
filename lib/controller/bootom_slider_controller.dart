@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/body/transaction_body.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
@@ -14,10 +15,10 @@ class BottomSliderController extends GetxController implements GetxService {
   bool _isOtpSheet = false;
   int _statusCode = 200;
   bool isPinVerified= false;
-  late String _pin;
-  late TransactionBody _transactionBody;
-  late String _newBalance;
-  late Response response;
+  String? _pin;
+  TransactionBody? _transactionBody;
+  String? _newBalance; //todo: profile data balance
+  Response? response;
 
   bool get isFloatingActionButton => _isFloatingActionButton;
   bool get isNextBottomSheet => _isNextBottomSheet;
@@ -27,11 +28,11 @@ class BottomSliderController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
   bool get isNextButtonLoading => _isNextButtonLoading;
   bool get isOtpSheet => _isOtpSheet;
-  TransactionBody get transactionBody => _transactionBody;
-  String get newBalance => _newBalance;
+  TransactionBody? get transactionBody => _transactionBody;
+  String? get newBalance => _newBalance;
   int get statusCode => _statusCode;
 
-  String get pin => _pin;
+  String? get pin => _pin;
 
   set setTransactionBody(TransactionBody transactionBody){
     _transactionBody = transactionBody;
@@ -121,7 +122,7 @@ class BottomSliderController extends GetxController implements GetxService {
   }
 
   void goBackButton(){
-    // Get.find<ProfileController>(tag: getClassName<ProfileController>()).setUserInfo = null;
+    // Get.find<ProfileController>().setUserInfo = null;
     changeIsNextBottomSheetFun();
     _isPinCompleted = false;
     Get.offAllNamed(RouteHelper.getNavBarRoute(), arguments:  true);

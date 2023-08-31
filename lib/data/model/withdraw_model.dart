@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final withdrawModel = withdrawModelFromJson(jsonString);
+
 import 'dart:convert';
 
 class WithdrawModel {
@@ -35,7 +39,7 @@ class WithdrawalMethod {
 
   int? id;
   String? methodName;
-  List<MethodField>? methodFields;
+  List<MethodField> methodFields;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -56,7 +60,7 @@ class WithdrawalMethod {
         "id": id,
         "method_name": methodName,
         "method_fields":
-            List<dynamic>.from(methodFields!.map((x) => x.toJson())),
+            List<dynamic>.from(methodFields.map((x) => x.toJson())),
       };
 }
 

@@ -1,8 +1,8 @@
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zawadicash_app/view/base/custom_snackbar.dart';
 
 class HomeController extends GetxController implements GetxService {
   ///Hero tag
@@ -59,11 +59,11 @@ class HomeController extends GetxController implements GetxService {
     _isExpanded = state;
   }
 
-  int _selectItem = 0;
+  int? _selectItem = 0;
 
-  int get selectedItem => _selectItem;
+  int? get selectedItem => _selectItem;
 
-  itemSelect({required int index}) {
+  itemSelect({int? index}) {
     _selectItem = index;
     update();
   }

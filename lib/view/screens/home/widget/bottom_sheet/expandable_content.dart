@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
@@ -5,23 +6,21 @@ import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 import 'package:zawadicash_app/view/screens/history/widget/transaction_view_screen.dart';
 
-class CustomExpandableContant extends StatefulWidget {
-  const CustomExpandableContant({Key? key}) : super(key: key);
+class CustomExpandableContent extends StatefulWidget {
+  const CustomExpandableContent({ Key? key}) : super(key: key);
 
   @override
-  State<CustomExpandableContant> createState() =>
-      _CustomExpandableContantState();
+  State<CustomExpandableContent> createState() =>
+      _CustomExpandableContentState();
 }
 
-class _CustomExpandableContantState extends State<CustomExpandableContant> {
+class _CustomExpandableContentState extends State<CustomExpandableContent> {
   final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
-      ),
-      height: MediaQuery.of(context).size.height * 0.7,
+      color: Theme.of(context).cardColor,
+      height: MediaQuery.of(context).size.height  * 0.7,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,18 +28,18 @@ class _CustomExpandableContantState extends State<CustomExpandableContant> {
             flex: 0,
             child: Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: Dimensions.PADDING_SIZE_LARGE),
+                  horizontal: Dimensions.paddingSizeLarge),
               child: Text(
                 'all_transaction'.tr,
                 style: rubikMedium.copyWith(
-                  fontSize: Dimensions.FONT_SIZE_LARGE,
+                  fontSize: Dimensions.fontSizeLarge,
                   color: Theme.of(context).textTheme.titleLarge!.color,
                 ),
               ),
             ),
           ),
           const SizedBox(
-            height: Dimensions.PADDING_SIZE_DEFAULT,
+            height: Dimensions.paddingSizeDefault,
           ),
           Expanded(
             flex: 10,

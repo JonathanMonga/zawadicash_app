@@ -2,7 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/splash_controller.dart';
-import 'package:zawadicash_app/util/get_class_name.dart';
 
 class NetworkInfo {
   final Connectivity connectivity;
@@ -15,11 +14,13 @@ class NetworkInfo {
 
   static void checkConnectivity(BuildContext context) {
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if(Get.find<SplashController>(tag: getClassName<SplashController>()).firstTimeConnectionCheck) {
-        Get.find<SplashController>(tag: getClassName<SplashController>()).setFirstTimeConnectionCheck(false);
-      }else {
+      if (Get.find<SplashController>().firstTimeConnectionCheck) {
+        Get.find<SplashController>().setFirstTimeConnectionCheck(false);
+      } else {
         bool isNotConnected = result == ConnectivityResult.none;
-        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        isNotConnected
+            ? const SizedBox()
+            : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
           duration: Duration(seconds: isNotConnected ? 6000 : 3),

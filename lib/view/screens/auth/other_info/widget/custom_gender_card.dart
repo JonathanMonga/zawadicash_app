@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:zawadicash_app/helper/functions.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
 import 'package:zawadicash_app/util/styles.dart';
 
 class CustomGenderCard extends StatelessWidget {
   final String? icon, text;
   final Color? color;
-  final OnTapFunction? onTap;
-  const CustomGenderCard(
-      {super.key, this.icon, this.text, this.color, this.onTap});
+  final Function? onTap;
+  const CustomGenderCard({Key? key, this.icon, this.text, this.color,this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         height: 76,
         width: 94,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -31,13 +29,13 @@ class CustomGenderCard extends StatelessWidget {
               child: Image.asset(icon!),
             ),
             const SizedBox(
-              height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+              height: Dimensions.paddingSizeExtraSmall,
             ),
             Text(
               text!,
               style: rubikRegular.copyWith(
                 color: Theme.of(context).textTheme.bodyLarge!.color,
-                fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                fontSize: Dimensions.fontSizeDefault,
               ),
             ),
           ],

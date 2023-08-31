@@ -6,27 +6,27 @@ import 'package:zawadicash_app/view/base/custom_password_field.dart';
 
 class PinView extends StatelessWidget {
   final TextEditingController passController, confirmPassController;
-  PinView(
-      {Key? key,
-      required this.passController,
-      required this.confirmPassController})
-      : super(key: key);
+   PinView({
+     Key? key,
+     required this.passController,
+     required this.confirmPassController
+   }) : super(key: key);
 
-  final FocusNode confirmFocus = FocusNode();
+   final FocusNode confirmFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
-        vertical: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE,
+        horizontal: Dimensions.paddingSizeExtraExtraLarge,
+        vertical: Dimensions.paddingSizeExtraExtraLarge,
       ),
       width: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_EXTRA_LARGE),
-          topRight: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_EXTRA_LARGE),
+          topLeft: Radius.circular(Dimensions.radiusSizeExtraExtraLarge),
+          topRight: Radius.circular(Dimensions.radiusSizeExtraExtraLarge),
         ),
       ),
       child: SingleChildScrollView(
@@ -34,18 +34,18 @@ class PinView extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: Dimensions.RADIUS_SIZE_EXTRA_EXTRA_LARGE),
+                  horizontal: Dimensions.radiusSizeExtraExtraLarge),
               child: Text(
                 'set_your_4_digit'.tr,
                 textAlign: TextAlign.center,
                 style: rubikMedium.copyWith(
                   color: Theme.of(context).textTheme.titleLarge!.color,
-                  fontSize: Dimensions.FONT_SIZE_EXTRA_OVER_LARGE,
+                  fontSize: Dimensions.fontSizeExtraOverLarge,
                 ),
               ),
             ),
             const SizedBox(
-              height: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE,
+              height: Dimensions.paddingSizeExtraOverLarge,
             ),
             CustomPasswordField(
               controller: passController,
@@ -55,9 +55,10 @@ class PinView extends StatelessWidget {
               isIcon: false,
               hint: 'set_your_pin'.tr,
               letterSpacing: 10.0,
+
             ),
             const SizedBox(
-              height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+              height: Dimensions.paddingSizeExtraLarge,
             ),
             CustomPasswordField(
               controller: confirmPassController,
@@ -67,7 +68,9 @@ class PinView extends StatelessWidget {
               isPassword: true,
               isIcon: false,
               letterSpacing: 10.0,
+
             ),
+
           ],
         ),
       ),
