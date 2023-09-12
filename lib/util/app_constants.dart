@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/data/model/response/language_model.dart';
 import 'package:zawadicash_app/data/model/response/on_boarding_model.dart';
 
-import 'images.dart';
+import 'package:zawadicash_app/util/images.dart';
 
 class AppConstants {
-  static const String appName = '6Cash';
-  static const String baseUrl = 'YOUR_BASE_URL_HERE';
+  static const String appName = 'Zawadicash';
+  static const String baseUrl = 'http://192.168.1.35:8000';
 
   static const bool demo = false;
   static const double appVersion = 4.0;

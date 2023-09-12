@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/theme_controller.dart';
 import 'package:zawadicash_app/util/color_resources.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+
 class CustomPersistentHeader extends StatefulWidget {
   final VoidCallback? onTap;
   const CustomPersistentHeader({Key? key, this.onTap}) : super(key: key);
@@ -18,15 +19,26 @@ class _CustomPersistentHeaderState extends State<CustomPersistentHeader> {
       onTap: widget.onTap,
       child: Container(
         transform: Matrix4.translationValues(0.0, 10.0, 0.0),
-        decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSizeExtraLarge), topRight: Radius.circular(Dimensions.radiusSizeExtraLarge),),
-          color: Theme.of(context).cardColor,
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(Dimensions.radiusSizeExtraLarge),
+              topRight: Radius.circular(Dimensions.radiusSizeExtraLarge),
+            ),
+            color: Theme.of(context).cardColor,
             boxShadow: [
-              BoxShadow(color: ColorResources.getBlackAndWhite().withOpacity(0.2), blurRadius: Get.find<ThemeController>().darkTheme ?  0 : 20, offset: const Offset(0, 0)),
-            ]
-        ),
+              BoxShadow(
+                  color: ColorResources.getBlackAndWhite().withOpacity(0.2),
+                  blurRadius: Get.find<ThemeController>().darkTheme ? 0 : 20,
+                  offset: const Offset(0, 0)),
+            ]),
         child: Center(
-          child: Container(height: 5, width: 32,
-            margin: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeSmall,),
+          child: Container(
+            height: 5,
+            width: 32,
+            margin: const EdgeInsets.only(
+              top: Dimensions.paddingSizeDefault,
+              bottom: Dimensions.paddingSizeSmall,
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(36),
               color: ColorResources.nevDefaultColor,
@@ -37,5 +49,3 @@ class _CustomPersistentHeaderState extends State<CustomPersistentHeader> {
     );
   }
 }
-
-

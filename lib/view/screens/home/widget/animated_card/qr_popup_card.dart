@@ -3,8 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:zawadicash_app/controller/home_controller.dart';
 import 'package:zawadicash_app/controller/profile_screen_controller.dart';
-
-import 'custom_rect_tween.dart';
+import 'package:zawadicash_app/view/screens/home/widget/animated_card/custom_rect_tween.dart';
 
 class QrPopupCard extends StatelessWidget {
   const QrPopupCard({Key? key}) : super(key: key);

@@ -17,7 +17,6 @@ class Dimensions {
   static const double paddingSizeOverLarge = 45.0;
   static const double paddingSizeExtraOverLarge = 55.0;
 
-
   static const double radiusSizeVerySmall = 4.0;
   static const double radiusSizeExtraSmall = 8.0;
   static const double radiusSizeSmall = 12.0;
@@ -28,11 +27,9 @@ class Dimensions {
   static const double radiusSizeOverLarge = 50.0;
   static const double radiusProfileAvatar = 25.0;
 
-
   static const double dividerSizeSmall = 1.0;
   static const double dividerSizeExtraSmall = 0.5;
   static const double dividerSizeMedium = 2.0;
   static const double dividerSizeLarge = 4.0;
   static const double dividerSizeExtraLarge = 4.0;
-
 }

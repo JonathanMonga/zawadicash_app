@@ -15,7 +15,10 @@ import 'package:zawadicash_app/view/screens/dashboard/nav_bar_screen.dart';
 class WebScreen extends StatefulWidget {
   final String selectedUrl;
   final bool? isPaymentUrl;
-  const WebScreen({Key? key, required this.selectedUrl, this.isPaymentUrl = false}) : super(key: key);
+
+  const WebScreen(
+      {Key? key, required this.selectedUrl, this.isPaymentUrl = false})
+      : super(key: key);
 
   @override
   State<WebScreen> createState() => _WebScreenState();
@@ -28,25 +31,29 @@ class _WebScreenState extends State<WebScreen> {
   PullToRefreshController? pullToRefreshController;
   late MyInAppBrowser browser;
 
-
   @override
   void initState() {
     super.initState();
     _initData();
-
   }
 
   void _initData() async {
     browser = MyInAppBrowser(widget.isPaymentUrl!);
+
     if (Platform.isAndroid) {
       await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
-      bool swAvailable = await AndroidWebViewFeature.isFeatureSupported(AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-      bool swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+      bool swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+          AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+      bool swInterceptAvailable =
+          await AndroidWebViewFeature.isFeatureSupported(
+              AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
 
       if (swAvailable && swInterceptAvailable) {
-        AndroidServiceWorkerController serviceWorkerController = AndroidServiceWorkerController.instance();
-        await serviceWorkerController.setServiceWorkerClient(AndroidServiceWorkerClient(
+        AndroidServiceWorkerController serviceWorkerController =
+            AndroidServiceWorkerController.instance();
+        await serviceWorkerController
+            .setServiceWorkerClient(AndroidServiceWorkerClient(
           shouldInterceptRequest: (request) async {
             return null;
           },
@@ -62,7 +69,9 @@ class _WebScreenState extends State<WebScreen> {
         if (Platform.isAndroid) {
           browser.webViewController.reload();
         } else if (Platform.isIOS) {
-          browser.webViewController.loadUrl(urlRequest: URLRequest(url: await browser.webViewController.getUrl()));
+          browser.webViewController.loadUrl(
+              urlRequest:
+                  URLRequest(url: await browser.webViewController.getUrl()));
         }
       },
     );
@@ -72,7 +81,8 @@ class _WebScreenState extends State<WebScreen> {
       urlRequest: URLRequest(url: Uri.parse(widget.selectedUrl)),
       options: InAppBrowserClassOptions(
         inAppWebViewGroupOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true, useOnLoadResource: true),
+          crossPlatform: InAppWebViewOptions(
+              useShouldOverrideUrlLoading: true, useOnLoadResource: true),
         ),
       ),
     );
@@ -81,12 +91,12 @@ class _WebScreenState extends State<WebScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () =>_exitApp(context),
+      onWillPop: () => _exitApp(context),
       child: Scaffold(
         body: Center(
           child: Stack(
             children: [
-               Center(
+              Center(
                 child: CustomLoader(color: Theme.of(context).primaryColor),
               ),
             ],
@@ -101,21 +111,26 @@ class _WebScreenState extends State<WebScreen> {
       controllerGlobal.goBack();
       return Future.value(false);
     } else {
-      if(context.mounted) {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const NavBarScreen()), (route) => false);
+      if (context.mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const NavBarScreen()),
+            (route) => false);
 
-        showAnimatedDialog(context, MyDialog(
-          icon: Icons.clear,
-          title: 'payment_cancelled'.tr,
-          description: 'your_payment_cancelled'.tr,
-          isFailed: true,
-        ), dismissible: false, isFlip: true);
+        showAnimatedDialog(
+            context,
+            MyDialog(
+              icon: Icons.clear,
+              title: 'payment_cancelled'.tr,
+              description: 'your_payment_cancelled'.tr,
+              isFailed: true,
+            ),
+            dismissible: false,
+            isFlip: true);
       }
       return Future.value(true);
     }
   }
 }
-
 
 class MyInAppBrowser extends InAppBrowser {
   final bool isPaymentUrl;
@@ -127,7 +142,6 @@ class MyInAppBrowser extends InAppBrowser {
   @override
   Future onBrowserCreated() async {
     debugPrint("\n\nBrowser Created!\n\n");
-
   }
 
   @override
@@ -158,22 +172,22 @@ class MyInAppBrowser extends InAppBrowser {
     }
 
     debugPrint("Progress: $progress");
-
   }
 
   @override
   void onExit() {
-    if(_canRedirect) {
-      Navigator.of(Get.context!).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const NavBarScreen()), (route) => false);
-
+    if (_canRedirect) {
+      Navigator.of(Get.context!).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const NavBarScreen()),
+          (route) => false);
     }
 
     debugPrint("\n\nBrowser closed!\n\n");
-
   }
 
   @override
-  Future<NavigationActionPolicy> shouldOverrideUrlLoading(navigationAction) async {
+  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
+      navigationAction) async {
     debugPrint("\n\nOverride ${navigationAction.request.url}\n\n");
 
     return NavigationActionPolicy.ALLOW;
@@ -194,46 +208,43 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
   void _pageRedirect(String url) {
-    
-    
-    
-    
-    
-    if(_canRedirect && isPaymentUrl) {
-
-      if(url.contains(AppConstants.baseUrl)) {
+    if (_canRedirect && isPaymentUrl) {
+      if (url.contains(AppConstants.baseUrl)) {
         bool isSuccess = url.contains('success');
         bool isFailed = url.contains('fail');
 
-
-        if(isSuccess || isFailed) {
+        if (isSuccess || isFailed) {
           _canRedirect = false;
           close();
         }
 
-
         if (isSuccess) {
           Get.offAll(const NavBarScreen());
-          Get.find<ProfileController>().profileData(reload:true);
+          Get.find<ProfileController>().profileData(reload: true);
 
-          showAnimatedDialog(Get.context!, MyDialog(
-            icon: Icons.done,
-            title: 'payment_done'.tr,
-            description: 'your_payment_successfully_done'.tr,
-          ), dismissible: false, isFlip: true);
-
+          showAnimatedDialog(
+              Get.context!,
+              MyDialog(
+                icon: Icons.done,
+                title: 'payment_done'.tr,
+                description: 'your_payment_successfully_done'.tr,
+              ),
+              dismissible: false,
+              isFlip: true);
         }
-
-        } else{
+      } else {
         Get.offAll(const NavBarScreen());
-        showAnimatedDialog(Get.context!, MyDialog(
-            icon: Icons.clear,
-            title: 'payment_failed'.tr,
-            description: 'your_payment_failed'.tr,
-            isFailed: true,
-          ), dismissible: false, isFlip: true);
+        showAnimatedDialog(
+            Get.context!,
+            MyDialog(
+              icon: Icons.clear,
+              title: 'payment_failed'.tr,
+              description: 'your_payment_failed'.tr,
+              isFailed: true,
+            ),
+            dismissible: false,
+            isFlip: true);
       }
     }
   }
-
 }

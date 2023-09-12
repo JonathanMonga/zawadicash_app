@@ -19,5 +19,3 @@ const rubikSemiBold = TextStyle(
   fontFamily: 'Rubik',
   fontWeight: FontWeight.w600,
 );
-
-

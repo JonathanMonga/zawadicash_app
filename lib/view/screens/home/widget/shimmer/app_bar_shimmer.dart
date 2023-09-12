@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+
 class AppBarShimmer extends StatelessWidget {
   const AppBarShimmer({Key? key}) : super(key: key);
 
@@ -29,7 +30,7 @@ class AppBarShimmer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.black54,
                 borderRadius:
-                BorderRadius.circular(Dimensions.radiusSizeDefault),
+                    BorderRadius.circular(Dimensions.radiusSizeDefault),
               ),
             ),
             const SizedBox(
@@ -46,7 +47,9 @@ class AppBarShimmer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(height: 5,),
+                const SizedBox(
+                  height: 5,
+                ),
                 Container(
                   height: Dimensions.fontSizeExtraLarge,
                   width: 100,
@@ -59,7 +62,8 @@ class AppBarShimmer extends StatelessWidget {
             ),
             const Spacer(),
             Container(
-              height: 45,width: 45,
+              height: 45,
+              width: 45,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black54,

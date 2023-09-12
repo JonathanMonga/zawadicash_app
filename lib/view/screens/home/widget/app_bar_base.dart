@@ -22,31 +22,30 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    return GetBuilder<ProfileController>(
-      builder: (profileController) {
-        return Container(
-          color: Theme.of(context).primaryColor,
-          child: Container(
-            padding: const EdgeInsets.only(
-              top: 54, left: Dimensions.paddingSizeLarge,
-              right: Dimensions.paddingSizeLarge,
-              bottom: Dimensions.paddingSizeSmall,
+    return GetBuilder<ProfileController>(builder: (profileController) {
+      return Container(
+        color: Theme.of(context).primaryColor,
+        child: Container(
+          padding: const EdgeInsets.only(
+            top: 54,
+            left: Dimensions.paddingSizeLarge,
+            right: Dimensions.paddingSizeLarge,
+            bottom: Dimensions.paddingSizeSmall,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(Dimensions.radiusSizeExtraLarge),
             ),
-
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(Dimensions.radiusSizeExtraLarge),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(children: [
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
                   GestureDetector(
-                    onTap: () => Get.find<MenuItemController>().selectProfilePage(),
+                    onTap: () =>
+                        Get.find<MenuItemController>().selectProfilePage(),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -55,79 +54,89 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                       width: Dimensions.radiusSizeOverLarge,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: profileController.userInfo == null ? Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(Images.avatar,fit: BoxFit.cover),
-                          ),
-                        ) : CustomImage(
-                          image: '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}/${profileController.userInfo!.image ?? ''}',
-                          fit: BoxFit.cover,
-                          placeholder: Images.avatar,
-                        ),
-
+                        child: profileController.userInfo == null
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset(Images.avatar,
+                                      fit: BoxFit.cover),
+                                ),
+                              )
+                            : CustomImage(
+                                image:
+                                    '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}/${profileController.userInfo!.image ?? ''}',
+                                fit: BoxFit.cover,
+                                placeholder: Images.avatar,
+                              ),
                       ),
                     ),
                   ),
                   const SizedBox(width: Dimensions.paddingSizeSmall),
-
                   Get.find<SplashController>().configModel!.themeIndex == 1
                       ? const ShowName()
-                      : ShowBalance(profileController:profileController),
-                ],),
+                      : ShowBalance(profileController: profileController),
+                ],
+              ),
 
-                // const Spacer(),
+              // const Spacer(),
 
-                Row(children: [
+              Row(
+                children: [
                   GetBuilder<SplashController>(builder: (splashController) {
-                    bool isRequestMoney = splashController.configModel!.systemFeature!.withdrawRequestStatus!;
-                    return isRequestMoney ? AnimatedButtonView(
-                      onTap: ()=> Get.to(()=> const TransactionMoneyBalanceInput(
-                        transactionType: TransactionType.withdrawRequest,
-                      )),
-                    ) : const SizedBox();
-                  }
+                    bool isRequestMoney = splashController
+                        .configModel!.systemFeature!.withdrawRequestStatus!;
+                    return isRequestMoney
+                        ? AnimatedButtonView(
+                            onTap: () =>
+                                Get.to(() => const TransactionMoneyBalanceInput(
+                                      transactionType:
+                                          TransactionType.withdrawRequest,
+                                    )),
+                          )
+                        : const SizedBox();
+                  }),
+                  const SizedBox(
+                    width: Dimensions.paddingSizeSmall,
                   ),
-                  const SizedBox(width: Dimensions.paddingSizeSmall,),
-
-
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(HeroDialogRoute(builder:(_) =>const QrPopupCard())),
-
+                    onTap: () => Navigator.of(context).push(
+                        HeroDialogRoute(builder: (_) => const QrPopupCard())),
                     child: Hero(
                       tag: Get.find<HomeController>().heroShowQr,
-                      createRectTween: (begin, end) => CustomRectTween(begin: begin, end: end),
-
+                      createRectTween: (begin, end) =>
+                          CustomRectTween(begin: begin, end: end),
                       child: Container(
                         width: Get.width * 0.11,
                         height: Get.width * 0.11,
                         padding: EdgeInsets.all(Get.width * 0.025),
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Theme.of(context).cardColor,
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).cardColor,
                         ),
-                        child: profileController.userInfo != null ? SvgPicture.string(
-                          profileController.userInfo!.qrCode!,
-                          height: Dimensions.paddingSizeLarge,
-                          width: Dimensions.paddingSizeLarge,
-                        ) :
-                        SizedBox(
-                          height: Dimensions.paddingSizeLarge,
-                          width: Dimensions.paddingSizeLarge,
-                          child: Image.asset(Images.qrCode),
-                        ),
+                        child: profileController.userInfo != null
+                            ? SvgPicture.string(
+                                profileController.userInfo!.qrCode!,
+                                height: Dimensions.paddingSizeLarge,
+                                width: Dimensions.paddingSizeLarge,
+                              )
+                            : SizedBox(
+                                height: Dimensions.paddingSizeLarge,
+                                width: Dimensions.paddingSizeLarge,
+                                child: Image.asset(Images.qrCode),
+                              ),
                       ),
                     ),
                   ),
-                ],)
-              ],
-            ),
+                ],
+              )
+            ],
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 
   @override

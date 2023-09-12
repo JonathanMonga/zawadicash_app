@@ -4,6 +4,7 @@ import 'package:zawadicash_app/controller/localization_controller.dart';
 import 'package:zawadicash_app/helper/route_helper.dart';
 import 'package:zawadicash_app/util/app_constants.dart';
 import 'package:zawadicash_app/util/dimensions.dart';
+import 'package:zawadicash_app/util/images.dart';
 import 'package:zawadicash_app/view/base/custom_logo.dart';
 import 'package:zawadicash_app/view/base/rounded_button.dart';
 
@@ -21,7 +22,11 @@ class AppbarStackView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CustomLogo(height: 50.0, width: 50.0),
+          CustomLogo(
+            height: 50.0,
+            width: 50.0,
+            image: Image.asset(Images.logo_white),
+          ),
           RoundedButton(
             buttonText: languageText,
             onTap: AppConstants.languages.length > 1
