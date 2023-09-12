@@ -114,10 +114,10 @@ class AppConstants {
         countryCode: 'US',
         languageCode: 'en'),
     LanguageModel(
-        imageUrl: Images.saudi,
-        languageName: 'Arabic',
-        countryCode: 'SA',
-        languageCode: 'ar'),
+        imageUrl: Images.english,
+        languageName: 'Français',
+        countryCode: 'FR',
+        languageCode: 'fr'),
   ];
 
   static List<OnboardModel> onboardList = [
